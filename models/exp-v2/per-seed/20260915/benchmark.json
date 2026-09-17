@@ -1,0 +1,3697 @@
+{
+  "model": {
+    "version": "cutedino-malecns-connectome-v1",
+    "generation": 309,
+    "trainingSeed": 20260915,
+    "validation": 2715.625
+  },
+  "channelVersion": "cutedino-malecns-channels-v1",
+  "channelCount": 13,
+  "config": {
+    "seconds": 180,
+    "seedRange": [
+      2100001,
+      2100100
+    ]
+  },
+  "results": [
+    {
+      "name": "連接體 + 訓練讀出",
+      "mode": "model",
+      "courses": 100,
+      "completed": 28,
+      "meanSeconds": 88.58550000001026,
+      "medianSeconds": 62.69999999999772,
+      "meanScore": 1353.8,
+      "meanPickups": 7.02,
+      "meanKills": 4.72,
+      "runs": [
+        {
+          "seed": 2100001,
+          "seconds": 143.83333333333994,
+          "score": 1912,
+          "dead": true
+        },
+        {
+          "seed": 2100002,
+          "seconds": 180.00000000003539,
+          "score": 2862,
+          "dead": false
+        },
+        {
+          "seed": 2100003,
+          "seconds": 7.383333333333312,
+          "score": 44,
+          "dead": true
+        },
+        {
+          "seed": 2100004,
+          "seconds": 180.00000000003539,
+          "score": 2082,
+          "dead": false
+        },
+        {
+          "seed": 2100005,
+          "seconds": 43.83333333333213,
+          "score": 867,
+          "dead": true
+        },
+        {
+          "seed": 2100006,
+          "seconds": 84.9333333333298,
+          "score": 1171,
+          "dead": true
+        },
+        {
+          "seed": 2100007,
+          "seconds": 97.2833333333291,
+          "score": 1166,
+          "dead": true
+        },
+        {
+          "seed": 2100008,
+          "seconds": 54.73333333333151,
+          "score": 1072,
+          "dead": true
+        },
+        {
+          "seed": 2100009,
+          "seconds": 125.21666666666084,
+          "score": 2333,
+          "dead": true
+        },
+        {
+          "seed": 2100010,
+          "seconds": 33.31666666666606,
+          "score": 507,
+          "dead": true
+        },
+        {
+          "seed": 2100011,
+          "seconds": 67.29999999999747,
+          "score": 881,
+          "dead": true
+        },
+        {
+          "seed": 2100012,
+          "seconds": 180.00000000003539,
+          "score": 3872,
+          "dead": false
+        },
+        {
+          "seed": 2100013,
+          "seconds": 51.666666666665016,
+          "score": 430,
+          "dead": true
+        },
+        {
+          "seed": 2100014,
+          "seconds": 16.183333333333696,
+          "score": 198,
+          "dead": true
+        },
+        {
+          "seed": 2100015,
+          "seconds": 148.08333333334332,
+          "score": 1590,
+          "dead": true
+        },
+        {
+          "seed": 2100016,
+          "seconds": 180.00000000003539,
+          "score": 2922,
+          "dead": false
+        },
+        {
+          "seed": 2100017,
+          "seconds": 131.79999999999703,
+          "score": 2808,
+          "dead": true
+        },
+        {
+          "seed": 2100018,
+          "seconds": 21.15000000000008,
+          "score": 229,
+          "dead": true
+        },
+        {
+          "seed": 2100019,
+          "seconds": 150.1666666666783,
+          "score": 2608,
+          "dead": true
+        },
+        {
+          "seed": 2100020,
+          "seconds": 38.199999999999115,
+          "score": 339,
+          "dead": true
+        },
+        {
+          "seed": 2100021,
+          "seconds": 148.0166666666766,
+          "score": 2209,
+          "dead": true
+        },
+        {
+          "seed": 2100022,
+          "seconds": 180.00000000003539,
+          "score": 2732,
+          "dead": false
+        },
+        {
+          "seed": 2100023,
+          "seconds": 180.00000000003539,
+          "score": 3152,
+          "dead": false
+        },
+        {
+          "seed": 2100024,
+          "seconds": 62.74999999999772,
+          "score": 708,
+          "dead": true
+        },
+        {
+          "seed": 2100025,
+          "seconds": 26.0999999999998,
+          "score": 360,
+          "dead": true
+        },
+        {
+          "seed": 2100026,
+          "seconds": 180.00000000003539,
+          "score": 2452,
+          "dead": false
+        },
+        {
+          "seed": 2100027,
+          "seconds": 15.383333333333677,
+          "score": 93,
+          "dead": true
+        },
+        {
+          "seed": 2100028,
+          "seconds": 36.84999999999919,
+          "score": 430,
+          "dead": true
+        },
+        {
+          "seed": 2100029,
+          "seconds": 166.25000000002444,
+          "score": 3154,
+          "dead": true
+        },
+        {
+          "seed": 2100030,
+          "seconds": 93.39999999999598,
+          "score": 1786,
+          "dead": true
+        },
+        {
+          "seed": 2100031,
+          "seconds": 49.93333333333178,
+          "score": 1088,
+          "dead": true
+        },
+        {
+          "seed": 2100032,
+          "seconds": 180.00000000003539,
+          "score": 3312,
+          "dead": false
+        },
+        {
+          "seed": 2100033,
+          "seconds": 180.00000000003539,
+          "score": 2442,
+          "dead": false
+        },
+        {
+          "seed": 2100034,
+          "seconds": 180.00000000003539,
+          "score": 3172,
+          "dead": false
+        },
+        {
+          "seed": 2100035,
+          "seconds": 59.21666666666459,
+          "score": 583,
+          "dead": true
+        },
+        {
+          "seed": 2100036,
+          "seconds": 43.799999999998796,
+          "score": 1127,
+          "dead": true
+        },
+        {
+          "seed": 2100037,
+          "seconds": 31.299999999999503,
+          "score": 294,
+          "dead": true
+        },
+        {
+          "seed": 2100038,
+          "seconds": 22.350000000000012,
+          "score": 236,
+          "dead": true
+        },
+        {
+          "seed": 2100039,
+          "seconds": 63.41666666666435,
+          "score": 813,
+          "dead": true
+        },
+        {
+          "seed": 2100040,
+          "seconds": 7.383333333333312,
+          "score": 44,
+          "dead": true
+        },
+        {
+          "seed": 2100041,
+          "seconds": 63.699999999997665,
+          "score": 715,
+          "dead": true
+        },
+        {
+          "seed": 2100042,
+          "seconds": 24.049999999999915,
+          "score": 247,
+          "dead": true
+        },
+        {
+          "seed": 2100043,
+          "seconds": 180.00000000003539,
+          "score": 2242,
+          "dead": false
+        },
+        {
+          "seed": 2100044,
+          "seconds": 5.433333333333319,
+          "score": 32,
+          "dead": true
+        },
+        {
+          "seed": 2100045,
+          "seconds": 180.00000000003539,
+          "score": 2242,
+          "dead": false
+        },
+        {
+          "seed": 2100046,
+          "seconds": 180.00000000003539,
+          "score": 2522,
+          "dead": false
+        },
+        {
+          "seed": 2100047,
+          "seconds": 180.00000000003539,
+          "score": 2222,
+          "dead": false
+        },
+        {
+          "seed": 2100048,
+          "seconds": 13.583333333333588,
+          "score": 81,
+          "dead": true
+        },
+        {
+          "seed": 2100049,
+          "seconds": 49.73333333333179,
+          "score": 417,
+          "dead": true
+        },
+        {
+          "seed": 2100050,
+          "seconds": 180.00000000003539,
+          "score": 2662,
+          "dead": false
+        },
+        {
+          "seed": 2100051,
+          "seconds": 3.3333333333333264,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100052,
+          "seconds": 11.583333333333488,
+          "score": 169,
+          "dead": true
+        },
+        {
+          "seed": 2100053,
+          "seconds": 3.7499999999999916,
+          "score": 22,
+          "dead": true
+        },
+        {
+          "seed": 2100054,
+          "seconds": 46.93333333333195,
+          "score": 498,
+          "dead": true
+        },
+        {
+          "seed": 2100055,
+          "seconds": 180.00000000003539,
+          "score": 2302,
+          "dead": false
+        },
+        {
+          "seed": 2100056,
+          "seconds": 37.849999999999135,
+          "score": 437,
+          "dead": true
+        },
+        {
+          "seed": 2100057,
+          "seconds": 13.783333333333598,
+          "score": 83,
+          "dead": true
+        },
+        {
+          "seed": 2100058,
+          "seconds": 93.6833333333293,
+          "score": 1378,
+          "dead": true
+        },
+        {
+          "seed": 2100059,
+          "seconds": 143.48333333333966,
+          "score": 2689,
+          "dead": true
+        },
+        {
+          "seed": 2100060,
+          "seconds": 5.166666666666654,
+          "score": 31,
+          "dead": true
+        },
+        {
+          "seed": 2100061,
+          "seconds": 6.11666666666665,
+          "score": 36,
+          "dead": true
+        },
+        {
+          "seed": 2100062,
+          "seconds": 180.00000000003539,
+          "score": 2672,
+          "dead": false
+        },
+        {
+          "seed": 2100063,
+          "seconds": 70.16666666666397,
+          "score": 962,
+          "dead": true
+        },
+        {
+          "seed": 2100064,
+          "seconds": 41.71666666666558,
+          "score": 363,
+          "dead": true
+        },
+        {
+          "seed": 2100065,
+          "seconds": 180.00000000003539,
+          "score": 2382,
+          "dead": false
+        },
+        {
+          "seed": 2100066,
+          "seconds": 126.34999999999411,
+          "score": 2042,
+          "dead": true
+        },
+        {
+          "seed": 2100067,
+          "seconds": 5.083333333333321,
+          "score": 30,
+          "dead": true
+        },
+        {
+          "seed": 2100068,
+          "seconds": 5.899999999999984,
+          "score": 35,
+          "dead": true
+        },
+        {
+          "seed": 2100069,
+          "seconds": 6.516666666666649,
+          "score": 39,
+          "dead": true
+        },
+        {
+          "seed": 2100070,
+          "seconds": 46.099999999998666,
+          "score": 692,
+          "dead": true
+        },
+        {
+          "seed": 2100071,
+          "seconds": 13.616666666666923,
+          "score": 82,
+          "dead": true
+        },
+        {
+          "seed": 2100072,
+          "seconds": 12.550000000000203,
+          "score": 175,
+          "dead": true
+        },
+        {
+          "seed": 2100073,
+          "seconds": 62.54999999999773,
+          "score": 1557,
+          "dead": true
+        },
+        {
+          "seed": 2100074,
+          "seconds": 180.00000000003539,
+          "score": 3612,
+          "dead": false
+        },
+        {
+          "seed": 2100075,
+          "seconds": 62.69999999999772,
+          "score": 1218,
+          "dead": true
+        },
+        {
+          "seed": 2100076,
+          "seconds": 180.00000000003539,
+          "score": 2982,
+          "dead": false
+        },
+        {
+          "seed": 2100077,
+          "seconds": 180.00000000003539,
+          "score": 2952,
+          "dead": false
+        },
+        {
+          "seed": 2100078,
+          "seconds": 15.050000000000328,
+          "score": 411,
+          "dead": true
+        },
+        {
+          "seed": 2100079,
+          "seconds": 27.516666666666385,
+          "score": 469,
+          "dead": true
+        },
+        {
+          "seed": 2100080,
+          "seconds": 177.28333333336656,
+          "score": 2256,
+          "dead": true
+        },
+        {
+          "seed": 2100081,
+          "seconds": 180.00000000003539,
+          "score": 3722,
+          "dead": false
+        },
+        {
+          "seed": 2100082,
+          "seconds": 147.96666666667656,
+          "score": 2309,
+          "dead": true
+        },
+        {
+          "seed": 2100083,
+          "seconds": 31.183333333332843,
+          "score": 393,
+          "dead": true
+        },
+        {
+          "seed": 2100084,
+          "seconds": 180.00000000003539,
+          "score": 2802,
+          "dead": false
+        },
+        {
+          "seed": 2100085,
+          "seconds": 24.23333333333324,
+          "score": 248,
+          "dead": true
+        },
+        {
+          "seed": 2100086,
+          "seconds": 59.36666666666458,
+          "score": 1104,
+          "dead": true
+        },
+        {
+          "seed": 2100087,
+          "seconds": 180.00000000003539,
+          "score": 2932,
+          "dead": false
+        },
+        {
+          "seed": 2100088,
+          "seconds": 54.26666666666487,
+          "score": 788,
+          "dead": true
+        },
+        {
+          "seed": 2100089,
+          "seconds": 180.00000000003539,
+          "score": 2922,
+          "dead": false
+        },
+        {
+          "seed": 2100090,
+          "seconds": 8.11666666666665,
+          "score": 148,
+          "dead": true
+        },
+        {
+          "seed": 2100091,
+          "seconds": 18.200000000000248,
+          "score": 210,
+          "dead": true
+        },
+        {
+          "seed": 2100092,
+          "seconds": 18.650000000000222,
+          "score": 213,
+          "dead": true
+        },
+        {
+          "seed": 2100093,
+          "seconds": 52.4999999999983,
+          "score": 536,
+          "dead": true
+        },
+        {
+          "seed": 2100094,
+          "seconds": 180.00000000003539,
+          "score": 2502,
+          "dead": false
+        },
+        {
+          "seed": 2100095,
+          "seconds": 180.00000000003539,
+          "score": 3152,
+          "dead": false
+        },
+        {
+          "seed": 2100096,
+          "seconds": 10.766666666666781,
+          "score": 64,
+          "dead": true
+        },
+        {
+          "seed": 2100097,
+          "seconds": 10.783333333333449,
+          "score": 64,
+          "dead": true
+        },
+        {
+          "seed": 2100098,
+          "seconds": 180.00000000003539,
+          "score": 3062,
+          "dead": false
+        },
+        {
+          "seed": 2100099,
+          "seconds": 24.549999999999887,
+          "score": 250,
+          "dead": true
+        },
+        {
+          "seed": 2100100,
+          "seconds": 121.44999999999439,
+          "score": 1901,
+          "dead": true
+        }
+      ]
+    },
+    {
+      "name": "電路靜默（消融）",
+      "mode": "ablated",
+      "courses": 100,
+      "completed": 0,
+      "meanSeconds": 3.5166666666666555,
+      "medianSeconds": 3.516666666666659,
+      "meanScore": 21,
+      "meanPickups": 0,
+      "meanKills": 0,
+      "runs": [
+        {
+          "seed": 2100001,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100002,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100003,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100004,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100005,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100006,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100007,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100008,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100009,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100010,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100011,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100012,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100013,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100014,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100015,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100016,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100017,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100018,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100019,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100020,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100021,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100022,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100023,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100024,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100025,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100026,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100027,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100028,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100029,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100030,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100031,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100032,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100033,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100034,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100035,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100036,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100037,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100038,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100039,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100040,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100041,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100042,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100043,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100044,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100045,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100046,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100047,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100048,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100049,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100050,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100051,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100052,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100053,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100054,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100055,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100056,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100057,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100058,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100059,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100060,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100061,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100062,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100063,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100064,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100065,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100066,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100067,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100068,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100069,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100070,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100071,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100072,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100073,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100074,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100075,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100076,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100077,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100078,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100079,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100080,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100081,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100082,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100083,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100084,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100085,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100086,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100087,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100088,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100089,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100090,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100091,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100092,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100093,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100094,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100095,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100096,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100097,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100098,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100099,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100100,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        }
+      ]
+    },
+    {
+      "name": "未訓練讀出",
+      "mode": "model",
+      "courses": 100,
+      "completed": 0,
+      "meanSeconds": 3.5166666666666555,
+      "medianSeconds": 3.516666666666659,
+      "meanScore": 21,
+      "meanPickups": 0,
+      "meanKills": 0,
+      "runs": [
+        {
+          "seed": 2100001,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100002,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100003,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100004,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100005,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100006,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100007,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100008,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100009,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100010,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100011,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100012,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100013,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100014,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100015,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100016,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100017,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100018,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100019,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100020,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100021,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100022,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100023,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100024,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100025,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100026,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100027,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100028,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100029,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100030,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100031,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100032,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100033,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100034,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100035,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100036,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100037,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100038,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100039,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100040,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100041,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100042,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100043,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100044,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100045,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100046,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100047,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100048,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100049,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100050,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100051,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100052,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100053,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100054,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100055,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100056,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100057,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100058,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100059,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100060,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100061,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100062,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100063,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100064,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100065,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100066,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100067,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100068,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100069,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100070,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100071,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100072,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100073,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100074,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100075,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100076,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100077,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100078,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100079,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100080,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100081,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100082,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100083,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100084,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100085,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100086,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100087,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100088,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100089,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100090,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100091,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100092,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100093,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100094,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100095,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100096,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100097,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100098,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100099,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100100,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        }
+      ]
+    },
+    {
+      "name": "手寫規則",
+      "mode": "rule",
+      "courses": 100,
+      "completed": 25,
+      "meanSeconds": 82.41583333334209,
+      "medianSeconds": 55.08333333333149,
+      "meanScore": 1353.62,
+      "meanPickups": 8.05,
+      "meanKills": 5.76,
+      "runs": [
+        {
+          "seed": 2100001,
+          "seconds": 47.116666666665274,
+          "score": 859,
+          "dead": true
+        },
+        {
+          "seed": 2100002,
+          "seconds": 180.00000000003539,
+          "score": 3582,
+          "dead": false
+        },
+        {
+          "seed": 2100003,
+          "seconds": 22.799999999999986,
+          "score": 239,
+          "dead": true
+        },
+        {
+          "seed": 2100004,
+          "seconds": 115.88333333332804,
+          "score": 1676,
+          "dead": true
+        },
+        {
+          "seed": 2100005,
+          "seconds": 43.83333333333213,
+          "score": 867,
+          "dead": true
+        },
+        {
+          "seed": 2100006,
+          "seconds": 77.58333333333022,
+          "score": 1216,
+          "dead": true
+        },
+        {
+          "seed": 2100007,
+          "seconds": 180.00000000003539,
+          "score": 2572,
+          "dead": false
+        },
+        {
+          "seed": 2100008,
+          "seconds": 10.950000000000124,
+          "score": 65,
+          "dead": true
+        },
+        {
+          "seed": 2100009,
+          "seconds": 6.916666666666647,
+          "score": 41,
+          "dead": true
+        },
+        {
+          "seed": 2100010,
+          "seconds": 33.51666666666605,
+          "score": 508,
+          "dead": true
+        },
+        {
+          "seed": 2100011,
+          "seconds": 8.016666666666644,
+          "score": 48,
+          "dead": true
+        },
+        {
+          "seed": 2100012,
+          "seconds": 153.43333333334758,
+          "score": 2787,
+          "dead": true
+        },
+        {
+          "seed": 2100013,
+          "seconds": 6.949999999999981,
+          "score": 41,
+          "dead": true
+        },
+        {
+          "seed": 2100014,
+          "seconds": 180.00000000003539,
+          "score": 4042,
+          "dead": false
+        },
+        {
+          "seed": 2100015,
+          "seconds": 148.05000000000996,
+          "score": 1590,
+          "dead": true
+        },
+        {
+          "seed": 2100016,
+          "seconds": 180.00000000003539,
+          "score": 2922,
+          "dead": false
+        },
+        {
+          "seed": 2100017,
+          "seconds": 5.516666666666652,
+          "score": 33,
+          "dead": true
+        },
+        {
+          "seed": 2100018,
+          "seconds": 180.00000000003539,
+          "score": 3892,
+          "dead": false
+        },
+        {
+          "seed": 2100019,
+          "seconds": 46.04999999999867,
+          "score": 832,
+          "dead": true
+        },
+        {
+          "seed": 2100020,
+          "seconds": 38.199999999999115,
+          "score": 339,
+          "dead": true
+        },
+        {
+          "seed": 2100021,
+          "seconds": 28.86666666666631,
+          "score": 378,
+          "dead": true
+        },
+        {
+          "seed": 2100022,
+          "seconds": 5.449999999999986,
+          "score": 32,
+          "dead": true
+        },
+        {
+          "seed": 2100023,
+          "seconds": 114.31666666666146,
+          "score": 1803,
+          "dead": true
+        },
+        {
+          "seed": 2100024,
+          "seconds": 62.78333333333105,
+          "score": 708,
+          "dead": true
+        },
+        {
+          "seed": 2100025,
+          "seconds": 100.38333333332892,
+          "score": 2051,
+          "dead": true
+        },
+        {
+          "seed": 2100026,
+          "seconds": 161.56666666668738,
+          "score": 3091,
+          "dead": true
+        },
+        {
+          "seed": 2100027,
+          "seconds": 5.916666666666651,
+          "score": 35,
+          "dead": true
+        },
+        {
+          "seed": 2100028,
+          "seconds": 36.949999999999186,
+          "score": 431,
+          "dead": true
+        },
+        {
+          "seed": 2100029,
+          "seconds": 9.450000000000049,
+          "score": 56,
+          "dead": true
+        },
+        {
+          "seed": 2100030,
+          "seconds": 41.53333333333226,
+          "score": 461,
+          "dead": true
+        },
+        {
+          "seed": 2100031,
+          "seconds": 37.266666666665834,
+          "score": 533,
+          "dead": true
+        },
+        {
+          "seed": 2100032,
+          "seconds": 180.00000000003539,
+          "score": 4172,
+          "dead": false
+        },
+        {
+          "seed": 2100033,
+          "seconds": 100.0499999999956,
+          "score": 888,
+          "dead": true
+        },
+        {
+          "seed": 2100034,
+          "seconds": 82.69999999999659,
+          "score": 974,
+          "dead": true
+        },
+        {
+          "seed": 2100035,
+          "seconds": 37.966666666665795,
+          "score": 337,
+          "dead": true
+        },
+        {
+          "seed": 2100036,
+          "seconds": 7.6333333333333115,
+          "score": 45,
+          "dead": true
+        },
+        {
+          "seed": 2100037,
+          "seconds": 23.649999999999938,
+          "score": 244,
+          "dead": true
+        },
+        {
+          "seed": 2100038,
+          "seconds": 180.00000000003539,
+          "score": 2802,
+          "dead": false
+        },
+        {
+          "seed": 2100039,
+          "seconds": 125.76666666666081,
+          "score": 1598,
+          "dead": true
+        },
+        {
+          "seed": 2100040,
+          "seconds": 119.69999999999449,
+          "score": 1447,
+          "dead": true
+        },
+        {
+          "seed": 2100041,
+          "seconds": 69.26666666666402,
+          "score": 755,
+          "dead": true
+        },
+        {
+          "seed": 2100042,
+          "seconds": 130.76666666666287,
+          "score": 2280,
+          "dead": true
+        },
+        {
+          "seed": 2100043,
+          "seconds": 180.00000000003539,
+          "score": 3412,
+          "dead": false
+        },
+        {
+          "seed": 2100044,
+          "seconds": 62.24999999999775,
+          "score": 1125,
+          "dead": true
+        },
+        {
+          "seed": 2100045,
+          "seconds": 180.00000000003539,
+          "score": 2972,
+          "dead": false
+        },
+        {
+          "seed": 2100046,
+          "seconds": 49.533333333331804,
+          "score": 515,
+          "dead": true
+        },
+        {
+          "seed": 2100047,
+          "seconds": 180.00000000003539,
+          "score": 2212,
+          "dead": false
+        },
+        {
+          "seed": 2100048,
+          "seconds": 13.616666666666923,
+          "score": 82,
+          "dead": true
+        },
+        {
+          "seed": 2100049,
+          "seconds": 180.00000000003539,
+          "score": 2792,
+          "dead": false
+        },
+        {
+          "seed": 2100050,
+          "seconds": 180.00000000003539,
+          "score": 2462,
+          "dead": false
+        },
+        {
+          "seed": 2100051,
+          "seconds": 3.3666666666666596,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100052,
+          "seconds": 11.650000000000158,
+          "score": 169,
+          "dead": true
+        },
+        {
+          "seed": 2100053,
+          "seconds": 3.7499999999999916,
+          "score": 22,
+          "dead": true
+        },
+        {
+          "seed": 2100054,
+          "seconds": 46.93333333333195,
+          "score": 498,
+          "dead": true
+        },
+        {
+          "seed": 2100055,
+          "seconds": 180.00000000003539,
+          "score": 3212,
+          "dead": false
+        },
+        {
+          "seed": 2100056,
+          "seconds": 49.61666666666513,
+          "score": 516,
+          "dead": true
+        },
+        {
+          "seed": 2100057,
+          "seconds": 6.683333333333315,
+          "score": 40,
+          "dead": true
+        },
+        {
+          "seed": 2100058,
+          "seconds": 92.31666666666271,
+          "score": 1368,
+          "dead": true
+        },
+        {
+          "seed": 2100059,
+          "seconds": 106.83333333332855,
+          "score": 2522,
+          "dead": true
+        },
+        {
+          "seed": 2100060,
+          "seconds": 5.166666666666654,
+          "score": 31,
+          "dead": true
+        },
+        {
+          "seed": 2100061,
+          "seconds": 6.16666666666665,
+          "score": 37,
+          "dead": true
+        },
+        {
+          "seed": 2100062,
+          "seconds": 16.183333333333696,
+          "score": 98,
+          "dead": true
+        },
+        {
+          "seed": 2100063,
+          "seconds": 160.43333333335315,
+          "score": 1901,
+          "dead": true
+        },
+        {
+          "seed": 2100064,
+          "seconds": 180.00000000003539,
+          "score": 2842,
+          "dead": false
+        },
+        {
+          "seed": 2100065,
+          "seconds": 180.00000000003539,
+          "score": 2382,
+          "dead": false
+        },
+        {
+          "seed": 2100066,
+          "seconds": 180.00000000003539,
+          "score": 3522,
+          "dead": false
+        },
+        {
+          "seed": 2100067,
+          "seconds": 7.066666666666647,
+          "score": 42,
+          "dead": true
+        },
+        {
+          "seed": 2100068,
+          "seconds": 5.949999999999984,
+          "score": 35,
+          "dead": true
+        },
+        {
+          "seed": 2100069,
+          "seconds": 6.816666666666648,
+          "score": 40,
+          "dead": true
+        },
+        {
+          "seed": 2100070,
+          "seconds": 45.99999999999867,
+          "score": 691,
+          "dead": true
+        },
+        {
+          "seed": 2100071,
+          "seconds": 13.616666666666923,
+          "score": 82,
+          "dead": true
+        },
+        {
+          "seed": 2100072,
+          "seconds": 12.56666666666687,
+          "score": 175,
+          "dead": true
+        },
+        {
+          "seed": 2100073,
+          "seconds": 74.3833333333304,
+          "score": 1892,
+          "dead": true
+        },
+        {
+          "seed": 2100074,
+          "seconds": 180.00000000003539,
+          "score": 3512,
+          "dead": false
+        },
+        {
+          "seed": 2100075,
+          "seconds": 66.01666666666421,
+          "score": 1312,
+          "dead": true
+        },
+        {
+          "seed": 2100076,
+          "seconds": 180.00000000003539,
+          "score": 2882,
+          "dead": false
+        },
+        {
+          "seed": 2100077,
+          "seconds": 135.9833333333337,
+          "score": 2534,
+          "dead": true
+        },
+        {
+          "seed": 2100078,
+          "seconds": 8.083333333333314,
+          "score": 48,
+          "dead": true
+        },
+        {
+          "seed": 2100079,
+          "seconds": 27.516666666666385,
+          "score": 469,
+          "dead": true
+        },
+        {
+          "seed": 2100080,
+          "seconds": 82.19999999999662,
+          "score": 1251,
+          "dead": true
+        },
+        {
+          "seed": 2100081,
+          "seconds": 123.78333333332759,
+          "score": 2001,
+          "dead": true
+        },
+        {
+          "seed": 2100082,
+          "seconds": 55.08333333333149,
+          "score": 1194,
+          "dead": true
+        },
+        {
+          "seed": 2100083,
+          "seconds": 31.249999999999506,
+          "score": 393,
+          "dead": true
+        },
+        {
+          "seed": 2100084,
+          "seconds": 49.43333333333181,
+          "score": 1015,
+          "dead": true
+        },
+        {
+          "seed": 2100085,
+          "seconds": 7.666666666666645,
+          "score": 46,
+          "dead": true
+        },
+        {
+          "seed": 2100086,
+          "seconds": 180.00000000003539,
+          "score": 3302,
+          "dead": false
+        },
+        {
+          "seed": 2100087,
+          "seconds": 180.00000000003539,
+          "score": 3362,
+          "dead": false
+        },
+        {
+          "seed": 2100088,
+          "seconds": 180.00000000003539,
+          "score": 2992,
+          "dead": false
+        },
+        {
+          "seed": 2100089,
+          "seconds": 180.00000000003539,
+          "score": 3102,
+          "dead": false
+        },
+        {
+          "seed": 2100090,
+          "seconds": 8.18333333333332,
+          "score": 149,
+          "dead": true
+        },
+        {
+          "seed": 2100091,
+          "seconds": 22.466666666666672,
+          "score": 237,
+          "dead": true
+        },
+        {
+          "seed": 2100092,
+          "seconds": 18.650000000000222,
+          "score": 313,
+          "dead": true
+        },
+        {
+          "seed": 2100093,
+          "seconds": 10.766666666666781,
+          "score": 164,
+          "dead": true
+        },
+        {
+          "seed": 2100094,
+          "seconds": 155.70000000001605,
+          "score": 3057,
+          "dead": true
+        },
+        {
+          "seed": 2100095,
+          "seconds": 40.23333333333233,
+          "score": 713,
+          "dead": true
+        },
+        {
+          "seed": 2100096,
+          "seconds": 6.26666666666665,
+          "score": 37,
+          "dead": true
+        },
+        {
+          "seed": 2100097,
+          "seconds": 180.00000000003539,
+          "score": 2512,
+          "dead": false
+        },
+        {
+          "seed": 2100098,
+          "seconds": 180.00000000003539,
+          "score": 4162,
+          "dead": false
+        },
+        {
+          "seed": 2100099,
+          "seconds": 24.599999999999884,
+          "score": 250,
+          "dead": true
+        },
+        {
+          "seed": 2100100,
+          "seconds": 180.00000000003539,
+          "score": 3372,
+          "dead": false
+        }
+      ]
+    },
+    {
+      "name": "隨機動作",
+      "mode": "random",
+      "courses": 100,
+      "completed": 0,
+      "meanSeconds": 4.0611666666666615,
+      "medianSeconds": 3.4999999999999925,
+      "meanScore": 24,
+      "meanPickups": 0.01,
+      "meanKills": 0,
+      "runs": [
+        {
+          "seed": 2100001,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100002,
+          "seconds": 3.4666666666666592,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100003,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100004,
+          "seconds": 5.599999999999985,
+          "score": 33,
+          "dead": true
+        },
+        {
+          "seed": 2100005,
+          "seconds": 5.633333333333319,
+          "score": 33,
+          "dead": true
+        },
+        {
+          "seed": 2100006,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100007,
+          "seconds": 3.5499999999999923,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100008,
+          "seconds": 3.3166666666666598,
+          "score": 19,
+          "dead": true
+        },
+        {
+          "seed": 2100009,
+          "seconds": 5.083333333333321,
+          "score": 30,
+          "dead": true
+        },
+        {
+          "seed": 2100010,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100011,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100012,
+          "seconds": 3.6333333333333253,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100013,
+          "seconds": 4.766666666666655,
+          "score": 28,
+          "dead": true
+        },
+        {
+          "seed": 2100014,
+          "seconds": 3.399999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100015,
+          "seconds": 3.299999999999993,
+          "score": 19,
+          "dead": true
+        },
+        {
+          "seed": 2100016,
+          "seconds": 3.483333333333326,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100017,
+          "seconds": 5.3833333333333195,
+          "score": 32,
+          "dead": true
+        },
+        {
+          "seed": 2100018,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100019,
+          "seconds": 3.399999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100020,
+          "seconds": 3.7166666666666583,
+          "score": 22,
+          "dead": true
+        },
+        {
+          "seed": 2100021,
+          "seconds": 3.3666666666666596,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100022,
+          "seconds": 3.399999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100023,
+          "seconds": 5.8499999999999845,
+          "score": 35,
+          "dead": true
+        },
+        {
+          "seed": 2100024,
+          "seconds": 5.599999999999985,
+          "score": 33,
+          "dead": true
+        },
+        {
+          "seed": 2100025,
+          "seconds": 3.383333333333326,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100026,
+          "seconds": 3.5333333333333257,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100027,
+          "seconds": 3.3666666666666596,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100028,
+          "seconds": 3.349999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100029,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100030,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100031,
+          "seconds": 3.5333333333333257,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100032,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100033,
+          "seconds": 3.4499999999999926,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100034,
+          "seconds": 5.199999999999987,
+          "score": 31,
+          "dead": true
+        },
+        {
+          "seed": 2100035,
+          "seconds": 3.3333333333333264,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100036,
+          "seconds": 3.4166666666666594,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100037,
+          "seconds": 3.2833333333333266,
+          "score": 19,
+          "dead": true
+        },
+        {
+          "seed": 2100038,
+          "seconds": 7.0833333333333135,
+          "score": 42,
+          "dead": true
+        },
+        {
+          "seed": 2100039,
+          "seconds": 3.349999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100040,
+          "seconds": 5.633333333333319,
+          "score": 33,
+          "dead": true
+        },
+        {
+          "seed": 2100041,
+          "seconds": 3.4666666666666592,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100042,
+          "seconds": 3.383333333333326,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100043,
+          "seconds": 5.399999999999986,
+          "score": 32,
+          "dead": true
+        },
+        {
+          "seed": 2100044,
+          "seconds": 3.383333333333326,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100045,
+          "seconds": 3.5833333333333255,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100046,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100047,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100048,
+          "seconds": 4.8333333333333215,
+          "score": 29,
+          "dead": true
+        },
+        {
+          "seed": 2100049,
+          "seconds": 3.3333333333333264,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100050,
+          "seconds": 5.23333333333332,
+          "score": 31,
+          "dead": true
+        },
+        {
+          "seed": 2100051,
+          "seconds": 3.4499999999999926,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100052,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100053,
+          "seconds": 3.683333333333325,
+          "score": 22,
+          "dead": true
+        },
+        {
+          "seed": 2100054,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100055,
+          "seconds": 5.583333333333319,
+          "score": 33,
+          "dead": true
+        },
+        {
+          "seed": 2100056,
+          "seconds": 5.316666666666653,
+          "score": 31,
+          "dead": true
+        },
+        {
+          "seed": 2100057,
+          "seconds": 3.349999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100058,
+          "seconds": 3.4666666666666592,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100059,
+          "seconds": 3.683333333333325,
+          "score": 22,
+          "dead": true
+        },
+        {
+          "seed": 2100060,
+          "seconds": 6.416666666666649,
+          "score": 38,
+          "dead": true
+        },
+        {
+          "seed": 2100061,
+          "seconds": 3.349999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100062,
+          "seconds": 3.4666666666666592,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100063,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100064,
+          "seconds": 3.5333333333333257,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100065,
+          "seconds": 5.533333333333319,
+          "score": 33,
+          "dead": true
+        },
+        {
+          "seed": 2100066,
+          "seconds": 3.399999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100067,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100068,
+          "seconds": 5.466666666666653,
+          "score": 32,
+          "dead": true
+        },
+        {
+          "seed": 2100069,
+          "seconds": 3.3333333333333264,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100070,
+          "seconds": 3.4499999999999926,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100071,
+          "seconds": 5.699999999999985,
+          "score": 34,
+          "dead": true
+        },
+        {
+          "seed": 2100072,
+          "seconds": 3.433333333333326,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100073,
+          "seconds": 3.3166666666666598,
+          "score": 19,
+          "dead": true
+        },
+        {
+          "seed": 2100074,
+          "seconds": 5.416666666666653,
+          "score": 32,
+          "dead": true
+        },
+        {
+          "seed": 2100075,
+          "seconds": 3.483333333333326,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100076,
+          "seconds": 3.4666666666666592,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100077,
+          "seconds": 3.383333333333326,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100078,
+          "seconds": 3.3666666666666596,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100079,
+          "seconds": 3.6333333333333253,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100080,
+          "seconds": 3.6666666666666585,
+          "score": 22,
+          "dead": true
+        },
+        {
+          "seed": 2100081,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100082,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100083,
+          "seconds": 3.4166666666666594,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100084,
+          "seconds": 5.566666666666652,
+          "score": 33,
+          "dead": true
+        },
+        {
+          "seed": 2100085,
+          "seconds": 3.399999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100086,
+          "seconds": 3.299999999999993,
+          "score": 19,
+          "dead": true
+        },
+        {
+          "seed": 2100087,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100088,
+          "seconds": 3.349999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100089,
+          "seconds": 3.4166666666666594,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100090,
+          "seconds": 3.5833333333333255,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100091,
+          "seconds": 3.21666666666666,
+          "score": 19,
+          "dead": true
+        },
+        {
+          "seed": 2100092,
+          "seconds": 3.649999999999992,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100093,
+          "seconds": 3.6166666666666587,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100094,
+          "seconds": 3.3666666666666596,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100095,
+          "seconds": 3.349999999999993,
+          "score": 20,
+          "dead": true
+        },
+        {
+          "seed": 2100096,
+          "seconds": 3.26666666666666,
+          "score": 19,
+          "dead": true
+        },
+        {
+          "seed": 2100097,
+          "seconds": 6.083333333333317,
+          "score": 36,
+          "dead": true
+        },
+        {
+          "seed": 2100098,
+          "seconds": 5.066666666666654,
+          "score": 30,
+          "dead": true
+        },
+        {
+          "seed": 2100099,
+          "seconds": 14.250000000000288,
+          "score": 86,
+          "dead": true
+        },
+        {
+          "seed": 2100100,
+          "seconds": 5.266666666666653,
+          "score": 31,
+          "dead": true
+        }
+      ]
+    },
+    {
+      "name": "完全不動",
+      "mode": "idle",
+      "courses": 100,
+      "completed": 0,
+      "meanSeconds": 3.5166666666666555,
+      "medianSeconds": 3.516666666666659,
+      "meanScore": 21,
+      "meanPickups": 0,
+      "meanKills": 0,
+      "runs": [
+        {
+          "seed": 2100001,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100002,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100003,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100004,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100005,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100006,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100007,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100008,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100009,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100010,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100011,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100012,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100013,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100014,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100015,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100016,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100017,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100018,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100019,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100020,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100021,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100022,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100023,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100024,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100025,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100026,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100027,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100028,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100029,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100030,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100031,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100032,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100033,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100034,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100035,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100036,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100037,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100038,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100039,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100040,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100041,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100042,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100043,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100044,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100045,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100046,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100047,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100048,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100049,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100050,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100051,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100052,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100053,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100054,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100055,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100056,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100057,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100058,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100059,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100060,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100061,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100062,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100063,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100064,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100065,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100066,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100067,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100068,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100069,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100070,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100071,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100072,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100073,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100074,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100075,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100076,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100077,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100078,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100079,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100080,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100081,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100082,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100083,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100084,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100085,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100086,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100087,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100088,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100089,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100090,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100091,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100092,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100093,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100094,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100095,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100096,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100097,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100098,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100099,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        },
+        {
+          "seed": 2100100,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true
+        }
+      ]
+    }
+  ]
+}

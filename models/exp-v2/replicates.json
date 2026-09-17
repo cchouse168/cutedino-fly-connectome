@@ -1,0 +1,61 @@
+{
+  "generations": 400,
+  "seeds": [
+    20260915,
+    20260916,
+    20260917
+  ],
+  "replicates": [
+    {
+      "seed": 20260915,
+      "generation": 309,
+      "validation": 2715.625,
+      "completed": 28,
+      "meanSeconds": 88.58550000001026,
+      "meanScore": 1353.8,
+      "ablationRatio": 25.19018957346271,
+      "untrainedRatio": 25.19018957346271,
+      "ruleRatio": 1.0748602109222642
+    },
+    {
+      "seed": 20260916,
+      "generation": 377,
+      "validation": 11722.375,
+      "completed": 93,
+      "meanSeconds": 172.49566666669915,
+      "meanScore": 2642.87,
+      "ablationRatio": 49.050900473943045,
+      "untrainedRatio": 51.748700000009954,
+      "ruleRatio": 2.092991840160335
+    },
+    {
+      "seed": 20260917,
+      "generation": 39,
+      "validation": 1894.125,
+      "completed": 13,
+      "meanSeconds": 62.398166666670576,
+      "meanScore": 929.28,
+      "ablationRatio": 17.743554502370838,
+      "untrainedRatio": 17.744395468980738,
+      "ruleRatio": 0.7571138231933259
+    }
+  ],
+  "aggregate": {
+    "meanSeconds": {
+      "mean": 107.82644444446,
+      "sd": 46.96115652962474
+    },
+    "completed": {
+      "mean": 44.666666666666664,
+      "sd": 34.721111093332766
+    },
+    "ablationRatio": {
+      "mean": 30.661548183258862,
+      "sd": 13.35388337335305
+    },
+    "ruleRatio": {
+      "mean": 1.3083219580919752,
+      "sd": 0.5698074584732272
+    }
+  }
+}

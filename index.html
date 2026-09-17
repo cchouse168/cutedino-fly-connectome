@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>果蠅大腦玩 cute-dino</title>
+<meta name="description" content="用 MaleCNS 果蠅連接體的 80 顆真實神經元與 1,296 條實測突觸連接，操控 cute-dino。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="src/style.css">
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-in">
+    <a class="brand" href="#top"><span class="mark">◈</span> <span data-i18n="brand">果蠅大腦玩 cute-dino</span> <span class="ver">v1.0</span></a>
+    <div class="nav-links">
+      <a href="#live" data-i18n="navLive">實驗</a>
+      <a href="#training" data-i18n="navTrain">訓練</a>
+      <a href="#results" data-i18n="navRes">結果</a>
+      <a href="#method" data-i18n="navMethod">方法</a>
+      <a class="ext" href="https://github.com/cobanov/flyjump" target="_blank" rel="noopener"><span data-i18n="navSource">原作</span> ↗</a>
+      <span class="lang">
+        <button type="button" data-lang-btn="zh">中文</button>
+        <button type="button" data-lang-btn="en">EN</button>
+      </span>
+    </div>
+  </div>
+</nav>
+
+<main class="wrap" id="top">
+
+  <header class="hero">
+    <div class="hero-l">
+      <p class="eyebrow">CUTE-DINO · MALECNS v1.0</p>
+      <h1 data-i18n="h1">一段果蠅神經迴路在玩你的遊戲。</h1>
+      <p class="lede" data-i18n="lede">
+        80 顆真實神經元、1,296 條實測突觸連接，構成一段完全固定、不可訓練的電路。
+        後面只接一個 269 參數的讀出網路決定要跑、跳、蹲，還是左右移動。
+        畫面是即時運算，不是預錄動畫 —— 每 1/30 秒，遊戲狀態都真的流經這 1,296 條接線一次。
+      </p>
+    </div>
+    <div class="hero-r">
+      <dl class="stats">
+        <div><dt data-i18n="sNeurons">模擬神經元</dt><dd>80</dd></div>
+        <div><dt data-i18n="sEdges">實測連接</dt><dd>1,296</dd></div>
+        <div><dt data-i18n="sSyn">突觸接觸</dt><dd>26,029</dd></div>
+        <div><dt data-i18n="sCh">感官通道</dt><dd id="statCh">13</dd></div>
+        <div><dt data-i18n="sParams">可訓練參數</dt><dd class="accent">269</dd></div>
+        <div><dt data-i18n="sRate">決策頻率</dt><dd>30 Hz</dd></div>
+      </dl>
+      <a class="jump" href="#method" data-i18n="jump">它怎麼運作 ↓</a>
+    </div>
+  </header>
+
+  <section class="statusbar" id="live">
+    <div class="statusbar-l">
+      <span class="dot" id="runDot"></span>
+      <span id="runState">運行中</span>
+      <span class="sep">·</span>
+      <span class="muted" id="runMeta">連接體 + 訓練讀出</span>
+    </div>
+    <div class="statusbar-r">
+      <label class="ctl"><span data-i18n="driver">駕駛</span>
+        <select id="selMode">
+          <option value="model" data-i18n="m1">連接體 + 訓練讀出</option>
+          <option value="ablated" data-i18n="m2">電路靜默（消融對照）</option>
+          <option value="untrained" data-i18n="m3">未訓練讀出</option>
+          <option value="rule" data-i18n="m4">手寫規則</option>
+          <option value="random" data-i18n="m5">隨機動作</option>
+        </select>
+      </label>
+      <label class="ctl" data-i18n-title="speedTip"><span data-i18n="playback">播放</span>
+        <select id="selSpeed">
+          <option value="0.5">0.5×</option>
+          <option value="1" selected>1×</option>
+          <option value="2">2×</option>
+          <option value="4">4×</option>
+        </select>
+      </label>
+      <button id="btnReplay" data-i18n-title="replayTip" data-i18n="replay">重玩本賽道</button>
+      <button id="btnNew" data-i18n="newTrack">換賽道（隨機）</button>
+      <button class="primary" id="btnPlay">暫停</button>
+    </div>
+  </section>
+
+  <div class="grid">
+
+    <section class="panel">
+      <div class="phead"><b>01 / <span data-i18n="p1">遊戲</span></b><span>cute-dino · 60 Hz</span></div>
+      <div class="media stage">
+        <canvas id="game"></canvas>
+        <div class="hud">
+          <span class="chip" id="hudScore">分數 0</span>
+          <span class="chip" id="hudTime">0.0s</span>
+          <span class="chip" id="hudSpeed" data-i18n-title="diffTip">難度 1.0×</span>
+          <span class="chip" id="hudHp">HP 1</span>
+          <span class="chip" id="hudSeed">seed —</span>
+        </div>
+      </div>
+      <div class="pfoot">
+        <span class="actnow"><span data-i18n="actionLabel">動作</span> <b id="hudAction">RUN</b></span>
+        <label class="ctl mini"><input type="checkbox" id="chkOverlay"> <span data-i18n="overlay">觀測疊圖</span></label>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="phead"><b>02 / <span data-i18n="p3">鍵盤輸出</span></b><span data-i18n="p3sub">flybody 解剖模型</span></div>
+      <div class="media"><canvas class="viz" id="fly"></canvas>
+        <div class="overlay-tag" id="flyTag">—</div>
+      </div>
+      <div class="pfoot">
+        <span id="flyNote" data-i18n="flyNote">兩隻前腳依動作按下對應的鍵</span>
+        <span class="muted" data-i18n="drag">可拖曳旋轉</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="phead"><b>03 / <span data-i18n="p2">決策網路</span></b><span data-i18n="p2sub">可訓練的動作讀出</span></div>
+      <div class="media"><canvas class="viz" id="decide" width="720" height="405"></canvas></div>
+      <div class="pfoot">
+        <span id="decideNote" data-i18n="decideNote">16 → 12 → 5 · 269 個參數 · 每秒 30 次決策</span>
+        <span class="muted" data-i18n="argmax">分數最高者被選中 · 橘 + / 藍 −</span>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="phead"><b>04 / <span data-i18n="p4">大腦活性</span></b><span data-i18n="p4sub">MaleCNS v1.0 胞體圖譜</span></div>
+      <div class="media"><canvas class="viz" id="brain"></canvas>
+        <div class="overlay-tag" id="brainTag">平均 |活性| 0.000</div>
+        <div class="overlay-btns">
+          <button id="btnFocus">聚焦電路</button>
+          <button id="btnOrbit">停止旋轉</button>
+        </div>
+      </div>
+      <div class="pfoot">
+        <span id="brainNote">124,289 顆實測胞體 · 80 顆電路細胞（含 320 條連結）疊於真實座標</span>
+        <span class="muted" data-i18n="dragZoom">可拖曳旋轉 · 滾輪縮放</span>
+      </div>
+      <div class="legend">
+        <span><s class="lg-dot" style="background:#f97316"></s><span data-i18n="lgExcite">興奮</span></span>
+        <span><s class="lg-dot" style="background:#38bdf8"></s><span data-i18n="lgInhibit">抑制</span></span>
+        <span><s class="lg-dot" style="background:#78899e"></s><span data-i18n="lgOff">熄滅</span></span>
+        <span><s class="lg-sq"></s><span data-i18n="lgInput">輸入</span></span>
+        <span><s class="lg-ring"></s><span data-i18n="lgDn">輸出 DN</span></span>
+      </div>
+    </section>
+
+  </div>
+
+  <section class="panel wide">
+    <div class="phead"><b>05 / <span data-i18n="p5">感官通道</span></b><span data-i18n="p5sub">遊戲狀態 → 32 顆視覺投射神經元</span></div>
+    <div class="feats" id="feats"></div>
+    <div class="pfoot">
+      <span data-i18n="featFoot">值域 0..1，經 u = 2·(特徵 − 0.5) 注入該通道被指定的細胞</span>
+      <span class="muted" data-i18n="featNote">通道數由實測的型內投射可區分性決定，非任意指定</span>
+    </div>
+  </section>
+
+  <section class="section" id="training">
+    <p class="eyebrow" data-i18n="eyebrowTrain">訓練與評估</p>
+    <h2 data-i18n="h2Train">只教那個小小的讀出網路</h2>
+    <p class="lede" data-i18n="ledeTrain">
+      80 顆細胞的電路權重全程固定不動，被演化的只有末端 269 個參數。
+      用交叉熵方法（CEM）：每代 64 個候選、取最好的 8 個更新分布，一代換一批新賽道。
+    </p>
+    <div class="panel">
+      <div class="phead"><b data-i18n="curve">訓練曲線</b><span id="curveMeta">—</span></div>
+      <div class="media short"><canvas class="viz" id="curve" width="1200" height="260"></canvas></div>
+      <div class="pfoot trainbar">
+        <button id="btnTrain" data-i18n="retrain">在瀏覽器中重跑訓練</button>
+        <label class="ctl mini"><span data-i18n="gens">代數</span>
+          <select id="selGens">
+            <option value="20">20</option>
+            <option value="60" selected>60</option>
+            <option value="150">150</option>
+          </select>
+        </label>
+        <span class="tstat" id="trainStat" data-i18n="trainStat">用你自己的 CPU 重跑 CEM，結果只留在本機</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="results">
+    <p class="eyebrow" data-i18n="eyebrowRes">結果</p>
+    <h2 data-i18n="h2Res">把電路關掉，牠就不會玩了</h2>
+    <p class="lede" data-i18n="ledeRes">
+      100 條從未見過的賽道、每條上限 180 秒。消融組把 16 顆下行神經元的輸出強制歸零，
+      其餘一切不變 —— 若成績不掉，就代表讀出網路根本沒用到那段電路。
+    </p>
+    <div class="panel">
+      <table id="bench"><tbody></tbody></table>
+      <div id="claim"></div>
+      <p class="note" id="benchNote"></p>
+    </div>
+
+    <div class="panel" id="repPanel" hidden>
+      <div class="phead"><b data-i18n="repTitle">Replicate</b><span id="repMeta">—</span></div>
+      <table id="reps"><tbody></tbody></table>
+      <p class="note" id="repNote"></p>
+    </div>
+  </section>
+
+  <section class="section" id="method">
+    <p class="eyebrow" data-i18n="eyebrowMethod">方法</p>
+    <h2 data-i18n="h2Method">資料怎麼流過去</h2>
+    <ol class="steps">
+      <li><span class="tag">01 · OBSERVE</span><b data-i18n="step1Lead">觀察</b><span id="step1Body"></span></li>
+      <li><span class="tag">02 · INJECT</span><b data-i18n="step2Lead">注入</b><span id="step2Body"></span></li>
+      <li><span class="tag">03 · PROPAGATE</span><b data-i18n="step3Lead">傳播</b><span id="step3Body"></span></li>
+      <li><span class="tag">04 · READ OUT</span><b data-i18n="step4Lead">讀出</b><span id="step4Body"></span></li>
+    </ol>
+    <p class="note" data-i18n="caveat">
+      電路活性為模擬值、無量綱，不是膜電位也不是實測發放率。輸入編碼與動作讀出皆為人工指定，非生物量測。
+      這是一小段選定的電路，不是完整的腦。
+    </p>
+  </section>
+
+  <footer>
+    <p class="attrib">
+      Built with <a href="https://github.com/cobanov/fly-connectome-template" target="_blank" rel="noopener">fly-connectome-template</a>
+      by <a href="https://github.com/cobanov" target="_blank" rel="noopener">Mert Cobanov</a>.
+    </p>
+    <p data-i18n-html="f1"></p>
+    <p data-i18n-html="f2"></p>
+    <p data-i18n-html="f3"></p>
+  </footer>
+
+</main>
+
+<script type="module" src="src/main.js"></script>
+</body>
+</html>

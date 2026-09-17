@@ -1,0 +1,404 @@
+{
+  "version": "cutedino-malecns-channels-v1",
+  "derivedFrom": "malecns-dino-circuit-v1",
+  "note": "僅重新指派工程化的輸入廣播表；80 節點、1296 條邊、突觸接觸數、16 顆 DN 輸出皆未更動。通道數由實測的型內投射可區分性決定，非任意指定。",
+  "splitThreshold": 0.2,
+  "channelCount": 13,
+  "channels": [
+    {
+      "index": 0,
+      "key": "obstacleImpact",
+      "label": "障礙物撞擊倒數",
+      "note": "最關鍵：距離已除以接近速度，速度資訊內建",
+      "cellType": "LC4",
+      "mode": "whole",
+      "cells": [
+        17653,
+        17478,
+        515900,
+        27624
+      ],
+      "separation": null
+    },
+    {
+      "index": 1,
+      "key": "obstacleBottom",
+      "label": "障礙物底端離地高",
+      "note": "決定該跳還是該蹲",
+      "cellType": "LC11",
+      "mode": "whole",
+      "cells": [
+        23781,
+        20176,
+        26899,
+        21570
+      ],
+      "separation": null
+    },
+    {
+      "index": 2,
+      "key": "playerHeight",
+      "label": "玩家離地高度",
+      "note": "",
+      "cellType": "LC17",
+      "mode": "whole",
+      "cells": [
+        26617,
+        25772,
+        25873,
+        26207
+      ],
+      "separation": null
+    },
+    {
+      "index": 3,
+      "key": "obstacleTop",
+      "label": "障礙物頂端離地高",
+      "note": "",
+      "cellType": "LC9",
+      "mode": "half-a",
+      "cells": [
+        523984,
+        47141
+      ],
+      "separation": 0
+    },
+    {
+      "index": 4,
+      "key": "obstacle2Impact",
+      "label": "次近障礙物撞擊倒數",
+      "note": "連續障礙預判",
+      "cellType": "LC9",
+      "mode": "half-b",
+      "cells": [
+        29017,
+        40131
+      ],
+      "separation": 0
+    },
+    {
+      "index": 5,
+      "key": "playerVy",
+      "label": "玩家垂直速度",
+      "note": "",
+      "cellType": "LC16",
+      "mode": "half-a",
+      "cells": [
+        30663,
+        63084
+      ],
+      "separation": 0
+    },
+    {
+      "index": 6,
+      "key": "grounded",
+      "label": "是否踩地",
+      "note": "",
+      "cellType": "LC16",
+      "mode": "half-b",
+      "cells": [
+        57503,
+        47016
+      ],
+      "separation": 0
+    },
+    {
+      "index": 7,
+      "key": "bulletImpact",
+      "label": "子彈撞擊倒數",
+      "note": "噴射機子彈速度 worldV+420",
+      "cellType": "LC21",
+      "mode": "half-a",
+      "cells": [
+        48070,
+        518246
+      ],
+      "separation": 0
+    },
+    {
+      "index": 8,
+      "key": "bulletDy",
+      "label": "子彈相對高度差",
+      "note": "",
+      "cellType": "LC21",
+      "mode": "half-b",
+      "cells": [
+        33574,
+        32299
+      ],
+      "separation": 0
+    },
+    {
+      "index": 9,
+      "key": "powerupImpact",
+      "label": "道具接近倒數",
+      "note": "",
+      "cellType": "LPLC2",
+      "mode": "half-a",
+      "cells": [
+        22253,
+        23919
+      ],
+      "separation": 0.0037
+    },
+    {
+      "index": 10,
+      "key": "powerupDy",
+      "label": "道具相對高度差",
+      "note": "",
+      "cellType": "LPLC2",
+      "mode": "half-b",
+      "cells": [
+        24187,
+        24268
+      ],
+      "separation": 0.0037
+    },
+    {
+      "index": 11,
+      "key": "playerX",
+      "label": "玩家水平位置",
+      "note": "5 動作含左右移動，需知道是否貼牆",
+      "cellType": "LC15",
+      "mode": "half-a",
+      "cells": [
+        18870,
+        25525
+      ],
+      "separation": 0.5342
+    },
+    {
+      "index": 12,
+      "key": "shield",
+      "label": "護盾狀態",
+      "note": "無敵剩餘時間與備用 HP",
+      "cellType": "LC15",
+      "mode": "half-b",
+      "cells": [
+        40751,
+        33480
+      ],
+      "separation": 0.5342
+    }
+  ],
+  "inputs": [
+    [
+      38,
+      0
+    ],
+    [
+      37,
+      0
+    ],
+    [
+      71,
+      0
+    ],
+    [
+      56,
+      0
+    ],
+    [
+      46,
+      1
+    ],
+    [
+      41,
+      1
+    ],
+    [
+      55,
+      1
+    ],
+    [
+      44,
+      1
+    ],
+    [
+      54,
+      2
+    ],
+    [
+      51,
+      2
+    ],
+    [
+      52,
+      2
+    ],
+    [
+      53,
+      2
+    ],
+    [
+      75,
+      3
+    ],
+    [
+      65,
+      3
+    ],
+    [
+      57,
+      4
+    ],
+    [
+      62,
+      4
+    ],
+    [
+      58,
+      5
+    ],
+    [
+      68,
+      5
+    ],
+    [
+      67,
+      6
+    ],
+    [
+      64,
+      6
+    ],
+    [
+      66,
+      7
+    ],
+    [
+      72,
+      7
+    ],
+    [
+      61,
+      8
+    ],
+    [
+      59,
+      8
+    ],
+    [
+      45,
+      9
+    ],
+    [
+      47,
+      9
+    ],
+    [
+      48,
+      10
+    ],
+    [
+      49,
+      10
+    ],
+    [
+      40,
+      11
+    ],
+    [
+      50,
+      11
+    ],
+    [
+      63,
+      12
+    ],
+    [
+      60,
+      12
+    ]
+  ],
+  "analysis": [
+    {
+      "type": "LC4",
+      "bestSplitSimilarity": 0.9397,
+      "splittable": false,
+      "outDegree": [
+        27,
+        28,
+        27,
+        25
+      ]
+    },
+    {
+      "type": "LC11",
+      "bestSplitSimilarity": 0.9439,
+      "splittable": false,
+      "outDegree": [
+        12,
+        11,
+        11,
+        10
+      ]
+    },
+    {
+      "type": "LC9",
+      "bestSplitSimilarity": 0,
+      "splittable": true,
+      "outDegree": [
+        6,
+        6,
+        5,
+        7
+      ]
+    },
+    {
+      "type": "LC15",
+      "bestSplitSimilarity": 0.5342,
+      "splittable": false,
+      "outDegree": [
+        8,
+        7,
+        6,
+        7
+      ]
+    },
+    {
+      "type": "LC16",
+      "bestSplitSimilarity": 0,
+      "splittable": true,
+      "outDegree": [
+        3,
+        2,
+        4,
+        2
+      ]
+    },
+    {
+      "type": "LC17",
+      "bestSplitSimilarity": 0.9882,
+      "splittable": false,
+      "outDegree": [
+        9,
+        10,
+        10,
+        9
+      ]
+    },
+    {
+      "type": "LC21",
+      "bestSplitSimilarity": 0,
+      "splittable": true,
+      "outDegree": [
+        6,
+        10,
+        7,
+        5
+      ]
+    },
+    {
+      "type": "LPLC2",
+      "bestSplitSimilarity": 0.0037,
+      "splittable": true,
+      "outDegree": [
+        21,
+        10,
+        11,
+        25
+      ]
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "name": "果蠅大腦玩 cute-dino",
+  "short_name": "FlyDino TW",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#07090f",
+  "theme_color": "#07090f"
+}

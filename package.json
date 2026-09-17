@@ -1,0 +1,17 @@
+{
+  "name": "cutedino-fly-connectome",
+  "version": "1.0.0",
+  "description": "用 MaleCNS 果蠅連接體的 80 顆真實神經元操控 cute-dino",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "npx --yes serve -l 4173 .",
+    "channels": "node scripts/remap-channels.mjs",
+    "train": "node scripts/train.mjs",
+    "benchmark": "node scripts/benchmark.mjs",
+    "test": "node scripts/verify-determinism.mjs && node scripts/verify-policy.mjs"
+  },
+  "engines": { "node": ">=20" },
+  "license": "MIT",
+  "dependencies": {}
+}

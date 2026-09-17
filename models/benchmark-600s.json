@@ -1,0 +1,4878 @@
+{
+  "seconds": 600,
+  "modelDir": "models",
+  "model": {
+    "generation": 311,
+    "trainingSeed": 20260917
+  },
+  "results": [
+    {
+      "name": "連接體 + 訓練讀出",
+      "mode": "model",
+      "completed": 0,
+      "past300": 35,
+      "over10k": 0,
+      "meanSeconds": 261.3858333333754,
+      "medianSeconds": 285.61666666673557,
+      "maxSeconds": 475.0166666665633,
+      "meanScore": 4500.34,
+      "medianScore": 4928,
+      "maxScore": 9008,
+      "meanPickups": 21.72,
+      "meanKills": 16.34,
+      "runs": [
+        {
+          "seed": 2100001,
+          "seconds": 285.1000000000694,
+          "score": 5959,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 285.1000000000694,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100002,
+          "seconds": 314.0666666667097,
+          "score": 6522,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 314.0666666667097,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100003,
+          "seconds": 270.6166666667492,
+          "score": 4083,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 270.6166666667492,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100004,
+          "seconds": 353.23333333334074,
+          "score": 5562,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 353.23333333334074,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100005,
+          "seconds": 295.18333333339353,
+          "score": 5727,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 295.18333333339353,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100006,
+          "seconds": 166.950000000025,
+          "score": 2660,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 166.950000000025,
+            "speedScale": 1.5200000000000005
+          }
+        },
+        {
+          "seed": 2100007,
+          "seconds": 310.0500000000467,
+          "score": 4654,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 310.0500000000467,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100008,
+          "seconds": 314.9333333333756,
+          "score": 5143,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 314.9333333333756,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100009,
+          "seconds": 311.1166666667124,
+          "score": 4437,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 311.1166666667124,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100010,
+          "seconds": 39.11666666666573,
+          "score": 645,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 39.11666666666573,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100011,
+          "seconds": 294.31666666672766,
+          "score": 6827,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 294.31666666672766,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100012,
+          "seconds": 257.61666666676103,
+          "score": 5068,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 257.61666666676103,
+            "speedScale": 1.8400000000000007
+          }
+        },
+        {
+          "seed": 2100013,
+          "seconds": 300.2166666667223,
+          "score": 4406,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 300.2166666667223,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100014,
+          "seconds": 15.850000000000367,
+          "score": 196,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 15.850000000000367,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100015,
+          "seconds": 110.599999999995,
+          "score": 1172,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 110.599999999995,
+            "speedScale": 1.3600000000000003
+          }
+        },
+        {
+          "seed": 2100016,
+          "seconds": 285.1500000000693,
+          "score": 5180,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 285.1500000000693,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100017,
+          "seconds": 45.84999999999868,
+          "score": 750,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 45.84999999999868,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100018,
+          "seconds": 244.3500000000866,
+          "score": 4564,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 244.3500000000866,
+            "speedScale": 1.8000000000000007
+          }
+        },
+        {
+          "seed": 2100019,
+          "seconds": 310.40000000004636,
+          "score": 5418,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 310.40000000004636,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100020,
+          "seconds": 256.6666666667619,
+          "score": 3488,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 256.6666666667619,
+            "speedScale": 1.8400000000000007
+          }
+        },
+        {
+          "seed": 2100021,
+          "seconds": 147.88333333334316,
+          "score": 2468,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 147.88333333334316,
+            "speedScale": 1.4800000000000004
+          }
+        },
+        {
+          "seed": 2100022,
+          "seconds": 425.3833333332751,
+          "score": 9008,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 425.3833333332751,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100023,
+          "seconds": 286.7666666667345,
+          "score": 4928,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 286.7666666667345,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100024,
+          "seconds": 297.48333333339144,
+          "score": 4714,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 297.48333333339144,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100025,
+          "seconds": 294.21666666672775,
+          "score": 5396,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 294.21666666672775,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100026,
+          "seconds": 35.11666666666596,
+          "score": 578,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 35.11666666666596,
+            "speedScale": 1.08
+          }
+        },
+        {
+          "seed": 2100027,
+          "seconds": 343.1000000000166,
+          "score": 6401,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 343.1000000000166,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100028,
+          "seconds": 50.233333333331764,
+          "score": 620,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 50.233333333331764,
+            "speedScale": 1.1600000000000001
+          }
+        },
+        {
+          "seed": 2100029,
+          "seconds": 352.61666666667463,
+          "score": 5815,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 352.61666666667463,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100030,
+          "seconds": 215.30000000006348,
+          "score": 3219,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 215.30000000006348,
+            "speedScale": 1.6800000000000006
+          }
+        },
+        {
+          "seed": 2100031,
+          "seconds": 239.13333333341578,
+          "score": 3608,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 239.13333333341578,
+            "speedScale": 1.7600000000000007
+          }
+        },
+        {
+          "seed": 2100032,
+          "seconds": 291.3166666667304,
+          "score": 4831,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 291.3166666667304,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100033,
+          "seconds": 251.93333333342596,
+          "score": 3316,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 251.93333333342596,
+            "speedScale": 1.8000000000000007
+          }
+        },
+        {
+          "seed": 2100034,
+          "seconds": 335.86666666668987,
+          "score": 5944,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 335.86666666668987,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100035,
+          "seconds": 280.40000000007365,
+          "score": 4375,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 280.40000000007365,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100036,
+          "seconds": 315.0333333333755,
+          "score": 6284,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 315.0333333333755,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100037,
+          "seconds": 274.4000000000791,
+          "score": 4326,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 274.4000000000791,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100038,
+          "seconds": 310.26666666671315,
+          "score": 4947,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 310.26666666671315,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100039,
+          "seconds": 321.75000000003604,
+          "score": 5325,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 321.75000000003604,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100040,
+          "seconds": 475.0166666665633,
+          "score": 8924,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 475.0166666665633,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100041,
+          "seconds": 314.0666666667097,
+          "score": 5172,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 314.0666666667097,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100042,
+          "seconds": 235.31666666674607,
+          "score": 3177,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 235.31666666674607,
+            "speedScale": 1.7600000000000007
+          }
+        },
+        {
+          "seed": 2100043,
+          "seconds": 271.73333333341486,
+          "score": 4476,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 271.73333333341486,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100044,
+          "seconds": 258.95000000009315,
+          "score": 4723,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 258.95000000009315,
+            "speedScale": 1.8400000000000007
+          }
+        },
+        {
+          "seed": 2100045,
+          "seconds": 273.6500000000798,
+          "score": 3838,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 273.6500000000798,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100046,
+          "seconds": 269.7333333334167,
+          "score": 4094,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 269.7333333334167,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100047,
+          "seconds": 310.43333333337966,
+          "score": 5699,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 310.43333333337966,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100048,
+          "seconds": 222.3333333334024,
+          "score": 2602,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 222.3333333334024,
+            "speedScale": 1.7200000000000006
+          }
+        },
+        {
+          "seed": 2100049,
+          "seconds": 273.73333333341304,
+          "score": 5249,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 273.73333333341304,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100050,
+          "seconds": 354.416666666673,
+          "score": 5737,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 354.416666666673,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100051,
+          "seconds": 424.1833333332762,
+          "score": 7054,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 424.1833333332762,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100052,
+          "seconds": 5.749999999999985,
+          "score": 34,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 5.749999999999985,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100053,
+          "seconds": 287.81666666673357,
+          "score": 5470,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 287.81666666673357,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100054,
+          "seconds": 306.51666666671656,
+          "score": 5542,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 306.51666666671656,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100055,
+          "seconds": 311.516666666712,
+          "score": 4412,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 311.516666666712,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100056,
+          "seconds": 289.6666666667319,
+          "score": 5392,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 289.6666666667319,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100057,
+          "seconds": 307.31666666671583,
+          "score": 4811,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 307.31666666671583,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100058,
+          "seconds": 270.2333333334162,
+          "score": 4539,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 270.2333333334162,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100059,
+          "seconds": 164.86666666669,
+          "score": 2641,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 164.86666666669,
+            "speedScale": 1.5200000000000005
+          }
+        },
+        {
+          "seed": 2100060,
+          "seconds": 14.516666666666968,
+          "score": 187,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 14.516666666666968,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100061,
+          "seconds": 430.98333333327,
+          "score": 7655,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 430.98333333327,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100062,
+          "seconds": 277.8333333334093,
+          "score": 3635,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 277.8333333334093,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100063,
+          "seconds": 343.56666666668286,
+          "score": 5286,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 343.56666666668286,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100064,
+          "seconds": 288.88333333339926,
+          "score": 4793,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 288.88333333339926,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100065,
+          "seconds": 351.48333333334233,
+          "score": 5911,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 351.48333333334233,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100066,
+          "seconds": 278.3500000000755,
+          "score": 5371,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 278.3500000000755,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100067,
+          "seconds": 274.70000000007883,
+          "score": 4770,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 274.70000000007883,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100068,
+          "seconds": 284.8500000000696,
+          "score": 5236,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 284.8500000000696,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100069,
+          "seconds": 281.0333333334064,
+          "score": 5932,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 281.0333333334064,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100070,
+          "seconds": 44.666666666665414,
+          "score": 682,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 44.666666666665414,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100071,
+          "seconds": 13.316666666666908,
+          "score": 80,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 13.316666666666908,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100072,
+          "seconds": 173.48333333336353,
+          "score": 2421,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 173.48333333336353,
+            "speedScale": 1.5600000000000005
+          }
+        },
+        {
+          "seed": 2100073,
+          "seconds": 281.2000000000729,
+          "score": 6154,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 281.2000000000729,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100074,
+          "seconds": 296.7333333333921,
+          "score": 4895,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 296.7333333333921,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100075,
+          "seconds": 275.68333333341127,
+          "score": 5691,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 275.68333333341127,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100076,
+          "seconds": 419.31666666661397,
+          "score": 7305,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 419.31666666661397,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100077,
+          "seconds": 289.10000000006573,
+          "score": 5375,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 289.10000000006573,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100078,
+          "seconds": 290.1833333333981,
+          "score": 5798,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 290.1833333333981,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100079,
+          "seconds": 321.0666666667033,
+          "score": 5806,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 321.0666666667033,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100080,
+          "seconds": 15.950000000000372,
+          "score": 196,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 15.950000000000372,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100081,
+          "seconds": 274.4333333334124,
+          "score": 6047,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 274.4333333334124,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100082,
+          "seconds": 123.54999999999427,
+          "score": 1859,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 123.54999999999427,
+            "speedScale": 1.4000000000000004
+          }
+        },
+        {
+          "seed": 2100083,
+          "seconds": 355.21666666667227,
+          "score": 6566,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 355.21666666667227,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100084,
+          "seconds": 150.1000000000116,
+          "score": 2828,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 150.1000000000116,
+            "speedScale": 1.4800000000000004
+          }
+        },
+        {
+          "seed": 2100085,
+          "seconds": 290.7333333333976,
+          "score": 5305,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 290.7333333333976,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100086,
+          "seconds": 345.9166666666807,
+          "score": 5355,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 345.9166666666807,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100087,
+          "seconds": 272.18333333341445,
+          "score": 4151,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 272.18333333341445,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100088,
+          "seconds": 329.3000000000292,
+          "score": 5915,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 329.3000000000292,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100089,
+          "seconds": 319.13333333337175,
+          "score": 5513,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 319.13333333337175,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100090,
+          "seconds": 352.0500000000085,
+          "score": 7118,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 352.0500000000085,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100091,
+          "seconds": 239.38333333341598,
+          "score": 4220,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 239.38333333341598,
+            "speedScale": 1.7600000000000007
+          }
+        },
+        {
+          "seed": 2100092,
+          "seconds": 255.75000000009567,
+          "score": 3898,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 255.75000000009567,
+            "speedScale": 1.8400000000000007
+          }
+        },
+        {
+          "seed": 2100093,
+          "seconds": 370.7833333333248,
+          "score": 6493,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 370.7833333333248,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100094,
+          "seconds": 285.61666666673557,
+          "score": 5915,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 285.61666666673557,
+            "speedScale": 1.9200000000000008
+          }
+        },
+        {
+          "seed": 2100095,
+          "seconds": 295.83333333339294,
+          "score": 5845,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 295.83333333339294,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100096,
+          "seconds": 30.84999999999953,
+          "score": 391,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 30.84999999999953,
+            "speedScale": 1.08
+          }
+        },
+        {
+          "seed": 2100097,
+          "seconds": 312.56666666671106,
+          "score": 4144,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 312.56666666671106,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100098,
+          "seconds": 262.96666666675617,
+          "score": 4157,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 262.96666666675617,
+            "speedScale": 1.8400000000000007
+          }
+        },
+        {
+          "seed": 2100099,
+          "seconds": 230.9666666667426,
+          "score": 3471,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 230.9666666667426,
+            "speedScale": 1.7600000000000007
+          }
+        },
+        {
+          "seed": 2100100,
+          "seconds": 317.51666666670656,
+          "score": 5514,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 317.51666666670656,
+            "speedScale": 2
+          }
+        }
+      ]
+    },
+    {
+      "name": "電路靜默（消融）",
+      "mode": "ablated",
+      "completed": 0,
+      "past300": 0,
+      "over10k": 0,
+      "meanSeconds": 3.5166666666666555,
+      "medianSeconds": 3.516666666666659,
+      "maxSeconds": 3.516666666666659,
+      "meanScore": 21,
+      "medianScore": 21,
+      "maxScore": 21,
+      "meanPickups": 0,
+      "meanKills": 0,
+      "runs": [
+        {
+          "seed": 2100001,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100002,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100003,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100004,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100005,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100006,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100007,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100008,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100009,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100010,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100011,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100012,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100013,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100014,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100015,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100016,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100017,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100018,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100019,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100020,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100021,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100022,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100023,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100024,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100025,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100026,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100027,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100028,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100029,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100030,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100031,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100032,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100033,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100034,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100035,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100036,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100037,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100038,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100039,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100040,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100041,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100042,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100043,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100044,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100045,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100046,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100047,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100048,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100049,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100050,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100051,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100052,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100053,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100054,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100055,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100056,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100057,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100058,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100059,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100060,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100061,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100062,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100063,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100064,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100065,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100066,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100067,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100068,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100069,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100070,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100071,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100072,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100073,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100074,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100075,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100076,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100077,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100078,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100079,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100080,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100081,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100082,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100083,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100084,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100085,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100086,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100087,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100088,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100089,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100090,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100091,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100092,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100093,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100094,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100095,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100096,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100097,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100098,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100099,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100100,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "未訓練讀出",
+      "mode": "model",
+      "completed": 0,
+      "past300": 0,
+      "over10k": 0,
+      "meanSeconds": 3.516499999999989,
+      "medianSeconds": 3.516666666666659,
+      "maxSeconds": 3.516666666666659,
+      "meanScore": 21,
+      "medianScore": 21,
+      "maxScore": 21,
+      "meanPickups": 0,
+      "meanKills": 0,
+      "runs": [
+        {
+          "seed": 2100001,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100002,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100003,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100004,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100005,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100006,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100007,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100008,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100009,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100010,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100011,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100012,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100013,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100014,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100015,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100016,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100017,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100018,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100019,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100020,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100021,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100022,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100023,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100024,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100025,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100026,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100027,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100028,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100029,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100030,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100031,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100032,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100033,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100034,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100035,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100036,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100037,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100038,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100039,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100040,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100041,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100042,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100043,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100044,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100045,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100046,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100047,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100048,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100049,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100050,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100051,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100052,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100053,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100054,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100055,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100056,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100057,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100058,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100059,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100060,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100061,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100062,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100063,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100064,
+          "seconds": 3.4999999999999925,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.4999999999999925,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100065,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100066,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100067,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100068,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100069,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100070,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100071,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100072,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100073,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100074,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100075,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100076,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100077,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100078,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100079,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100080,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100081,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100082,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100083,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100084,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100085,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100086,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100087,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100088,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100089,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100090,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100091,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100092,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100093,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100094,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100095,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100096,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100097,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100098,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100099,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100100,
+          "seconds": 3.516666666666659,
+          "score": 21,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 3.516666666666659,
+            "speedScale": 1
+          }
+        }
+      ]
+    },
+    {
+      "name": "手寫規則",
+      "mode": "rule",
+      "completed": 0,
+      "past300": 3,
+      "over10k": 0,
+      "meanSeconds": 100.56733333335089,
+      "medianSeconds": 55.08333333333149,
+      "maxSeconds": 328.61666666669646,
+      "meanScore": 1725.3,
+      "medianScore": 867,
+      "maxScore": 8047,
+      "meanPickups": 9.56,
+      "meanKills": 7.57,
+      "runs": [
+        {
+          "seed": 2100001,
+          "seconds": 47.116666666665274,
+          "score": 859,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 47.116666666665274,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100002,
+          "seconds": 249.21666666675713,
+          "score": 4926,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 249.21666666675713,
+            "speedScale": 1.8000000000000007
+          }
+        },
+        {
+          "seed": 2100003,
+          "seconds": 22.799999999999986,
+          "score": 239,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 22.799999999999986,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100004,
+          "seconds": 115.88333333332804,
+          "score": 1676,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 115.88333333332804,
+            "speedScale": 1.3600000000000003
+          }
+        },
+        {
+          "seed": 2100005,
+          "seconds": 43.83333333333213,
+          "score": 867,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 43.83333333333213,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100006,
+          "seconds": 77.58333333333022,
+          "score": 1216,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 77.58333333333022,
+            "speedScale": 1.2400000000000002
+          }
+        },
+        {
+          "seed": 2100007,
+          "seconds": 208.08333333339107,
+          "score": 2846,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 208.08333333339107,
+            "speedScale": 1.6800000000000006
+          }
+        },
+        {
+          "seed": 2100008,
+          "seconds": 10.950000000000124,
+          "score": 65,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 10.950000000000124,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100009,
+          "seconds": 6.916666666666647,
+          "score": 41,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 6.916666666666647,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100010,
+          "seconds": 33.51666666666605,
+          "score": 508,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 33.51666666666605,
+            "speedScale": 1.08
+          }
+        },
+        {
+          "seed": 2100011,
+          "seconds": 8.016666666666644,
+          "score": 48,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 8.016666666666644,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100012,
+          "seconds": 153.43333333334758,
+          "score": 2787,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 153.43333333334758,
+            "speedScale": 1.4800000000000004
+          }
+        },
+        {
+          "seed": 2100013,
+          "seconds": 6.949999999999981,
+          "score": 41,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 6.949999999999981,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100014,
+          "seconds": 328.61666666669646,
+          "score": 8047,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 328.61666666669646,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100015,
+          "seconds": 148.05000000000996,
+          "score": 1590,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 148.05000000000996,
+            "speedScale": 1.4800000000000004
+          }
+        },
+        {
+          "seed": 2100016,
+          "seconds": 253.66666666676068,
+          "score": 4575,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 253.66666666676068,
+            "speedScale": 1.8400000000000007
+          }
+        },
+        {
+          "seed": 2100017,
+          "seconds": 5.516666666666652,
+          "score": 33,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 5.516666666666652,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100018,
+          "seconds": 194.5166666667136,
+          "score": 4132,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 194.5166666667136,
+            "speedScale": 1.6400000000000006
+          }
+        },
+        {
+          "seed": 2100019,
+          "seconds": 46.04999999999867,
+          "score": 832,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 46.04999999999867,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100020,
+          "seconds": 38.199999999999115,
+          "score": 339,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 38.199999999999115,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100021,
+          "seconds": 28.86666666666631,
+          "score": 378,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 28.86666666666631,
+            "speedScale": 1.08
+          }
+        },
+        {
+          "seed": 2100022,
+          "seconds": 5.449999999999986,
+          "score": 32,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 5.449999999999986,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100023,
+          "seconds": 114.31666666666146,
+          "score": 1803,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 114.31666666666146,
+            "speedScale": 1.3600000000000003
+          }
+        },
+        {
+          "seed": 2100024,
+          "seconds": 62.78333333333105,
+          "score": 708,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 62.78333333333105,
+            "speedScale": 1.2000000000000002
+          }
+        },
+        {
+          "seed": 2100025,
+          "seconds": 100.38333333332892,
+          "score": 2051,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 100.38333333332892,
+            "speedScale": 1.3200000000000003
+          }
+        },
+        {
+          "seed": 2100026,
+          "seconds": 161.56666666668738,
+          "score": 3091,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 161.56666666668738,
+            "speedScale": 1.5200000000000005
+          }
+        },
+        {
+          "seed": 2100027,
+          "seconds": 5.916666666666651,
+          "score": 35,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 5.916666666666651,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100028,
+          "seconds": 36.949999999999186,
+          "score": 431,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 36.949999999999186,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100029,
+          "seconds": 9.450000000000049,
+          "score": 56,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 9.450000000000049,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100030,
+          "seconds": 41.53333333333226,
+          "score": 461,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 41.53333333333226,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100031,
+          "seconds": 37.266666666665834,
+          "score": 533,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 37.266666666665834,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100032,
+          "seconds": 180.45000000003574,
+          "score": 4176,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 180.45000000003574,
+            "speedScale": 1.6000000000000005
+          }
+        },
+        {
+          "seed": 2100033,
+          "seconds": 100.0499999999956,
+          "score": 888,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 100.0499999999956,
+            "speedScale": 1.3200000000000003
+          }
+        },
+        {
+          "seed": 2100034,
+          "seconds": 82.69999999999659,
+          "score": 974,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 82.69999999999659,
+            "speedScale": 1.2400000000000002
+          }
+        },
+        {
+          "seed": 2100035,
+          "seconds": 37.966666666665795,
+          "score": 337,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 37.966666666665795,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100036,
+          "seconds": 7.6333333333333115,
+          "score": 45,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 7.6333333333333115,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100037,
+          "seconds": 23.649999999999938,
+          "score": 244,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 23.649999999999938,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100038,
+          "seconds": 292.91666666672893,
+          "score": 4800,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 292.91666666672893,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100039,
+          "seconds": 125.76666666666081,
+          "score": 1598,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 125.76666666666081,
+            "speedScale": 1.4000000000000004
+          }
+        },
+        {
+          "seed": 2100040,
+          "seconds": 119.69999999999449,
+          "score": 1447,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 119.69999999999449,
+            "speedScale": 1.3600000000000003
+          }
+        },
+        {
+          "seed": 2100041,
+          "seconds": 69.26666666666402,
+          "score": 755,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 69.26666666666402,
+            "speedScale": 1.2000000000000002
+          }
+        },
+        {
+          "seed": 2100042,
+          "seconds": 130.76666666666287,
+          "score": 2280,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 130.76666666666287,
+            "speedScale": 1.4000000000000004
+          }
+        },
+        {
+          "seed": 2100043,
+          "seconds": 265.8833333334202,
+          "score": 5070,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 265.8833333334202,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100044,
+          "seconds": 62.24999999999775,
+          "score": 1125,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 62.24999999999775,
+            "speedScale": 1.2000000000000002
+          }
+        },
+        {
+          "seed": 2100045,
+          "seconds": 252.05000000009272,
+          "score": 4467,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 252.05000000009272,
+            "speedScale": 1.8400000000000007
+          }
+        },
+        {
+          "seed": 2100046,
+          "seconds": 49.533333333331804,
+          "score": 515,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 49.533333333331804,
+            "speedScale": 1.1600000000000001
+          }
+        },
+        {
+          "seed": 2100047,
+          "seconds": 266.55000000008624,
+          "score": 4098,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 266.55000000008624,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100048,
+          "seconds": 13.616666666666923,
+          "score": 82,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 13.616666666666923,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100049,
+          "seconds": 299.2500000000565,
+          "score": 5645,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 299.2500000000565,
+            "speedScale": 1.9600000000000009
+          }
+        },
+        {
+          "seed": 2100050,
+          "seconds": 311.23333333337894,
+          "score": 4858,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 311.23333333337894,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100051,
+          "seconds": 3.3666666666666596,
+          "score": 20,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 3.3666666666666596,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100052,
+          "seconds": 11.650000000000158,
+          "score": 169,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 11.650000000000158,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100053,
+          "seconds": 3.7499999999999916,
+          "score": 22,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 3.7499999999999916,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100054,
+          "seconds": 46.93333333333195,
+          "score": 498,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 46.93333333333195,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100055,
+          "seconds": 272.28333333341436,
+          "score": 5772,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 272.28333333341436,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100056,
+          "seconds": 49.61666666666513,
+          "score": 516,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 49.61666666666513,
+            "speedScale": 1.1600000000000001
+          }
+        },
+        {
+          "seed": 2100057,
+          "seconds": 6.683333333333315,
+          "score": 40,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 6.683333333333315,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100058,
+          "seconds": 92.31666666666271,
+          "score": 1368,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 92.31666666666271,
+            "speedScale": 1.2800000000000002
+          }
+        },
+        {
+          "seed": 2100059,
+          "seconds": 106.83333333332855,
+          "score": 2522,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 106.83333333332855,
+            "speedScale": 1.3200000000000003
+          }
+        },
+        {
+          "seed": 2100060,
+          "seconds": 5.166666666666654,
+          "score": 31,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 5.166666666666654,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100061,
+          "seconds": 6.16666666666665,
+          "score": 37,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 6.16666666666665,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100062,
+          "seconds": 16.183333333333696,
+          "score": 98,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 16.183333333333696,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100063,
+          "seconds": 160.43333333335315,
+          "score": 1901,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 160.43333333335315,
+            "speedScale": 1.5200000000000005
+          }
+        },
+        {
+          "seed": 2100064,
+          "seconds": 265.6000000000871,
+          "score": 5017,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 265.6000000000871,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100065,
+          "seconds": 271.56666666674835,
+          "score": 4004,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 271.56666666674835,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100066,
+          "seconds": 256.8333333334284,
+          "score": 4510,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 256.8333333334284,
+            "speedScale": 1.8400000000000007
+          }
+        },
+        {
+          "seed": 2100067,
+          "seconds": 7.066666666666647,
+          "score": 42,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 7.066666666666647,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100068,
+          "seconds": 5.949999999999984,
+          "score": 35,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 5.949999999999984,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100069,
+          "seconds": 6.816666666666648,
+          "score": 40,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 6.816666666666648,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100070,
+          "seconds": 45.99999999999867,
+          "score": 691,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 45.99999999999867,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100071,
+          "seconds": 13.616666666666923,
+          "score": 82,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 13.616666666666923,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100072,
+          "seconds": 12.56666666666687,
+          "score": 175,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 12.56666666666687,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100073,
+          "seconds": 74.3833333333304,
+          "score": 1892,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 74.3833333333304,
+            "speedScale": 1.2400000000000002
+          }
+        },
+        {
+          "seed": 2100074,
+          "seconds": 216.71666666673127,
+          "score": 3974,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 216.71666666673127,
+            "speedScale": 1.7200000000000006
+          }
+        },
+        {
+          "seed": 2100075,
+          "seconds": 66.01666666666421,
+          "score": 1312,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 66.01666666666421,
+            "speedScale": 1.2000000000000002
+          }
+        },
+        {
+          "seed": 2100076,
+          "seconds": 193.81666666671305,
+          "score": 3535,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 193.81666666671305,
+            "speedScale": 1.6400000000000006
+          }
+        },
+        {
+          "seed": 2100077,
+          "seconds": 135.9833333333337,
+          "score": 2534,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 135.9833333333337,
+            "speedScale": 1.4400000000000004
+          }
+        },
+        {
+          "seed": 2100078,
+          "seconds": 8.083333333333314,
+          "score": 48,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 8.083333333333314,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100079,
+          "seconds": 27.516666666666385,
+          "score": 469,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 27.516666666666385,
+            "speedScale": 1.08
+          }
+        },
+        {
+          "seed": 2100080,
+          "seconds": 82.19999999999662,
+          "score": 1251,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 82.19999999999662,
+            "speedScale": 1.2400000000000002
+          }
+        },
+        {
+          "seed": 2100081,
+          "seconds": 123.78333333332759,
+          "score": 2001,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 123.78333333332759,
+            "speedScale": 1.4000000000000004
+          }
+        },
+        {
+          "seed": 2100082,
+          "seconds": 55.08333333333149,
+          "score": 1194,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 55.08333333333149,
+            "speedScale": 1.1600000000000001
+          }
+        },
+        {
+          "seed": 2100083,
+          "seconds": 31.249999999999506,
+          "score": 393,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 31.249999999999506,
+            "speedScale": 1.08
+          }
+        },
+        {
+          "seed": 2100084,
+          "seconds": 49.43333333333181,
+          "score": 1015,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 49.43333333333181,
+            "speedScale": 1.1600000000000001
+          }
+        },
+        {
+          "seed": 2100085,
+          "seconds": 7.666666666666645,
+          "score": 46,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 7.666666666666645,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100086,
+          "seconds": 260.6833333334249,
+          "score": 4972,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 260.6833333334249,
+            "speedScale": 1.8400000000000007
+          }
+        },
+        {
+          "seed": 2100087,
+          "seconds": 246.0166666667546,
+          "score": 4232,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 246.0166666667546,
+            "speedScale": 1.8000000000000007
+          }
+        },
+        {
+          "seed": 2100088,
+          "seconds": 238.51666666674862,
+          "score": 4441,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 238.51666666674862,
+            "speedScale": 1.7600000000000007
+          }
+        },
+        {
+          "seed": 2100089,
+          "seconds": 300.16666666672234,
+          "score": 5826,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 300.16666666672234,
+            "speedScale": 2
+          }
+        },
+        {
+          "seed": 2100090,
+          "seconds": 8.18333333333332,
+          "score": 149,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 8.18333333333332,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100091,
+          "seconds": 22.466666666666672,
+          "score": 237,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "cactus",
+            "t": 22.466666666666672,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100092,
+          "seconds": 18.650000000000222,
+          "score": 313,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 18.650000000000222,
+            "speedScale": 1.04
+          }
+        },
+        {
+          "seed": 2100093,
+          "seconds": 10.766666666666781,
+          "score": 164,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 10.766666666666781,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100094,
+          "seconds": 155.70000000001605,
+          "score": 3057,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 155.70000000001605,
+            "speedScale": 1.4800000000000004
+          }
+        },
+        {
+          "seed": 2100095,
+          "seconds": 40.23333333333233,
+          "score": 713,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "dragon",
+            "t": 40.23333333333233,
+            "speedScale": 1.12
+          }
+        },
+        {
+          "seed": 2100096,
+          "seconds": 6.26666666666665,
+          "score": 37,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 6.26666666666665,
+            "speedScale": 1
+          }
+        },
+        {
+          "seed": 2100097,
+          "seconds": 268.06666666675153,
+          "score": 3625,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "palm",
+            "t": 268.06666666675153,
+            "speedScale": 1.8800000000000008
+          }
+        },
+        {
+          "seed": 2100098,
+          "seconds": 225.78333333340515,
+          "score": 4617,
+          "dead": true,
+          "cause": {
+            "kind": "obstacle",
+            "type": "jet",
+            "t": 225.78333333340515,
+            "speedScale": 1.7200000000000006
+          }
+        },
+        {
+          "seed": 2100099,
+          "seconds": 24.599999999999884,
+          "score": 250,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 24.599999999999884,
+            "speedScale": 1.08
+          }
+        },
+        {
+          "seed": 2100100,
+          "seconds": 196.66666666671532,
+          "score": 3993,
+          "dead": true,
+          "cause": {
+            "kind": "bullet",
+            "type": "jet-bullet",
+            "t": 196.66666666671532,
+            "speedScale": 1.6400000000000006
+          }
+        }
+      ]
+    }
+  ]
+}
