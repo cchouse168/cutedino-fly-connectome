@@ -1,108 +1,117 @@
-# 第三方出處
+# Third-party notices
 
-本專案包含以下第三方素材，各自保留其原始授權。
+This project bundles the third-party material below. Each retains its original licence.
 
 ---
 
-## 1. flyjump / fly-connectome-template（程式架構與方法）
+## 1. flyjump / fly-connectome-template (code architecture and method)
 
-**來源**：<https://github.com/cobanov/flyjump>（模板：<https://github.com/cobanov/fly-connectome-template>）
-**作者**：Mert Cobanov（<https://github.com/cobanov>）
-**授權**：Cobanov Template Attribution License 1.0
-（SPDX: `LicenseRef-Cobanov-Template-Attribution-1.0`，全文見 `LICENSE-flyjump.txt`）
+**Source**: <https://github.com/cobanov/flyjump> (template: <https://github.com/cobanov/fly-connectome-template>)
+**Author**: Mert Cobanov (<https://github.com/cobanov>)
+**Licence**: Cobanov Template Attribution License 1.0
+(SPDX: `LicenseRef-Cobanov-Template-Attribution-1.0`; full text in `LICENSE-flyjump.txt`)
 
 > Built with [fly-connectome-template](https://github.com/cobanov/fly-connectome-template)
 > by [Mert Cobanov](https://github.com/cobanov).
 
-此為**自訂的、要求標註的 source-available 授權**，不是 OSI 認可的授權，也不是
-MIT / Apache-2.0 / GPL / AGPL。§3 與 §4 為強制條款：
+This is a **custom, attribution-requiring source-available licence**. It is not OSI-approved and it
+is not MIT / Apache-2.0 / GPL / AGPL. Sections 3 and 4 are mandatory:
 
-- §3：任何部署或散布的網頁介面，都必須在主介面、頁尾，或一鍵可達的 About 頁，
-  以正常縮放下可讀的對比度顯示上述標註與可用連結。隱藏文字、HTML 註解、原始碼註解、
-  畫面外內容、僅 hover 顯示的文字，或只放一個 repo 連結，**都不符合要求**。
-  本專案實作於 `index.html` 的 `<footer>`。
-- §4：任何含有本軟體實質部分的原始碼庫，其根目錄 README 必須包含相同標註與授權引用，
-  且修改版必須載明做了哪些修改。本專案實作於 `README.md` 開頭。
+- **§3**: every deployed or distributed web interface must display the attribution above, with
+  working links, in the main interface, its footer, or an About page reachable by one click, at
+  readable contrast and normal zoom. Hidden text, HTML comments, source-code comments, off-screen
+  content, hover-only text, or a bare repository link **do not satisfy it**. This project implements
+  it in the `<footer>` of `index.html`.
+- **§4**: every source repository containing substantial portions of the software must carry the
+  same attribution and a reference to the licence in its root README, and modified versions must
+  state what was changed. This project implements it at the top of `README.md`.
 
-**衍生自本專案的程式碼，這兩項義務同樣成立。**
+**Both obligations carry over to anything derived from this project.**
 
-### 改編範圍
+### Scope of adaptation
 
-下列檔案的演算法與結構改編自 flyjump：
+The algorithms and structure of the following files are adapted from flyjump:
 
-| 本專案 | 對應原始檔 |
+| This project | Corresponding original |
 |---|---|
 | `src/lib/connectome.js` | `src/lib/connectome.ts` |
 | `src/lib/policy.js` | `src/lib/policy.ts` |
 | `src/lib/training.js` | `src/lib/training.ts` |
 | `src/lib/benchmark.js` | `src/lib/benchmark.ts` |
-| `scripts/train.mjs`、`scripts/benchmark.mjs` | `scripts/train.mjs`、`scripts/benchmark.mjs` |
+| `scripts/train.mjs`, `scripts/benchmark.mjs` | `scripts/train.mjs`, `scripts/benchmark.mjs` |
 
-`src/engine/game.js` 取代了原作的 `src/lib/runner.ts`（Chromium 引擎包裝層），
-改為 cute-dino 的確定性模擬器，屬本專案原創。
-
----
-
-## 2. MaleCNS v1.0 連接體資料與胞體圖譜
-
-**檔案**：
-- `data/connectome.json`（80 節點、1,296 條邊）
-- `data/brain-atlas/`（positions.bin / ids.bin / groups.bin，140,024 個實測胞體座標）
-**資料建立者**：FlyEM / HHMI Janelia、University of Cambridge、
-MRC Laboratory of Molecular Biology、Google Research
-**資料集**：<https://male-cns.janelia.org/download/>
-**授權**：Creative Commons Attribution 4.0 International
-（<https://creativecommons.org/licenses/by/4.0/>）
-
-完整聲明與變更說明見 `data/NOTICE.md` 與 `data/brain-atlas/NOTICE.md`（皆原樣保留）。
-
-胞體圖譜用於「04 / 大腦活性」面板的灰色背景點雲，顯示 optic / central / descending
-三群共 124,289 顆已分類胞體；VNC 相關與未分類者不顯示。渲染只做置中、剛性旋轉與
-等比縮放，來源座標與 body ID 未更動。**點的顯示大小不代表真實胞體大小。**
-
-本專案對此資料的額外處理：`data/channels.json` 重新指派了輸入通道的廣播表。
-節點、邊、突觸接觸數、神經傳導物質標註、輸出細胞集合**皆未更動**。
-輸入編碼本來就是人工指定的工程選擇，不是生物量測。
-
-**資料提供方不對本實驗背書。**
+`src/engine/game.js` replaces the original `src/lib/runner.ts` (a Chromium engine wrapper) with a
+deterministic cute-dino simulator, and is original to this project.
 
 ---
 
-## 3. Flybody 果蠅身體模型
+## 2. MaleCNS v1.0 connectome data and soma atlas
 
-**檔案**：`data/flybody/`（model.bin / model.json，93,879 個三角形）
-**來源**：<https://github.com/TuragaLab/flybody>
-**授權**：Apache License 2.0（全文見 `data/flybody/LICENSE`）
-**作者**：Roman Vaxenburg、Igor Siwanowicz、Josh Merel、Alice A. Robie、Carmen Morrow、
-Guido Novati、Zinovia Stefanidi、Gert-Jan Both、Gwyneth M. Card、Michael B. Reiser、
-Matthew M. Botvinick、Kristin M. Branson、Yuval Tassa、Srinivas C. Turaga
-**合作單位**：Google DeepMind 與 HHMI Janelia Research Campus
-**論文**：Whole-body physics simulation of fruit fly locomotion,
+**Files**:
+- `data/connectome.json` (80 nodes, 1,296 edges)
+- `data/brain-atlas/` (positions.bin / ids.bin / groups.bin — 140,024 measured soma coordinates)
+
+**Data creators**: FlyEM / HHMI Janelia, University of Cambridge,
+MRC Laboratory of Molecular Biology, Google Research
+**Dataset**: <https://male-cns.janelia.org/download/>
+**Licence**: Creative Commons Attribution 4.0 International (CC BY 4.0)
+(<https://creativecommons.org/licenses/by/4.0/>)
+
+The full notices and change statements are in `data/NOTICE.md` and `data/brain-atlas/NOTICE.md`,
+both preserved verbatim.
+
+The soma atlas is the grey background point cloud in the "Brain activity" panel, showing 124,289
+classified somata across the optic, central and descending groups; VNC-related and unclassified
+somata are not drawn. Rendering applies only centring, rigid rotation and uniform scaling — source
+coordinates and body IDs are unmodified. **Dot size on screen does not represent real soma size.**
+
+What this project additionally did to the data: `data/channels.json` reassigns the input-channel
+broadcast table. Nodes, edges, synaptic contact counts, neurotransmitter annotations and the output
+cell set are **all unmodified**. The input encoding was an engineered choice from the outset, not a
+biological measurement.
+
+**The data providers do not endorse this experiment.**
+
+---
+
+## 3. Flybody fruit-fly body model
+
+**Files**: `data/flybody/` (model.bin / model.json — 93,879 triangles)
+**Source**: <https://github.com/TuragaLab/flybody>
+**Licence**: Apache License 2.0 (full text in `data/flybody/LICENSE`)
+**Authors**: Roman Vaxenburg, Igor Siwanowicz, Josh Merel, Alice A. Robie, Carmen Morrow,
+Guido Novati, Zinovia Stefanidi, Gert-Jan Both, Gwyneth M. Card, Michael B. Reiser,
+Matthew M. Botvinick, Kristin M. Branson, Yuval Tassa, Srinivas C. Turaga
+**Collaboration**: Google DeepMind and HHMI Janelia Research Campus
+**Paper**: Whole-body physics simulation of fruit fly locomotion,
 Nature 643, 1312-1320 (2025), <https://doi.org/10.1038/s41586-025-09029-4>
 
-用於「03 / 鍵盤輸出」面板。二進位轉檔與前腳分組由 flyjump 完成，本專案沿用。
-**鍵盤幾何、鍵位配置與按鍵動畫是本專案所加，不是研究模擬的輸出**；
-解剖表面幾何才是 Flybody 的成果。完整聲明見 `data/flybody/NOTICE.md`。
+Used in the "Keyboard output" panel. The binary conversion and foreleg grouping were done by
+flyjump and are reused here. **The keyboard geometry, key layout and key-press animation were added
+by this project and are not output of the research simulation**; only the anatomical surface
+geometry is flybody's work. Full notice in `data/flybody/NOTICE.md`.
 
 ---
 
-## 4. cute-dino（遊戲邏輯與美術）
+## 4. cute-dino (game logic and art)
 
-**來源**：<https://github.com/cchouse168/cute-dino>
-**作者**：cchouse168
+**Source**: <https://github.com/cchouse168/cute-dino>
+**Author**: cchouse168
 
-`src/engine/game.js` 的遊戲規則（物理、生成、碰撞、道具、計分）
-與 `src/engine/render.js` 的障礙物、道具、地面、子彈畫法，
-皆自該專案的 `index.html` 抽出並改寫為確定性、可 headless 執行的形式。
-恐龍本體的繪製改為簡化版（原作有 10 階皮膚、翅膀、尖刺、跟班等系統）。
+The game rules in `src/engine/game.js` (physics, spawning, collision, pickups, scoring) and the
+obstacle, pickup, ground and bullet drawing in `src/engine/render.js` were extracted from that
+project's `index.html` and rewritten into a deterministic, headless-capable form. The dinosaur
+itself is drawn in a simplified form (the original has 10 skin tiers, wings, spikes and a follower
+system).
 
 ---
 
-## 5. 本專案原創部分
+## 5. Original work in this project
 
-其餘檔案（確定性模擬器改造、13 通道量測與指派、視覺化介面與其中的
-點雲／WebGL 渲染器、驗收測試、文件）
-採 MIT 授權，見 `LICENSE`。
+Everything else — the deterministic simulator rewrite, the 13-channel measurement and assignment,
+the visualisation interface including its point-cloud and WebGL renderers, the acceptance tests and
+the documentation — is MIT licensed; see `LICENSE`.
 
-MIT 授權僅適用於本專案的原創新增部分，**不能**用來規避上述第 1 項的標註義務
-（該授權 §5 明文禁止以其他授權取代或抵觸其條件）。
+The MIT licence covers **only** this project's original additions. It **cannot** be used to
+circumvent the attribution obligations in item 1 above (that licence's §5 explicitly forbids
+replacing or contradicting its conditions with another licence).
