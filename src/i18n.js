@@ -211,13 +211,13 @@ export const EN = {
 
 const DICTS = { zh: ZH, en: EN };
 const listeners = new Set();
-let lang = "zh";
+// Default to English; a stored preference always wins.
+let lang = "en";
 
 try {
   const saved = localStorage.getItem(STORE_KEY);
   if (saved === "en" || saved === "zh") lang = saved;
-  else if (!saved && !/^zh/i.test(navigator.language || "")) lang = "en";
-} catch { /* 隱私模式下 localStorage 會 throw，維持預設 */ }
+} catch { /* localStorage throws in private mode — keep the default */ }
 
 export const getLang = () => lang;
 
