@@ -51,8 +51,8 @@ npm run benchmark        # 100 條 held-out + 消融對照
 
 | | |
 |---|---|
-| [`docs/report.md`](docs/report.md) | 完整結果、三次失敗的改進嘗試、檢定力分析、誠實的限制 |
-| [`docs/experiment.md`](docs/experiment.md) | 協定、方程式、13 通道對照表、基準方法 |
+| [`docs/report.md`](docs/report.md) | 完整實驗結果、方法取捨與已知限制 |
+| [`docs/experiment.md`](docs/experiment.md) | 重現用：協定、方程式、通道對照表、基準方法 |
 | [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) | 第三方出處與授權全貌 |
 
 ## 授權
