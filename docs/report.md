@@ -1,263 +1,296 @@
-# 成果報告：果蠅連接體操控 cute-dino
+# Results report: a fly connectome plays cute-dino
 
-> 本報告記錄完整的實作、驗證與對照結果。數據皆可用 `scripts/` 底下的腳本重現。
-
----
-
-## 1. 一句話總結
-
-把 MaleCNS 果蠅連接體中 80 顆真實神經元、1,296 條實測突觸連接構成的**固定電路**，
-接上一個 **269 參數**的小讀出網路，讓它玩 cute-dino。
-消融對照：把電路活性歸零後，存活從 **161.1s 掉到 3.5s**（比值 46×）。
-要注意 3.5s 是這個環境的地板 ——「完全不動」在 100 條賽道上也全部是 3.5s，
-消融後 agent 整場只會重複同一個動作，所以 46× 的分母是常數，不是有刻度的量。
-此效應在三個獨立訓練種子間穩定重現（41.6 ± 7.4×），不是單次僥倖。
-
-180 秒的標準上限會截斷結果（agent 有 82/100、手寫規則有 25/100 撞到上限）。
-改用無截尾的 480 秒量尺，與手寫規則的平均存活比從 1.95× 變成 2.60×，
-逐場勝負從 69 勝 24 平變成 92 勝 0 平（見 §5.4）。
+> This report records the full implementation, validation and control results. Every number can be
+> reproduced with the scripts under `scripts/`.
 
 ---
 
-## 2. 與 Fly Dino（原作）的差異比較
+## 1. One-sentence summary
 
-### 2.1 完全相同的部分
+A **fixed circuit** of 80 real neurons and 1,296 measured synaptic connections from the MaleCNS fly
+connectome, wired to a **269-parameter** readout network, plays cute-dino.
+Ablation control: zeroing the circuit's activity drops survival from **161.1s to 3.5s** (a ratio of
+46×). Note that 3.5s is this environment's floor — "no action at all" is also 3.5s on all 100 courses.
+After ablation the agent repeats a single action for the whole run, so the denominator of that 46× is
+a constant, not a graded quantity.
+The effect reproduces stably across three independent training seeds (41.6 ± 7.4×); it is not a
+one-off fluke.
 
-這些是「連接體」本身，一個位元都沒改：
+The standard 180-second cap censors the results (the agent hits it on 82/100 courses, the
+hand-written rules on 25/100). On an uncensored 480-second ruler, the mean-survival ratio against the
+hand-written rules goes from 1.95× to 2.60×, and the per-course record goes from 69 wins / 24 ties to
+92 wins / 0 ties (see §5.4).
 
-| 項目 | 數值 |
+---
+
+## 2. Differences from Fly Dino (the original)
+
+### 2.1 Identical
+
+These are the connectome itself — not a single bit changed:
+
+| Item | Value |
 |---|---|
-| 神經元數 | 80（輸入 32 / 中繼 32 / 輸出 16） |
-| 有向連接 | 1,296 |
-| 突觸接觸總數 | 26,029 |
-| 資料來源 | MaleCNS v1.0，CC BY 4.0 |
-| 傳導物質正負號 | ACh +1；GABA・glutamate −1 |
-| 權重正規化 | `W[j,i] = c[j,i]·s[j] / Σ_k(c[k,i]·|s[k]|)` |
-| 動態方程式 | `h′ = 0.3·h + 0.7·tanh(u + 1.4·Σ W·h)` |
-| 傳播輪數 | 3（每次決策） |
-| 外部驅動 | `u = 2·(feature − 0.5)` |
-| 決策頻率 | 30 Hz |
+| Neurons | 80 (32 input / 32 interneuron / 16 output) |
+| Directed connections | 1,296 |
+| Total synaptic contacts | 26,029 |
+| Data source | MaleCNS v1.0, CC BY 4.0 |
+| Neurotransmitter signs | ACh +1; GABA / glutamate −1 |
+| Weight normalisation | `W[j,i] = c[j,i]·s[j] / Σ_k(c[k,i]·|s[k]|)` |
+| Dynamics | `h′ = 0.3·h + 0.7·tanh(u + 1.4·Σ W·h)` |
+| Propagation iterations | 3 (per decision) |
+| External drive | `u = 2·(feature − 0.5)` |
+| Decision rate | 30 Hz |
 | CEM population / elites | 64 / 8 |
 
-### 2.2 不同的部分
+### 2.2 Different
 
-| 項目 | Fly Dino（原作） | 本專案 | 為什麼不同 |
+| Item | Fly Dino (original) | This project | Why |
 |---|---|---|---|
-| **遊戲環境** | Chromium Dino（原生引擎，600×150） | cute-dino（自建確定性模擬器，1280×576） | 換成使用者自己的遊戲 |
-| **環境複雜度** | 仙人掌、翼龍 | 仙人掌、棕櫚、正弦擺動飛龍、噴射機（會發射 1020 px/s 子彈）、5 種道具、HP 系統 | cute-dino 本身複雜得多 |
-| **感官通道** | 8 | **13** | 狀態更豐富；通道數由實測的型內投射可區分性決定（見 §4） |
-| **動作空間** | 3（跑／跳／蹲） | **5**（＋左／右移動） | cute-dino 有水平移動 |
-| **讀出網路** | 16→12→3 = **243** 參數 | 16→12→5 = **269** 參數 | 動作數不同 |
-| **訓練代數** | 80 | **400** | 驗證分數在 400 代仍在爬升（見 §5） |
-| **每代賽道數** | 3 | **12** | cute-dino 分數變異係數 0.74，3 條的標準誤達平均值 42% |
-| **驗證種子數** | 4 | **16** | 同上；4 個種子會讓僥倖高分永久鎖死冠軍 |
-| **總場次** | 15,680 | 約 313,600 | 代數與賽道數都調高 |
+| **Game environment** | Chromium Dino (native engine, 600×150) | cute-dino (purpose-built deterministic simulator, 1280×576) | swapped in the user's own game |
+| **Environment complexity** | cactus, pterodactyl | cactus, palm, sinusoidally weaving dragon, jet (fires 1020 px/s bullets), 5 pickup types, HP system | cute-dino is simply much more complex |
+| **Sensory channels** | 8 | **13** | richer state; the channel count is set by measured within-type projection separability (see §4) |
+| **Action space** | 3 (run / jump / duck) | **5** (＋ move left / right) | cute-dino has lateral movement |
+| **Readout network** | 16→12→3 = **243** parameters | 16→12→5 = **269** parameters | different action count |
+| **Training generations** | 80 | **400** | validation was still climbing at generation 400 (see §5) |
+| **Courses per generation** | 3 | **12** | cute-dino's score CV is 0.74; with 3 courses the standard error is 42% of the mean |
+| **Validation seeds** | 4 | **16** | same reason; with 4 seeds one fluke high score locks the champion permanently |
+| **Total episodes** | 15,680 | about 313,600 | both generations and courses were raised |
 
-### 2.3 為什麼原作的超參數在 cute-dino 上是壞的
+### 2.3 Why the original's hyperparameters are bad for cute-dino
 
-實測冠軍權重在 40 條賽道的**分數變異係數達 0.74**。
-以原作的 3 條訓練賽道估計，標準誤是平均值的 42% —— CEM 會挑到運氣好的候選而非真正強的。
-4 個驗證種子同樣太吵：實測 80 代中有 46 代驗證分數完全沒動，因為第 34 代一個僥倖高分把門檻鎖死了。
+The champion weights measured across 40 courses have a **score coefficient of variation of 0.74**.
+Estimated from the original's 3 training courses, the standard error is 42% of the mean — CEM would
+pick lucky candidates rather than genuinely strong ones.
+Four validation seeds are just as noisy: measured, validation did not move at all in 46 of 80
+generations, because one fluke high score at generation 34 locked the threshold.
 
-Chrome Dino 沒有道具、HP、正弦擺動障礙這些隨機來源，變異小得多，所以原作 3 條夠用。
-原作參數保留在 `src/lib/training.js` 的 `FLYJUMP_TRAINING` 供對照。
+Chrome Dino has no pickups, no HP and no sinusoidally weaving obstacles, so its variance is far
+smaller and the original's 3 courses are sufficient. The original parameters are preserved for
+comparison as `FLYJUMP_TRAINING` in `src/lib/training.js`.
 
-### 2.4 成績對照（注意：環境不同，不可直接比較強弱）
+### 2.4 Score comparison (note: different environments — not a strength comparison)
 
-| | Fly Dino | 本專案 |
+| | Fly Dino | This project |
 |---|---:|---:|
-| 跑完（180 秒上限） | 99/100 | 82/100 |
-| 平均存活 | 179.4s | 161.1s |
-| 平均分數 | 2,885.75 | 2,512 |
-| 消融後存活 | 4.51s | 3.5s |
-| 消融比 | 39.8× | 45.8× |
+| Completed (180s cap) | 99/100 | 82/100 |
+| Mean survival | 179.4s | 161.1s |
+| Mean score | 2,885.75 | 2,512 |
+| Survival after ablation | 4.51s | 3.5s |
+| Ablation ratio | 39.8× | 45.8× |
 
-**這張表不能用來比較「誰的 agent 比較強」** —— 兩個遊戲的難度天差地遠。
-cute-dino 有會追打的噴射機子彈、正弦擺動的飛行障礙、5 個動作維度。
-唯一可比的是**消融比**：兩者都證明了固定的解剖結構確實在做事。
+**This table cannot be used to compare whose agent is stronger** — the two games differ enormously in
+difficulty. cute-dino has jet bullets that chase you, sinusoidally weaving flying obstacles and five
+action dimensions. The only comparable figure is the **ablation ratio**: both show that the fixed
+anatomical structure is genuinely doing work.
 
 ---
 
-## 3. 最關鍵的工程挑戰：把遊戲變成可訓練的環境
+## 3. The hardest engineering problem: turning the game into a trainable environment
 
-原作能訓練，是因為 Chromium 引擎本身可被包成確定性模擬器。cute-dino 不具備這個性質：
+The original could be trained because the Chromium engine can itself be wrapped as a deterministic
+simulator. cute-dino cannot:
 
-| 阻礙 | 原況 | 改法 |
+| Obstacle | Original | Fix |
 |---|---|---|
-| 亂數未種子化 | 26 處 `Math.random()` | 種子化 LCG，**取數順序必須完全固定** |
-| 時間步不固定 | `clamp(rAF 差值, 0.0005, 0.032)` | 固定 `1/60`，其他值直接 throw |
-| 幾何依賴視窗大小 | `W()`/`H()` 讀 `canvas.clientWidth` | 鎖死 1280×576 |
-| 副作用混在邏輯裡 | `update()` 內寫 DOM、呼叫 `sfx.*` | 移除；headless 下跳過裝飾實體 |
+| Randomness not seeded | 26 `Math.random()` call sites | seeded LCG, **the draw order must be exactly fixed** |
+| Time step not fixed | `clamp(rAF delta, 0.0005, 0.032)` | fixed `1/60`; any other value throws |
+| Geometry depends on window size | `W()`/`H()` read `canvas.clientWidth` | locked to 1280×576 |
+| Side effects mixed into the logic | `update()` writes the DOM and calls `sfx.*` | removed; headless skips decorative entities |
 
-### 三個不做就會安靜壞掉的地方
+### Three places that break silently if you skip them
 
-1. **亂數取用順序**：`spawnObstacle()` 必須在間距 `rand()` 之前、`powerTimer` 重設必須在
-   `spawnPowerup()` 之前；火焰道具那行 `score>=5000 && random()<0.25` 還是短路求值 ——
-   順序錯一步，同一 seed 就重現不出來。
-2. **裝飾性亂數必須隔離**：火花、雲、音效計時用 `Math.random()`，絕不能碰種子化的那條流，
-   否則 headless 訓練跟畫面上跑的不是同一個世界。
-3. **視覺頁面必須鎖定邏輯座標**：用 CSS transform 縮放，不能讓 `W()`/`H()` 跟著視窗變。
+1. **Random draw order**: `spawnObstacle()` must come before the gap `rand()`, and the `powerTimer`
+   reset must come before `spawnPowerup()`; the flame-pickup line `score>=5000 && random()<0.25` is
+   still short-circuit evaluation — one step out of order and the same seed will not reproduce.
+2. **Decorative randomness must stay isolated**: sparks, clouds and sound-effect timers use
+   `Math.random()` and must never touch the seeded stream, or headless training and what runs on
+   screen are no longer the same world.
+3. **The visual page must lock its logical coordinates**: scale with a CSS transform; never let
+   `W()`/`H()` follow the window.
 
-驗收：同 seed 跑 10,800 步逐步比對物理量快照，位元級相同；單步成本 **1.31 µs**。
+Acceptance: the same seed runs 10,800 steps with a step-by-step comparison of physics snapshots, and
+must be bit-identical; cost per step is **1.31 µs**.
 
 ---
 
-## 4. 為什麼是 13 個通道，不是 16
+## 4. Why 13 channels, not 16
 
-原訂把每個 LC 型態的 4 顆細胞拆成 2 組得到 16 通道，但實測發現拆不得：
+The plan was to split each LC type's 4 cells into 2 groups for 16 channels, but measurement showed
+they cannot be split:
 
-| 型態 | 最佳 2-2 分組的跨組出邊餘弦相似度 | 判定 |
+| Type | Cross-group out-edge cosine similarity, best 2-2 grouping | Verdict |
 |---|---:|---|
-| LC9 / LC16 / LC21 / LPLC2 | 0.000 – 0.004 | 可拆 → 8 通道 |
-| LC15 | 0.534 | 勉強可拆 → 2 通道 |
-| LC4 / LC11 / LC17 | 0.940 – 0.988 | **不可拆** → 各留 4 細胞，3 通道 |
+| LC9 / LC16 / LC21 / LPLC2 | 0.000 – 0.004 | splittable → 8 channels |
+| LC15 | 0.534 | marginally splittable → 2 channels |
+| LC4 / LC11 / LC17 | 0.940 – 0.988 | **not splittable** → 4 cells each, 3 channels |
 
-LC17 的四顆細胞投射相似度高達 **0.988** —— 硬拆成兩個通道，電路根本分不出來，
-只是讓兩個特徵變成雙胞胎。所以實際上限是 **8 + 2 + 3 = 13**。
-三個不可拆的型態改配給最關鍵的特徵（它們細胞數多、出邊數也最高）。
+LC17's four cells have a projection similarity of **0.988** — force them into two channels and the
+circuit cannot tell them apart; you just make two features into twins. So the real ceiling is
+**8 + 2 + 3 = 13**. The three unsplittable types were reassigned to the most critical features (they
+have the most cells and the highest out-degree).
 
-量測與指派邏輯都在 `scripts/remap-channels.mjs`，可重跑驗證。
+Both the measurement and the assignment live in `scripts/remap-channels.mjs` and can be rerun.
 
 ---
 
-## 5. 結果
+## 5. Results
 
-### 5.1 主模型（100 條 held-out 賽道，180 秒上限）
+### 5.1 Main model (100 held-out courses, 180s cap)
 
-模型為第 311 代冠軍（訓練種子 20260917）。**選模型的依據是訓練期的驗證分數，
-不是下面這張 held-out 表** —— 否則等於拿測試集挑模型。
+The model is the generation-311 champion (training seed 20260917). **The model was selected on the
+validation score during training, not on the held-out table below** — otherwise it would amount to
+picking a model on the test set.
 
-| 對照組 | 跑完 | 平均存活 | 中位存活 | 平均分數 |
+| Control | Completed | Mean survival | Median survival | Mean score |
 |---|---:|---:|---:|---:|
-| **連接體 + 訓練讀出** | **82/100** | **161.1s** | **180.0s** | **2512** |
-| 電路靜默（消融） | 0/100 | 3.5s | 3.5s | 21 |
-| 未訓練讀出 | 0/100 | 3.5s | 3.5s | 21 |
-| 手寫規則 | 25/100 | 82.4s | 55.1s | 1354 |
-| 隨機動作 | 0/100 | 4.1s | 3.5s | 24 |
-| 完全不動 | 0/100 | 3.5s | 3.5s | 21 |
+| **Connectome + trained readout** | **82/100** | **161.1s** | **180.0s** | **2512** |
+| Circuit silenced (ablation) | 0/100 | 3.5s | 3.5s | 21 |
+| Untrained readout | 0/100 | 3.5s | 3.5s | 21 |
+| Hand-written rules | 25/100 | 82.4s | 55.1s | 1354 |
+| Random actions | 0/100 | 4.1s | 3.5s | 24 |
+| No action at all | 0/100 | 3.5s | 3.5s | 21 |
 
-中位存活達到 180 秒上限 —— 超過一半的賽道牠都撐到最後。
+Median survival reaches the 180-second cap — it lasts to the end on more than half the courses.
 
-兩個必須同時講清楚的但書：
+Two caveats that must be stated together:
 
-1. **這張表是右截尾的。** agent 有 82/100、手寫規則有 25/100 撞到 180 秒上限，
-   其中 **24 條賽道是雙方都撞頂的假平手**。上限以上的差異這張表量不出來（見 §5.4）。
-2. **82/100 是這個部署模型的成績，不是這個方法的成績。** 同一套流程換訓練種子
-   會得到 46–87/100（見 §5.2）。
+1. **This table is right-censored.** The agent hits the 180s cap on 82/100 courses and the
+   hand-written rules on 25/100, and **24 of those courses are false ties where both hit the cap**.
+   Differences above the cap are invisible to this table (see §5.4).
+2. **82/100 is this deployed model's score, not the method's score.** The same pipeline with
+   different training seeds gives 46–87/100 (see §5.2).
 
-### 5.2 Replicate：消融效應穩定重現
+### 5.2 Replicates: the ablation effect reproduces stably
 
-| 訓練種子 | 冠軍代 | 驗證分數 | 跑完 | 平均存活 | 消融比 | 勝規則 |
+| Training seed | Champion gen | Validation score | Completed | Mean survival | Ablation ratio | vs rules |
 |---:|---:|---:|---:|---:|---:|---:|
 | 20260915 | 340 | 2064 | 46/100 | 109.7s | 31.2× | 1.33× |
 | 20260916 | 337 | 2905 | 87/100 | 167.9s | 47.7× | 2.04× |
 | 20260917 | 311 | 2965 | 82/100 | 161.1s | 45.8× | 1.95× |
-| **平均 ± 標準差** | | | **71.7 ± 18.3** | **146.2 ± 25.9s** | **41.6 ± 7.4×** | **1.77 ± 0.31×** |
+| **Mean ± SD** | | | **71.7 ± 18.3** | **146.2 ± 25.9s** | **41.6 ± 7.4×** | **1.77 ± 0.31×** |
 
-消融比減一個標準差後仍有 34×，遠高於 2× 的判定門檻
-（用樣本標準差 9.0 則是 32.6×；本報告的 `±` 一律是母體標準差，見 §6.12）。
-對虛無假設「消融比 = 1」做檢定：t = 7.8（df = 2），p = 0.016，顯著。
+One standard deviation below the mean ablation ratio still leaves 34×, far above the 2× decision
+threshold (with the sample SD of 9.0 it is 32.6×; every `±` in this report is a population SD, see
+§6.12). Testing against the null hypothesis "ablation ratio = 1": t = 7.8 (df = 2), p = 0.016,
+significant.
 
-另外有兩個發現：
+Two further findings:
 
-1. **驗證分數與 held-out 表現相關，但不足以挑出榜首。**
-   （val ≈ 2070 → 40–46/100；val ≈ 2900 → 82–87/100）
-   選模型只用了驗證分數、沒有碰 held-out，這一點是乾淨的 —— 但它**挑錯了**：
-   驗證分數 2965 的種子 20260917 被選為主模型（82/100），
-   而驗證分數只有 2905 的種子 20260916 其實是 87/100。
+1. **The validation score correlates with held-out performance, but not well enough to pick the
+   winner.** (val ≈ 2070 → 40–46/100; val ≈ 2900 → 82–87/100.)
+   Model selection used only the validation score and never touched held-out, which is clean — but
+   it **picked wrong**: seed 20260917, with a validation score of 2965, was selected as the main
+   model (82/100), while seed 20260916, with a validation score of only 2905, is actually 87/100.
 
-   把驗證集從 16 條擴大到 64 或 128 條重新評分，這個倒置**依然存在**。
-   用 6 個現存冠軍（涵蓋 13/100 到 93/100）實測驗證分數對 held-out 的等級相關：
+   Re-scoring on an enlarged validation set of 64 or 128 courses **does not remove this inversion**.
+   Measured on 6 existing champions (spanning 13/100 to 93/100), the rank correlation between
+   validation score and held-out result is:
 
-   | 驗證集大小 | Spearman ρ | 榜首兩名順序 |
+   | Validation set size | Spearman ρ | Order of the top two |
    |---:|---:|---|
-   | 16（本專案採用） | 0.886 | 錯 |
-   | 64 | 0.943 | 仍錯 |
-   | 128 | 0.943 | 仍錯 |
+   | 16 (used in this project) | 0.886 | wrong |
+   | 64 | 0.943 | still wrong |
+   | 128 | 0.943 | still wrong |
 
-   擴大驗證集修正了中段排序、到 64 條就飽和，但**修不了榜首**。
-   所以「用驗證分數選模型」在這個專案裡是**無偏但不精確**的程序。
+   Enlarging the validation set fixes the mid-table ordering and saturates by 64 courses, but it
+   **cannot fix the top of the table**. So "select the model on its validation score" is, in this
+   project, an **unbiased but imprecise** procedure.
 
-   這張表由 `node scripts/validation-size.mjs` 重現。
-2. **訓練種子間的變異很大**（109.7s–167.9s）。任何「改進」都必須用多個種子驗證，
-   單跑一次分不出是真的改善還是運氣 —— 這一點在 §5.3 直接派上用場。
-   但三個種子**還是不夠**：這個變異大到讓三種子設計的偵測下限達到 70%（見 §6.9）。
+   This table is reproduced by `node scripts/validation-size.mjs`.
+2. **Variance between training seeds is large** (109.7s–167.9s). Any "improvement" must be validated
+   across several seeds; a single run cannot distinguish a real gain from luck — which matters
+   directly in §5.3. But three seeds are **still not enough**: the variance is large enough that a
+   three-seed design has a detection floor of 70% (see §6.9).
 
-### 5.3 兩項「看似合理」的改進，實測都沒有得到支持
+### 5.3 Two plausible-sounding improvements, neither supported by measurement
 
-從死因分析（`scripts/analyze-ceiling.mjs`）出發，我提了兩項修正，各有明確的量化理由。
-用**同一組訓練種子**做對照後，兩項都沒有得到支持，最終配置維持原樣。
-但要先講清楚一件事：**這個三種子設計的偵測下限是 70%**（見 §6.9），
-所以下面兩項對照能得到的最強結論是「沒有觀察到改善」，不是「證明更差」。
+Starting from the cause-of-death analysis (`scripts/analyze-ceiling.mjs`), I proposed two fixes, each
+with a clear quantitative rationale. Compared against **the same set of training seeds**, neither was
+supported, and the final configuration was left unchanged.
+But one thing has to be said first: **this three-seed design has a detection floor of 70%** (see
+§6.9), so the strongest conclusion these two comparisons can support is "no improvement observed" —
+not "shown to be worse".
 
-**修正 A：把訓練賽道從 180 秒拉到 600 秒（V2）**
+**Fix A: raise the training courses from 180s to 600s (V2)**
 
-理由：`speedScale` 在 t=300s 觸頂 2.00×，而 180 秒賽道最多只到 1.60× ——
-1.60×–2.00× 這整段從未出現在任何訓練樣本裡，而那正是分數累積最快的區間（29.5 分/秒）。
+Rationale: `speedScale` tops out at 2.00× at t=300s, while a 180-second course only reaches 1.60× —
+the whole 1.60×–2.00× band never appears in any training sample, and that is exactly where points
+accumulate fastest (29.5 points/second).
 
-| 訓練種子 | V1（180s） | V2（600s） | 變化 |
+| Training seed | V1 (180s) | V2 (600s) | Change |
 |---:|---:|---:|---:|
 | 20260915 | 46/100 | 28/100 | −18 |
 | 20260916 | 87/100 | 93/100 | +6 |
 | 20260917 | 82/100 | 13/100 | **−69** |
-| **平均** | **71.7 ± 18.3** | **44.7 ± 34.7** | 標準差幾乎翻倍 |
+| **Mean** | **71.7 ± 18.3** | **44.7 ± 34.7** | SD nearly doubled |
 
-結論：**不採用**。但這個結論的兩條腿強弱不同，必須分開講。
+Verdict: **not adopted**. But this verdict stands on two legs of very different strength, and they
+must be reported separately.
 
-**統計那條是弱的。** 三個種子的配對差值是 −18 / +6 / −69，平均 −27.0 場，
-配對 t = −1.22（df = 2），**p = 0.35，沒有達到顯著**。
-以前版本寫「三種子 replicate 證實這是有害的」是過度宣稱 ——
-n = 3 的偵測下限是 70%（見 §6.9），這個設計本來就看不見小於 50 場的差異。
+**The statistical leg is weak.** The paired differences across the three seeds are −18 / +6 / −69,
+mean −27.0 courses, paired t = −1.22 (df = 2), **p = 0.35, not significant**.
+An earlier version of this report said "three-seed replicates confirm this is harmful", which was an
+overclaim — with n = 3 the detection floor is 70% (see §6.9), and this design was never able to see a
+difference smaller than 50 courses.
 
-**機制那條是硬的。** 種子 20260917 的冠軍**停在第 39 代**，之後 361 代零更替。
-這不是估計量，是直接觀測到的病理。600 秒賽道的分數上限高得多（8000+ vs 2500），
-驗證分數的動態範圍跟著暴增，早期一個高分就把冠軍門檻永久鎖死。
-三種子標準差從 18.3 擴大到 34.7，與這個機制一致。
+**The mechanistic leg is solid.** Seed 20260917's champion **froze at generation 39**, with zero
+replacements over the following 361 generations. That is not an estimate; it is a directly observed
+pathology. A 600-second course has a much higher score ceiling (8000+ vs 2500), so the dynamic range
+of the validation score explodes and one early high score locks the champion threshold permanently.
+The three-seed SD widening from 18.3 to 34.7 is consistent with that mechanism.
 
-正確的說法是：**有明確且直接觀測到的失效機制，但沒有足夠的統計證據說它平均而言更差。**
+The correct statement is: **there is a clear, directly observed failure mechanism, but not enough
+statistical evidence to say it is worse on average.**
 
-**修正 B：把子彈通道的感知視野從 1.5 秒縮到 0.7 秒（V3）**
+**Fix B: shrink the bullet channel's sensing horizon from 1.5s to 0.7s (V3)**
 
-理由：平台期子彈速度 1020 px/s，1.5s 等於感知範圍 1530px，但畫面上子彈最遠只出現在
-1053px 處，導致 ch7 的值域永遠壓在 0.31–1.00，浪費三成解析度。而子彈是最大單一死因（46%）。
+Rationale: at the plateau, bullets travel 1020 px/s, so 1.5s is a 1530 px sensing range — but on
+screen bullets appear at most 1053 px away, confining ch7's value range to 0.31–1.00 and wasting 30%
+of its resolution. And bullets were the single largest cause of death (46%).
 
-| 訓練種子 | V1（h=1.5） | V3（h=0.7） | 變化 |
+| Training seed | V1 (h=1.5) | V3 (h=0.7) | Change |
 |---:|---:|---:|---:|
 | 20260915 | 46/100 | 34/100 | −12 |
 | 20260916 | 87/100 | 86/100 | −1 |
 | 20260917 | 82/100 | 49/100 | **−33** |
-| **平均** | **71.7 ± 18.3** | **56.3 ± 21.9** | **−15.3** |
+| **Mean** | **71.7 ± 18.3** | **56.3 ± 21.9** | **−15.3** |
 
-結論：**沒有改善的證據，不採用**。
+Verdict: **no evidence of improvement, not adopted**.
 
-三個種子的配對差值是 −12 / −1 / −33，平均 −15.3 場，
-配對 t = −1.63（df = 2），**p = 0.24，沒有達到顯著**。
-三個種子方向一致確實可疑，但 n = 3 不足以排除這只是 CEM 搜尋路徑分歧（見 §6.9）。
+The paired differences across the three seeds are −12 / −1 / −33, mean −15.3 courses, paired
+t = −1.63 (df = 2), **p = 0.24, not significant**.
+All three seeds pointing the same way is admittedly suspicious, but n = 3 cannot rule out that this
+is just divergence in the CEM search path (see §6.9).
 
-**另一個證據直接指向「這個 horizon 根本不重要」**：
-把主模型（在 1.5 下訓練）原封不動丟到 0.7 的環境評估，得到 **83/100・160.7s**，
-與原環境的 82/100・161.1s 幾乎完全一致。同一組權重、只換觀測 horizon，成績不動。
+**A separate piece of evidence points straight at "this horizon does not matter"**: evaluating the
+main model (trained at 1.5) unchanged in a 0.7 environment gives **83/100 · 160.7s**, essentially
+identical to 82/100 · 161.1s in its own environment. Same weights, only the observation horizon
+changed, and the score does not move.
 
-所以我一度寫的「1.5 秒提供的提前預警時間才是關鍵」**也是過度推論**。
-資料支持的只有一句：**這個參數在測得出的範圍內不重要**，
-V3 三個種子的退步主要來自 CEM 搜尋路徑分歧，不是 horizon 本身。
+So what I once wrote — "the extra warning time 1.5 seconds provides is the key" — **was also an
+overreach**. All the data supports is one sentence: **this parameter does not matter within the range
+we can measure**, and V3's three-seed regression comes mainly from CEM search-path divergence, not
+from the horizon itself.
 
-### 5.4 長場驗證：180 秒的上限低估了電路的貢獻
+### 5.4 Long-course validation: the 180s cap understates the circuit's contribution
 
-標準基準的 180 秒上限，是為了與原作可比。但中位存活已經頂到 180 秒，
-代表這個尺規**量不出上半部的差異**。拿掉上限改測 600 秒：
+The standard benchmark's 180-second cap exists for comparability with the original. But median
+survival is already pinned at 180 seconds, which means this ruler **cannot measure differences in its
+upper half**. Removing the cap and measuring to 600 seconds:
 
-| 對照組 | 撐過 300s（難度封頂） | 平均存活 | 中位存活 | 平均分 | 最高分 |
+| Control | Past 300s (difficulty capped) | Mean survival | Median survival | Mean score | Best score |
 |---|---:|---:|---:|---:|---:|
-| **連接體 + 訓練讀出** | **35/100** | **261.4s** | **285.6s** | **4500** | **9008** |
-| 電路靜默（消融） | 0/100 | 3.5s | 3.5s | 21 | 21 |
-| 未訓練讀出 | 0/100 | 3.5s | 3.5s | 21 | 21 |
-| 手寫規則 | 3/100 | 100.6s | 55.1s | 1725 | 8047 |
+| **Connectome + trained readout** | **35/100** | **261.4s** | **285.6s** | **4500** | **9008** |
+| Circuit silenced (ablation) | 0/100 | 3.5s | 3.5s | 21 | 21 |
+| Untrained readout | 0/100 | 3.5s | 3.5s | 21 | 21 |
+| Hand-written rules | 3/100 | 100.6s | 55.1s | 1725 | 8047 |
 
-**180 秒的上限把差距壓小了。** 拿同一批 600 秒資料，在不同上限人工截尾，
-用**同一個統計量**看鑑別力怎麼隨上限變化：
+**The 180-second cap compresses the gap.** Taking the same 600-second data and artificially censoring
+it at different caps, using **one single statistic** to see how discriminative power varies with the
+cap:
 
-| 截尾上限 | agent 平均 | 規則平均 | 平均存活比 | Cohen d | 逐場勝 | 平手 | 撞頂 agent/規則 |
+| Censoring cap | Agent mean | Rules mean | Mean survival ratio | Cohen d | Per-course wins | Ties | At cap, agent/rules |
 |---:|---:|---:|---:|---:|---:|---:|---:|
 | 180s | 161.1s | 82.4s | 1.955× | 1.32 | 69 | **24** | 82/25 |
 | 240s | 209.7s | 94.8s | 2.213× | 1.46 | 77 | 16 | 76/17 |
@@ -266,213 +299,242 @@ V3 三個種子的退步主要來自 CEM 搜尋路徑分歧，不是 horizon 本
 | **480s** | **261.4s** | **100.6s** | **2.599×** | **1.62** | **92** | **0** | **0/0** |
 | 600s | 261.4s | 100.6s | 2.599× | 1.62 | 92 | 0 | 0/0 |
 
-180 秒時有 **24 條賽道是雙方都撞頂的假平手**，逐場勝率只算得出 69/100；
-480 秒時完全沒有截尾，勝率 92/100，平均存活比 2.60×。
+At 180 seconds, **24 courses are false ties where both hit the cap**, and the per-course win count
+only reaches 69/100; at 480 seconds there is no censoring at all, the win count is 92/100 and the
+mean survival ratio is 2.60×.
 
-**鑑別力在 360–480 秒就飽和了** —— 再拉到 600 秒一點都沒增加。
-這反過來解釋了 §5.3 修正 A 為什麼過頭：多出來的 240 秒不提供任何鑑別力，
-卻把分數上限翻倍，而那正是冠軍被鎖死的來源。
+**Discriminative power saturates between 360 and 480 seconds** — extending to 600 adds nothing at
+all. That in turn explains why Fix A in §5.3 overshot: the extra 240 seconds contribute no
+discriminative power, but they double the score ceiling, and that is exactly what locks the champion.
 
-同一個上限也會放大消融比：180s 是 45.8×，480s 是 74.3×（消融組不論上限都只活 3.5s）。
-**兩個數字都要報** —— 只報 74.3× 等於用量尺灌水。
+The same cap also inflates the ablation ratio: 45.8× at 180s, 74.3× at 480s (the ablated group lives
+3.5s regardless of the cap). **Both numbers must be reported** — quoting only 74.3× is inflating the
+result by choice of ruler.
 
-這張表由 `node scripts/censoring.mjs` 重現。
+This table is reproduced by `node scripts/censoring.mjs`.
 
-> ⚠️ 這張表只出自種子 20260917 那一個冠軍，不是三種子平均。
+> ⚠️ This table comes from the single champion of seed 20260917, not a three-seed average.
 
-### 5.5 為什麼我的改進方向會錯：死因分布會隨模型強度改變
+### 5.5 Why my improvement direction was wrong: the death distribution shifts with model strength
 
-長場驗證順帶解開了 §5.3 那兩項修正為什麼會被提出來。同樣是死因統計，
-但用**不同強度的模型**去測，答案完全相反：
+The long-course validation also explains why the two fixes in §5.3 were proposed at all. Same
+cause-of-death statistic, but measured with **models of different strength**, it gives opposite
+answers:
 
-| 死因 | 弱模型（40/100，1200s 上限） | 強模型（82/100，600s） |
+| Cause of death | Weak model (40/100, 1200s cap) | Strong model (82/100, 600s) |
 |---|---:|---:|
-| 障礙物・cactus | 22% | **41%** |
-| 障礙物・palm | 7% | **30%** |
-| 障礙物・jet | 13% | 14% |
-| 障礙物・dragon | 12% | 9% |
-| **子彈** | **46%** | **6%** |
+| Obstacle · cactus | 22% | **41%** |
+| Obstacle · palm | 7% | **30%** |
+| Obstacle · jet | 13% | 14% |
+| Obstacle · dragon | 12% | 9% |
+| **Bullets** | **46%** | **6%** |
 
-**子彈從最大死因掉到最小死因。** 強模型早就學會閃子彈了，
-現在卡在最基本的地面障礙物（仙人掌 + 棕櫚共 71%）。
+**Bullets go from the largest cause of death to the smallest.** The strong model learned to dodge
+bullets long ago; it is now stuck on the most basic ground obstacles (cactus + palm together, 71%).
 
-我當初用 40/100 那個弱模型的死因分析，推導出「子彈是瓶頸 → 應該改子彈通道」，
-然後把這個結論套到訓練更強的模型上 —— **方向從一開始就指錯了**。
+I derived "bullets are the bottleneck → the bullet channel should change" from the death analysis of
+that 40/100 weak model, then applied that conclusion to a much stronger model — **the direction was
+wrong from the start**.
 
-這解釋的是**我為什麼會提出修正 B**，不是「修正 B 為什麼變差」。
-後者已由 §5.3 的跨環境評估回答：同一組權重換 horizon 成績不動（82→83），
-所以 V3 三個種子的退步來自 CEM 搜尋路徑分歧，不是 horizon 提供了更差的資訊。
+This explains **why I proposed Fix B**, not "why Fix B got worse". The latter was already answered by
+the cross-environment evaluation in §5.3: the same weights with a different horizon score the same
+(82→83), so V3's three-seed regression comes from CEM search-path divergence, not from the horizon
+supplying worse information.
 
-教訓：死因統計是對**特定模型**的診斷，不是對**方法**的診斷。
-要用它指導改進，就得用與目標水準相當的模型去測。
+Lesson: cause-of-death statistics diagnose a **specific model**, not a **method**. To use them to
+guide improvements, they must be measured on a model at the strength you are targeting.
 
-### 5.6 一個我自己犯的診斷錯誤
+### 5.6 A diagnostic mistake of my own
 
-看到 V2 種子 20260917 的冠軍停在第 39 代，我判斷是「早期僥倖的驗證高分把門檻鎖死」，
-於是加了「每代重新驗證現任冠軍」的機制，想讓僥倖分數被修正回真實水準。
+Seeing V2 seed 20260917's champion freeze at generation 39, I concluded "an early fluke validation
+high score locked the threshold", and added a mechanism to re-validate the incumbent champion every
+generation so that a fluke score would be corrected back to its true level.
 
-**這個修正完全無效** —— 因為本專案的驗證是確定性的：
-同一組權重、同一批驗證種子，跑三次都是 2965.3750，一模一樣，根本沒有雜訊可以被「修正」。
+**That fix was entirely ineffective** — because validation in this project is deterministic: the same
+weights on the same validation seeds give 2965.3750 three times running, identically. There is no
+noise to correct.
 
-真正的問題不是雜訊，是**驗證集過擬合**：第 39 代那組權重在那 16 條驗證賽道上確實最好，
-只是泛化很差（held-out 13/100）。方向應該是擴大驗證集，而不是重驗同一批賽道。
-這段程式碼已經移除。
+The real problem is not noise but **overfitting to the validation set**: the generation-39 weights
+genuinely were the best on those 16 validation courses, they just generalised badly (held-out
+13/100). The right direction is to enlarge the validation set, not re-run the same courses. That code
+has been removed.
 
-**這個方向後來實測過，結論是「有幫助但不夠」**（見 §5.2）：
-把 6 個現存冠軍用 16 / 64 / 128 條驗證賽道重新評分，等級相關從 ρ = 0.886 升到 0.943，
-到 64 條就飽和。這個第 39 代模型也確實被擴大後的驗證集抓得更準
-（val@16 = 1198 → val@128 = 1004，排名不變但被壓得更低）。
-但擴大驗證集**修不了榜首的倒置** —— 64 條與 128 條一樣把 82/100 的模型排在 87/100 之上。
-所以這是一個有方向、但不足以解決選模問題的修法，本報告並未採用。
+**That direction was later measured, and the conclusion is "it helps but not enough"** (see §5.2):
+re-scoring 6 existing champions on 16 / 64 / 128 validation courses raises the rank correlation from
+ρ = 0.886 to 0.943, saturating at 64. The generation-39 model is indeed caught more accurately by the
+enlarged set (val@16 = 1198 → val@128 = 1004; its rank is unchanged but it is pushed further down).
+But enlarging the validation set **cannot fix the inversion at the top** — 64 and 128 both rank the
+82/100 model above the 87/100 one. So it is a fix with the right direction that is still insufficient
+for the model-selection problem, and this report does not adopt it.
 
-記在這裡是因為「診斷聽起來合理」和「診斷正確」是兩回事，
-而我差點把一個無效的修正當成改進交出去。
+It is recorded here because "the diagnosis sounds reasonable" and "the diagnosis is correct" are two
+different things, and I nearly shipped an ineffective fix as an improvement.
 
-### 5.7 最終配置
+### 5.7 Final configuration
 
-三輪實驗後，**維持 V1 原配置**：
+After three rounds of experiments, **the original V1 configuration stands**:
 
-| 參數 | 值 | 依據 |
+| Parameter | Value | Basis |
 |---|---|---|
-| 子彈通道 horizon | 1.5s | V3 未觀察到改善；跨環境評估顯示此參數不敏感（82→83，見 §5.3） |
-| courseSeconds | 180 | V2 的 600 觀察到冠軍鎖死的失效機制（統計未顯著，見 §5.3、§6.9） |
-| 冠軍選擇 | 驗證分數嚴格進步才換（同原作） | 重驗機制被證明無效 |
-| trainingCourses | 12 | 分數變異係數 0.74，原作的 3 條標準誤達 42% |
-| validationSeeds | 16 | 同上。實測 64 條的等級相關較好（ρ 0.886→0.943）但仍挑錯榜首，未採用（見 §5.6） |
-| 主模型 | 種子 20260917 第 311 代 | 由**驗證分數**選出（未動用 held-out），82/100；但驗證分數挑錯了榜首，見 §5.2 |
+| Bullet channel horizon | 1.5s | no improvement observed in V3; the cross-environment evaluation shows this parameter is insensitive (82→83, see §5.3) |
+| courseSeconds | 180 | V2's 600 exhibited an observed champion-freeze failure mechanism (not statistically significant, see §5.3, §6.9) |
+| Champion selection | replace only on a strict validation improvement (as in the original) | the re-validation mechanism was shown to be ineffective |
+| trainingCourses | 12 | score CV is 0.74; the original's 3 courses give a standard error of 42% |
+| validationSeeds | 16 | same; 64 measured a better rank correlation (ρ 0.886→0.943) but still picks the wrong winner, so it was not adopted (see §5.6) |
+| Main model | seed 20260917, generation 311 | selected on the **validation score** (held-out was never touched), 82/100; but the validation score picked the wrong winner, see §5.2 |
 
-真正讓成績從 40/100 提升到 82/100 的，不是這兩項「改進」，而是**多跑了幾個訓練種子** ——
-種子間的變異（109.7s–167.9s）遠大於任何單一超參數的效果，大到超參數比較根本測不出來（§6.9）。
+What actually took the score from 40/100 to 82/100 was not either of these "improvements" — it was
+**running a few more training seeds**. Between-seed variance (109.7s–167.9s) is far larger than any
+single hyperparameter's effect, large enough that hyperparameter comparisons cannot measure it at all
+(§6.9).
 
-但要講精確一點：真正出力的是「跑多個種子」，不是「用驗證分數挑」。
-驗證分數只捕捉到其中一部分 —— 三個種子的最好成績是 87/100，驗證分數挑出來的是 82/100（§5.2）。
+To be precise, though: what did the work was "run several seeds", not "pick with the validation
+score". The validation score only captures part of it — the best of the three seeds is 87/100, and
+the one the validation score picked is 82/100 (§5.2).
 
-### 5.8 下一步的候選方向（未驗證的假設）
+### 5.8 Candidate directions for next time (unverified hypotheses)
 
-長場死因分析指出強模型卡在地面障礙物（仙人掌 41% + 棕櫚 30% = 71%）。
-進一步追查死亡當下的通道值，發現一個具體缺口：
+The long-course death analysis shows the strong model stuck on ground obstacles (cactus 41% + palm
+30% = 71%). Tracing the channel values at the moment of death reveals a concrete gap:
 
-| 死因類型 | 次數 | ch1（底端離地高）平均 | 實際底端高度 |
+| Cause of death | Count | Mean ch1 (bottom height above ground) | Actual bottom height |
 |---|---:|---:|---:|
 | cactus | 42 | **0.000** | 0px |
 | palm | 30 | **0.000** | 0px |
 | jet | 15 | 0.259 | 45–99px |
 | dragon | 7 | 0.207 | 46–89px |
 
-**死於地面障礙物時，ch1 恆為 0** —— 這個通道對它們完全沒有資訊量。
-仙人掌與棕櫚的高度範圍重疊（都約 40–100px），真正的差別在寬度
-（22px vs 40px，差近一倍，起跳時機需求不同），但 13 通道裡**沒有寬度**。
-當初做通道取捨時，「障礙物寬度」被換成了「次近障礙物撞擊倒數」。
+**When it dies to a ground obstacle, ch1 is always 0** — that channel carries no information about
+them at all. Cactus and palm overlap in height (both roughly 40–100px); the real difference is width
+(22px vs 40px, nearly double, requiring different jump timing), and **width is not among the 13
+channels**. When the channels were chosen, "obstacle width" was traded away for "second-nearest
+obstacle time-to-impact".
 
-候選修正：把 ch4（次近障礙物撞擊倒數）換成障礙物寬度。
+Candidate fix: replace ch4 (second-nearest obstacle time-to-impact) with obstacle width.
 
-**但這只是假設，尚未驗證。** 本報告已經有兩個「推論合理、實測打臉」的前例（§5.3），
-而且 §5.5 顯示死因分析會隨模型強度漂移。要下結論必須跑三種子對照，
-用與目標水準相當的模型，而不是憑推理。
+**But this is only a hypothesis, not yet verified.** This report already contains two cases where the
+reasoning was sound and the measurement disagreed (§5.3), and §5.5 shows that the death analysis
+drifts with model strength. Reaching a conclusion requires a three-seed comparison with a model at
+the target strength, not reasoning.
 
 ---
 
-## 6. 誠實的限制
+## 6. Honest limitations
 
-> 本節以編號列出，內文以 §6.1、§6.9 等方式引用各項。
+> This section is numbered; the text refers to items as §6.1, §6.9 and so on.
 
-1. **agent 比手寫規則好 1.77 ± 0.31 倍**，不是壓倒性勝利。
-   消融對照證明的是「電路有貢獻」，不是「這個 agent 已經是最強解」。
-   注意這個 1.77× 是 **180 秒截尾後**的保守值；同一個主模型在無截尾的 480 秒量尺上是
-   2.60×（見 §5.4）。兩個都是真的，差別在量尺，引用時必須連上限一起講。
-2. **訓練種子間變異大**（109.7s–167.9s）。單次訓練結果不可信，本報告所有對照都用三種子驗證 ——
-   但「用了三個種子」不等於「有檢定力」，三種子能偵測的最小差異高達 70%，見 §6.9。
-3. **13 個通道是這張 80 細胞圖的上限**。要更多獨立感官通道，必須回到 MaleCNS 原始資料重新選細胞。
-4. **正負號是假定的，不是量測的**。ACh → +1、GABA/glutamate → −1 是慣例，個別突觸的實際極性未經驗證。
-5. **手寫規則基線只調過一輪**，是對照而非上界。
-6. **單場最高分 9,008**（600 秒長場實測），距離 10,000 分很近，但 **0/100 破萬**。
-   35/100 的賽道能撐過 300 秒的難度封頂，比原本估計的 13/100 好，
-   但「平均分數破萬」需要幾乎每條賽道都活 ~590 秒，目前還做不到。
-   下一步該針對的是**地面障礙物**（仙人掌 41% + 棕櫚 30% = 71% 的死因），不是子彈。
-7. **兩項基於死因分析提出的改進都被實測推翻**（見 §5.3、§5.5）。
-   根因是我拿弱模型（40/100）的死因分布去指導強模型的改進，
-   而死因分布會隨模型強度大幅漂移（子彈 46% → 6%）。
-8. **V3 曾因單一種子卡住而中止，後續已補跑完成**，三種子數據齊全。
-   查證確認配置一致、數據有效（`training.js` 在 V3 啟動前 35 分鐘就定版，未被中途修改），
-   中止時的判斷依據「數據已作廢」其實不成立 —— 真正該中止的理由是投入產出不成比例。
+1. **The agent is 1.77 ± 0.31× better than the hand-written rules**, not an overwhelming win.
+   The ablation control shows "the circuit contributes", not "this agent is the strongest solution".
+   Note that 1.77× is the conservative value **after 180-second censoring**; the same main model on
+   an uncensored 480-second ruler is 2.60× (see §5.4). Both are real — the difference is the ruler,
+   and the cap must be quoted alongside either number.
+2. **Between-seed variance is large** (109.7s–167.9s). A single training run is not trustworthy, and
+   every comparison in this report uses three seeds — but "used three seeds" is not the same as "has
+   statistical power": the smallest difference three seeds can detect is 70%, see §6.9.
+3. **13 channels is the ceiling for this 80-cell graph.** More independent sensory channels would
+   require going back to the raw MaleCNS data and reselecting cells.
+4. **The signs are assumed, not measured.** ACh → +1 and GABA/glutamate → −1 is a convention; the
+   actual polarity of individual synapses has not been verified.
+5. **The hand-written rule baseline was tuned for one round only** — it is a control, not an upper
+   bound.
+6. **The best single-course score is 9,008** (measured on 600-second courses), close to 10,000, but
+   **0/100 break 10,000**. 35/100 courses survive past the 300-second difficulty cap, better than the
+   13/100 originally estimated, but a mean score above 10,000 would need almost every course to
+   survive ~590 seconds, which is out of reach today. The next target should be **ground obstacles**
+   (cactus 41% + palm 30% = 71% of deaths), not bullets.
+7. **Both improvements derived from the death analysis were refuted by measurement** (see §5.3,
+   §5.5). The root cause is that I used a weak model's (40/100) death distribution to guide
+   improvements to a strong model, and that distribution drifts heavily with model strength (bullets
+   46% → 6%).
+8. **V3 was once aborted because a single seed stalled, and has since been completed**; all three
+   seeds' data exist. Checking confirmed the configuration was consistent and the data valid
+   (`training.js` was finalised 35 minutes before V3 started and was not modified mid-run), so the
+   reasoning at the time — "the data is void" — did not actually hold. The real reason to abort would
+   have been that the return did not justify the compute.
 
-9. **三個訓練種子的偵測下限是 70%，本報告所有超參數比較都是欠檢定力的。**
+9. **Three training seeds give a detection floor of 70%; every hyperparameter comparison in this
+   report is underpowered.**
 
-   用 V1 與 V3 實測的配對差異標準差（跑完場數 16.3 場、平均存活 23.6s）反推最小可偵測差異
-   （配對檢定，α = .05 雙尾，power 80%）：
+   Using the measured paired-difference SDs from V1 vs V3 (16.3 courses completed, 23.6s mean
+   survival) to back out the minimum detectable difference (paired test, α = .05 two-tailed,
+   power 80%):
 
-   | 訓練種子數 | 跑完場數 MDE（基準 71.7 場） | 平均存活 MDE（基準 146.2s） |
+   | Training seeds | MDE, courses completed (baseline 71.7) | MDE, mean survival (baseline 146.2s) |
    |---:|---:|---:|
-   | **3（本報告）** | **50 場（70%）** | **73s（50%）** |
-   | 5 | 27 場（38%） | 39s（27%） |
-   | 8 | 19 場（26%） | 27s（19%） |
-   | 12 | 14 場（20%） | 21s（14%） |
+   | **3 (this report)** | **50 courses (70%)** | **73s (50%)** |
+   | 5 | 27 courses (38%) | 39s (27%) |
+   | 8 | 19 courses (26%) | 27s (19%) |
+   | 12 | 14 courses (20%) | 21s (14%) |
 
-   意思是：**效應要大到 70% 才看得見。** §5.3 兩項對照（p = 0.35、p = 0.24）都落在這個
-   下限之內，它們能支持的只有「沒有觀察到改善」，**不能支持「證明更差」**。
-   修正 A 之所以仍然判定不採用，靠的是直接觀測到的失效機制（冠軍停在第 39 代），
-   不是那三個數字。
+   Which is to say: **an effect has to be 70% before it becomes visible.** Both comparisons in §5.3
+   (p = 0.35, p = 0.24) fall inside that floor; all they can support is "no improvement observed",
+   and they **cannot support "shown to be worse"**. Fix A is still rejected on the strength of a
+   directly observed failure mechanism (the champion freezing at generation 39), not on those three
+   numbers.
 
-   **核心主張不受此限制影響。** 消融比 31.2 / 47.7 / 45.8 對虛無假設 1.0，
-   t = 7.8（df = 2），p = 0.016，顯著。被檢定力卡住的只有「不同 config 之間的比較」，
-   不是「固定的解剖結構有沒有貢獻」。
+   **The core claim is unaffected by this limitation.** Ablation ratios 31.2 / 47.7 / 45.8 against
+   the null hypothesis of 1.0 give t = 7.8 (df = 2), p = 0.016, significant. What statistical power
+   blocks is only "comparisons between configurations", not "whether the fixed anatomical structure
+   contributes".
 
-   以上全部由 `node scripts/power.mjs` 重現。
+   All of the above is reproduced by `node scripts/power.mjs`.
 
-10. **§5.2 引用的三個 V1 冠軍，磁碟上只剩一個。**
-    `scripts/replicates.mjs` 固定寫入 `models/replicates/<seed>/`，V2 與 V3 實驗
-    連續覆寫了同一個目錄。該目錄目前實際存的是：20260915 與 20260916 → **V3** 的結果，
-    20260917 → **V2** 的結果（可由冠軍代數對照出來：replicates.json 記 340/337/311，
-    磁碟上是 371/361/39）。
+10. **Of the three V1 champions cited in §5.2, only one still exists on disk.**
+    `scripts/replicates.mjs` always writes to `models/replicates/<seed>/`, and the V2 and V3
+    experiments overwrote the same directory in turn. What that directory actually holds now is:
+    20260915 and 20260916 → the **V3** results, 20260917 → the **V2** result (identifiable from the
+    champion generations: replicates.json records 340/337/311, while the disk has 371/361/39).
 
-    種子 20260915 與 20260916 的 V1 冠軍權重**已經不存在**，§5.2 的 71.7 ± 18.3
-    只剩 `models/replicates.json` 的摘要，無法從產出物重算。
-    僅存的 V1 冠軍是 `models/model.json`（種子 20260917）。
+    The V1 champion weights for seeds 20260915 and 20260916 **no longer exist**; all that remains of
+    §5.2's 71.7 ± 18.3 is the summary in `models/replicates.json`, which cannot be recomputed from
+    artefacts. The only surviving V1 champion is `models/model.json` (seed 20260917).
 
-11. **模型檔案沒有記錄觀測函式版本。** `model.json` 只記 `channelVersion`，
-    而 `BULLET_HORIZON` 在 `src/lib/policy.js` 裡、不在 `channels.json` 裡 ——
-    V1 與 V3 的 `channelVersion` 字串完全相同。
-    拿現在的程式碼去評估 `models/exp-v3/` 的權重，觀測函式已經不是訓練時那一個，
-    結果沒有意義，而且**不會報錯**。
+11. **The model files do not record the observation-function version.** `model.json` records only
+    `channelVersion`, while `BULLET_HORIZON` lives in `src/lib/policy.js`, not in `channels.json` —
+    so V1 and V3 have byte-identical `channelVersion` strings. Evaluating the weights in
+    `models/exp-v3/` with today's code uses an observation function that is no longer the one they
+    were trained with; the result is meaningless, and **nothing raises an error**.
 
-12. **本報告所有 `±` 是母體標準差（除以 n），不是樣本標準差。**
-    這是 `scripts/replicates.mjs` 的算法。n = 3 時樣本標準差要再乘 1.22 倍 ——
-    例如 71.7 ± 18.3 換成樣本標準差是 71.7 ± 22.4。這些 `±` 低估了不確定性。
+12. **Every `±` in this report is a population SD (divided by n), not a sample SD.** That is what
+    `scripts/replicates.mjs` computes. At n = 3 the sample SD is 1.22× larger — for example
+    71.7 ± 18.3 becomes 71.7 ± 22.4 as a sample SD. These `±` values understate the uncertainty.
 
 ---
 
-## 7. 重現方式
+## 7. Reproduction
 
 ```bash
-node scripts/verify-determinism.mjs                      # 模擬器可重現性
-node scripts/verify-policy.mjs                           # 電路、讀出、特徵值域
-node scripts/remap-channels.mjs                          # 13 通道輸入廣播表
-node scripts/train.mjs 20260917 400                      # CEM 訓練
-node scripts/benchmark.mjs                               # 100 條 held-out（180 秒）
-node scripts/benchmark-long.mjs 600                      # 長場基準
-node scripts/replicates.mjs 400 20260915 20260916 20260917  # 三種子 replicate
-node scripts/analyze-ceiling.mjs 1200 100                # 分數上限與死因分析
-node scripts/validation-size.mjs                         # §5.2 驗證集大小 vs 選模準確度
-node scripts/censoring.mjs                               # §5.4 截尾上限 vs 鑑別力
-node scripts/power.mjs                                   # §6.9 配對檢定與最小可偵測差異
+node scripts/verify-determinism.mjs                      # simulator reproducibility
+node scripts/verify-policy.mjs                           # circuit, readout, feature ranges
+node scripts/remap-channels.mjs                          # the 13-channel input broadcast table
+node scripts/train.mjs 20260917 400                      # CEM training
+node scripts/benchmark.mjs                               # 100 held-out courses (180s)
+node scripts/benchmark-long.mjs 600                      # long-course benchmark
+node scripts/replicates.mjs 400 20260915 20260916 20260917  # three-seed replicate
+node scripts/analyze-ceiling.mjs 1200 100                # score ceiling and cause-of-death analysis
+node scripts/validation-size.mjs                         # §5.2 validation size vs selection accuracy
+node scripts/censoring.mjs                               # §5.4 censoring cap vs discriminative power
+node scripts/power.mjs                                   # §6.9 paired tests and minimum detectable difference
 ```
 
-> ⚠️ `scripts/replicates.mjs` 會寫入 `models/replicates/<seed>/` 並**直接覆寫既有內容**，
-> 輸出目錄沒有實驗名稱。§6.10 的資料遺失就是這樣發生的 ——
-> 要跑新實驗請先改輸出路徑，否則會毀掉前一輪的冠軍權重。
+> ⚠️ `scripts/replicates.mjs` writes to `models/replicates/<seed>/` and **overwrites whatever is
+> already there**; the output directory carries no experiment name. That is exactly how the data loss
+> in §6.10 happened — change the output path before running a new experiment, or you will destroy the
+> previous round's champion weights.
 >
-> 另外 `scripts/train.mjs` 直接讀 `src/lib/training.js` 的 `TRAINING`，沒有命令列覆寫，
-> 所以每個實驗變體都是靠改原始檔跑出來的 —— 這是 §6.11 那個版本追蹤缺口的來源。
+> Also, `scripts/train.mjs` reads `TRAINING` from `src/lib/training.js` directly, with no command-line
+> override, so every experiment variant was produced by editing the source file — which is the origin
+> of the version-tracking gap in §6.11.
 
 ---
 
-## 授權
+## Licensing
 
-- 方法與程式架構改編自 [cobanov/flyjump](https://github.com/cobanov/flyjump)，
-  依 Cobanov Template Attribution License 1.0 使用
-- 連接體與胞體圖譜：MaleCNS v1.0，CC BY 4.0
-- 果蠅身體模型：[TuragaLab/flybody](https://github.com/TuragaLab/flybody)，Apache 2.0
-- 完整出處見 `THIRD_PARTY_NOTICES.md`
+- Method and code architecture adapted from [cobanov/flyjump](https://github.com/cobanov/flyjump),
+  used under the Cobanov Template Attribution License 1.0
+- Connectome and soma atlas: MaleCNS v1.0, CC BY 4.0
+- Fruit-fly body model: [TuragaLab/flybody](https://github.com/TuragaLab/flybody), Apache 2.0
+- Full provenance in `THIRD_PARTY_NOTICES.md`
 
 > Built with [fly-connectome-template](https://github.com/cobanov/fly-connectome-template)
 > by [Mert Cobanov](https://github.com/cobanov).

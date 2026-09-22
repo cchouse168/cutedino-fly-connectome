@@ -37,7 +37,7 @@ same as doing nothing.
 Two caveats: **82/100 is one deployed model, not the method's average** (other training seeds give
 46–87), and **this does not show that the fly's wiring beats random wiring** — that would need a
 shuffled-connectome control retrained from scratch, which this project did not run.
-Full data, power analysis and limitations are in [`docs/report.md`](docs/report.md) (Chinese).
+Full data, power analysis and limitations are in [`docs/report.md`](docs/report.md).
 
 ## Running it
 
@@ -57,8 +57,8 @@ else still works. The interface ships in both English and 繁體中文 — toggl
 
 | | |
 |---|---|
-| [`docs/report.md`](docs/report.md) | Full results, method trade-offs and known limitations (Chinese) |
-| [`docs/experiment.md`](docs/experiment.md) | Reproduction: protocol, equations, channel table, benchmark method (Chinese) |
+| [`docs/report.md`](docs/report.md) | Full results, method trade-offs and known limitations |
+| [`docs/experiment.md`](docs/experiment.md) | Reproduction: protocol, equations, channel table, benchmark method |
 | [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) | Complete third-party provenance and licensing |
 
 ## Licensing

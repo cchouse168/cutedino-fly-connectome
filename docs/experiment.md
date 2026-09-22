@@ -1,241 +1,256 @@
-# 實驗協定
+# Experimental protocol
 
-本文件記錄完整的方法、方程式、通道指派與基準程序，格式比照
-[`flyjump/docs/experiment.md`](https://github.com/cobanov/flyjump/blob/main/docs/experiment.md)。
-
----
-
-## 1. 主張
-
-若把一段**實際量測到的**果蠅神經電路固定住（權重完全不訓練），只在它後面接一個
-很小的線性讀出層並演化那些參數，這樣的組合能否勝過「沒有那段電路」的對照？
-
-檢驗方式是消融：把電路活性強制歸零（`ablated=true`），其餘一切不變。
-若表現不掉，代表讀出網路根本沒用到電路，實驗失敗。
+This document records the full method, equations, channel assignment and benchmark procedure,
+in the same shape as
+[`flyjump/docs/experiment.md`](https://github.com/cobanov/flyjump/blob/main/docs/experiment.md).
 
 ---
 
-## 2. 環境：cute-dino 確定性模擬器
+## 1. The claim
 
-原始遊戲 [cchouse168/cute-dino](https://github.com/cchouse168/cute-dino) 是單一 `index.html`。
-遊戲邏輯自其 `update(dt)`（第 324–436 行）、`spawnObstacle`/`spawnPowerup`（259–293）、
-狀態定義（156–175）抽出至 `src/engine/game.js`，並施加四項改造：
+If a **physically measured** fly neural circuit is held fixed (its weights are never trained) and
+only a very small linear readout layer behind it is evolved, can that combination beat a control
+that has no such circuit?
 
-| 改造 | 原況 | 改後 |
+The test is ablation: force the circuit's activity to zero (`ablated=true`) and change nothing else.
+If performance does not drop, the readout was never using the circuit and the experiment has failed.
+
+---
+
+## 2. Environment: a deterministic cute-dino simulator
+
+The original game [cchouse168/cute-dino](https://github.com/cchouse168/cute-dino) is a single
+`index.html`. Its game logic was extracted into `src/engine/game.js` from `update(dt)`
+(lines 324–436), `spawnObstacle`/`spawnPowerup` (259–293) and the state definitions (156–175),
+with four modifications:
+
+| Modification | Original | After |
 |---|---|---|
-| 亂數 | 26 處 `Math.random()` | 種子化 LCG `s = (s·1664525 + 1013904223) mod 2³²` |
-| 時間步 | `clamp(rAF 差值, 0.0005, 0.032)` | 固定 `1/60`，其他值直接 throw |
-| 幾何 | `W()`/`H()` 讀 `canvas.clientWidth` | 常數 `1280×576`，`GROUND_Y=496`、`LEFT_X=256`、`MAX_X=768` |
-| 副作用 | `update()` 內寫 DOM、呼叫 `sfx.*` | 移除；headless 下另跳過粒子/浮動分數/雲 |
+| Randomness | 26 `Math.random()` call sites | Seeded LCG `s = (s·1664525 + 1013904223) mod 2³²` |
+| Time step | `clamp(rAF delta, 0.0005, 0.032)` | Fixed `1/60`; any other value throws |
+| Geometry | `W()`/`H()` read `canvas.clientWidth` | Constants `1280×576`, `GROUND_Y=496`, `LEFT_X=256`, `MAX_X=768` |
+| Side effects | `update()` writes the DOM and calls `sfx.*` | Removed; headless also skips particles / floating scores / clouds |
 
-### 亂數流的順序敏感性
+### The random stream is order-sensitive
 
-同一 seed 要能重現，**取數順序必須固定**。已知的順序陷阱：
+For a seed to reproduce, **the order in which numbers are drawn must be fixed**. Known order traps:
 
-1. `spawnObstacle()` 先抽，`gapPx` 後抽（原版即如此，不可調換）
-2. `powerTimer` 先重設，`spawnPowerup()` 後呼叫
-3. `spawnPowerup()` 中的火焰道具判定 `score >= 5000 && random() < 0.25` 是**短路求值** ——
-   分數未達 5000 時不會抽這個亂數
-4. jet 遇到冷卻時的 `random() < 0.5 ? cactus : palm` 會多抽一次
+1. `spawnObstacle()` draws first, `gapPx` second (as in the original — they cannot be swapped)
+2. `powerTimer` is reset first, `spawnPowerup()` is called second
+3. The flame-pickup test `score >= 5000 && random() < 0.25` inside `spawnPowerup()` **short-circuits** —
+   below 5000 points that random number is never drawn
+4. When jet is on cooldown, `random() < 0.5 ? cactus : palm` draws one extra number
 
-### 裝飾性亂數必須隔離
+### Decorative randomness must stay isolated
 
-火花、雲、火焰音效計時使用 `Math.random()`，**絕不動用種子化的 `state.random()`**。
-否則 visual 模式（會產生粒子）與 headless 模式（不產生）的亂數流會分歧，
-訓練出來的權重在畫面上就不是同一回事。`scripts/verify-determinism.mjs` 的第 [4] 項專門測這個。
+Sparks, clouds and flame sound-effect timers use `Math.random()` and **must never touch the seeded
+`state.random()`**. Otherwise the random stream diverges between visual mode (which spawns particles)
+and headless mode (which does not), and the trained weights no longer describe what is on screen.
+Check `[4]` in `scripts/verify-determinism.mjs` exists specifically for this.
 
-### 驗收
+### Acceptance
 
 ```bash
 node scripts/verify-determinism.mjs
 ```
 
-同 seed 跑 10,800 步（180 秒）逐步比對物理量快照，必須位元級相同。
-實測單步成本約 **1.3 µs**。
+The same seed runs 10,800 steps (180 seconds) with a step-by-step comparison of physics snapshots;
+they must be bit-identical. Measured cost per step is about **1.3 µs**.
 
 ---
 
-## 3. 電路
+## 3. The circuit
 
-`data/connectome.json` 直接取自 flyjump，未經修改：
+`data/connectome.json` is taken directly from flyjump, unmodified:
 
-| 項目 | 數量 |
+| Item | Count |
 |---|---:|
-| 節點 | 80（輸入 32 / 中繼 32 / 輸出 16） |
-| 有向邊 | 1,296 |
-| 突觸接觸總數 | 26,029 |
-| 神經傳導物質 | acetylcholine 61、GABA 13、glutamate 5、unclear 1 |
-| 假定正負號 | +1 共 61、−1 共 18、0 共 1 |
+| Nodes | 80 (32 input / 32 interneuron / 16 output) |
+| Directed edges | 1,296 |
+| Total synaptic contacts | 26,029 |
+| Neurotransmitters | acetylcholine 61, GABA 13, glutamate 5, unclear 1 |
+| Assumed signs | +1 for 61, −1 for 18, 0 for 1 |
 
-### 權重正規化
+### Weight normalisation
 
 ```
 W[j,i] = c[j,i]·s[j] / Σ_k ( c[k,i]·|s[k]| )
 ```
 
-`c` 為實測接觸數，`s` 為依傳導物質假定的正負號（ACh +1；GABA / glutamate −1）。
-結果是每個 post 節點的入邊 `Σ|W| = 1`（80 個節點中有 79 個有入邊）。
+`c` is the measured contact count and `s` the sign assumed from the neurotransmitter
+(ACh +1; GABA / glutamate −1). The result is `Σ|W| = 1` over the incoming edges of each
+post-synaptic node (79 of the 80 nodes have incoming edges).
 
-### 動態
+### Dynamics
 
 ```
-u[i]     = 2·(feature[channel(i)] − 0.5)        外部驅動，僅輸入細胞非零
+u[i]     = 2·(feature[channel(i)] − 0.5)        external drive; non-zero only for input cells
 h_new[i] = 0.3·h[i] + 0.7·tanh( u[i] + 1.4·Σ_j W[j,i]·h[j] )
 ```
 
-常數 `{ iterations: 3, leak: 0.7, gain: 1.4, outputGain: 4 }` 與原作完全相同。
-每次決策前同步迭代 3 輪，讓活性有機會從輸入細胞經中繼神經元擴散到下行神經元。
-3 這個數字沒有生物學意義，是工程上選定的超參數。
+The constants `{ iterations: 3, leak: 0.7, gain: 1.4, outputGain: 4 }` are exactly the original's.
+Three synchronous iterations run before every decision, giving activity a chance to spread from the
+input cells through the interneurons to the descending neurons. The number 3 has no biological
+meaning — it is an engineering hyperparameter.
 
-**這是無量綱的 signed leaky tanh 活性，不是膜電位，也不是實測發放率。**
+**This is a dimensionless signed leaky-tanh activity. It is not a membrane potential and not a
+measured firing rate.**
 
 ---
 
-## 4. 感官通道：13 個
+## 4. Sensory channels: 13 of them
 
-### 為什麼不是 16
+### Why not 16
 
-原始計畫是把每個 LC 型態的 4 顆細胞拆成 2 組，得到 8×2 = 16 個通道。
-但通道要有意義，前提是**兩組細胞的下游投射確實不同**，否則電路分不出來。
+The original plan was to split each LC type's 4 cells into 2 groups, giving 8×2 = 16 channels.
+But a channel is only meaningful if **the two groups really do project differently downstream** —
+otherwise the circuit cannot tell them apart.
 
-量測方法（`scripts/remap-channels.mjs`）：對每個型態窮舉 3 種 2-2 分組，
-計算兩組出邊向量和的餘弦相似度，取最低者。
+Measurement (`scripts/remap-channels.mjs`): for each type, enumerate all three 2-2 groupings,
+compute the cosine similarity between the two groups' summed out-edge vectors, and take the lowest.
 
-| 型態 | 最佳跨組相似度 | 判定 | 通道數 |
+| Type | Best cross-group similarity | Verdict | Channels |
 |---|---:|---|---:|
-| LC9 | 0.000 | 可拆 | 2 |
-| LC16 | 0.000 | 可拆 | 2 |
-| LC21 | 0.000 | 可拆 | 2 |
-| LPLC2 | 0.004 | 可拆 | 2 |
-| LC15 | 0.534 | 勉強可拆 | 2 |
-| LC4 | 0.940 | 不可拆 | 1（保留 4 細胞） |
-| LC11 | 0.944 | 不可拆 | 1（保留 4 細胞） |
-| LC17 | 0.988 | 不可拆 | 1（保留 4 細胞） |
+| LC9 | 0.000 | splittable | 2 |
+| LC16 | 0.000 | splittable | 2 |
+| LC21 | 0.000 | splittable | 2 |
+| LPLC2 | 0.004 | splittable | 2 |
+| LC15 | 0.534 | marginally splittable | 2 |
+| LC4 | 0.940 | not splittable | 1 (keeps 4 cells) |
+| LC11 | 0.944 | not splittable | 1 (keeps 4 cells) |
+| LC17 | 0.988 | not splittable | 1 (keeps 4 cells) |
 
-判定門檻 `SPLIT_THRESHOLD = 0.2`。跨型態的平均相似度僅 0.057，對照之下
-LC17 型內的 0.988 意味著那四顆細胞幾乎是同一條線路的複本。
+The decision threshold is `SPLIT_THRESHOLD = 0.2`. Mean similarity *across* types is only 0.057, so
+LC17's within-type 0.988 means those four cells are near-duplicates of one another.
 
-三個不可拆的型態改配給最關鍵的特徵：它們細胞數多（4 顆）、出邊數也最高
-（LC4 每顆 25–28 條），對下游影響最強。
+The three unsplittable types were assigned the most critical features: they have the most cells (4)
+and the highest out-degree (LC4: 25–28 edges each), so they influence downstream the most.
 
-### 通道表
+### Channel table
 
-`u = 2·(feature − 0.5)`，同通道的所有細胞收到相同驅動值（廣播式，無學習出來的投影矩陣）。
+`u = 2·(feature − 0.5)`. Every cell on a channel receives the same drive value — a broadcast, with no
+learned projection matrix.
 
-| # | 特徵 | 正規化 | 目標細胞 |
+| # | Feature | Normalisation | Target cells |
 |---:|---|---|---|
-| 0 | 障礙物撞擊倒數 | `1 − clamp(gap / worldV / 1.5, 0, 1)` | LC4 ×4 |
-| 1 | 障礙物底端離地高 | `clamp((G − (o.y+o.h)) / 300, 0, 1)` | LC11 ×4 |
-| 2 | 玩家離地高度 | `clamp((G − (d.y+d.h)) / 240, 0, 1)` | LC17 ×4 |
-| 3 | 障礙物頂端離地高 | `clamp((G − o.y) / 300, 0, 1)` | LC9·a |
-| 4 | 次近障礙物撞擊倒數 | 同 #0，取第二近者 | LC9·b |
-| 5 | 玩家垂直速度 | `clamp(vy / 900 / 2 + 0.5, 0, 1)` | LC16·a |
-| 6 | 是否踩地 | `onGround ? 1 : 0` | LC16·b |
-| 7 | 子彈撞擊倒數 | `1 − clamp(gap / v_bullet / 1.5, 0, 1)` | LC21·a |
-| 8 | 子彈相對高度差 | `clamp(dy / 300 / 2 + 0.5, 0, 1)` | LC21·b |
-| 9 | 道具接近倒數 | 同 #0，接近速度 `worldV·0.9` | LPLC2·a |
-| 10 | 道具相對高度差 | 同 #8 | LPLC2·b |
-| 11 | 玩家水平位置 | `(d.x − 256) / (768 − 256)` | LC15·a |
-| 12 | 護盾狀態 | `max(無敵剩餘/6, littles>0 ? 0.5 : 0)` | LC15·b |
+| 0 | Obstacle time-to-impact | `1 − clamp(gap / worldV / 1.5, 0, 1)` | LC4 ×4 |
+| 1 | Obstacle bottom height above ground | `clamp((G − (o.y+o.h)) / 300, 0, 1)` | LC11 ×4 |
+| 2 | Player height above ground | `clamp((G − (d.y+d.h)) / 240, 0, 1)` | LC17 ×4 |
+| 3 | Obstacle top height above ground | `clamp((G − o.y) / 300, 0, 1)` | LC9·a |
+| 4 | Second-nearest obstacle time-to-impact | as #0, for the second-nearest | LC9·b |
+| 5 | Player vertical velocity | `clamp(vy / 900 / 2 + 0.5, 0, 1)` | LC16·a |
+| 6 | On the ground | `onGround ? 1 : 0` | LC16·b |
+| 7 | Bullet time-to-impact | `1 − clamp(gap / v_bullet / 1.5, 0, 1)` | LC21·a |
+| 8 | Bullet relative height | `clamp(dy / 300 / 2 + 0.5, 0, 1)` | LC21·b |
+| 9 | Pickup time-to-reach | as #0, closing speed `worldV·0.9` | LPLC2·a |
+| 10 | Pickup relative height | as #8 | LPLC2·b |
+| 11 | Player horizontal position | `(d.x − 256) / (768 − 256)` | LC15·a |
+| 12 | Shield state | `max(invulnerability remaining/6, littles>0 ? 0.5 : 0)` | LC15·b |
 
-`gap` 皆以 dino 碰撞箱右緣（`d.x + d.w·0.45`）起算，`G = 496`。
+Every `gap` is measured from the right edge of the dino's hitbox (`d.x + d.w·0.45`), and `G = 496`.
 
-**用「撞擊倒數」而非「距離」是刻意的**：距離除以接近速度後，速度資訊自動內建，
-agent 不必再學「速度越快要越早跳」，也省下一個通道。
+**Using time-to-impact rather than distance is deliberate**: dividing distance by closing speed folds
+the speed information in automatically, so the agent never has to learn "jump earlier when it is
+faster" — and it saves a channel.
 
-這些都是工程化的遊戲狀態讀取，**不宣稱有任何生物學解釋**。
-
----
-
-## 5. 讀出網路
-
-```
-16（下行神經元活性 × outputGain 4）
-  → 12（tanh）
-  → 5（線性）→ argmax
-```
-
-參數量 `16·12 + 12 + 12·5 + 5 = 269`。決策頻率 30 Hz（60 Hz 模擬下每 2 步一次）。
-
-動作 `{RUN, JUMP, DUCK, LEFT, RIGHT}`。`JUMP` 為**持續按住**語意：
-連續選中即持續設定 `holdingJump`，自然形成 cute-dino 的長按更高跳
-（`jumpHoldMax = 0.18s`，按住期間額外 −1200 px/s² 的上升助力）。
-機關槍與火焰為拾取後自動觸發，不佔動作。
-
-`DUCK` 複製原版的 keydown 邊緣語意：僅在「由未按變成按下」且當下踩地時才蹲；
-空中按下不會在落地後自動生效。
+These are all engineered reads of game state. **No biological interpretation is claimed.**
 
 ---
 
-## 6. 訓練：交叉熵方法
+## 5. Readout network
 
 ```
-population      64
-elites           8
-generations    400   （原作 80）
-courseSeconds  180
-trainingCourses 12      （原作 3）
-validationSeeds 16      （原作 4）
-mean/sigma 更新  0.3·舊 + 0.7·菁英統計量
-sigma 下限      0.07
-initialSigma    0.8
+16 (descending-neuron activity × outputGain 4)
+  → 12 (tanh)
+  → 5 (linear) → argmax
 ```
 
-每代所有候選跑**同一組**新賽道；候選 0 保留上一代冠軍（菁英保留）。
-適應度 = 各賽道 cute-dino 分數的平均。
-僅在驗證分數**嚴格進步**時才替換冠軍。
+Parameter count: `16·12 + 12 + 12·5 + 5 = 269`. Decisions run at 30 Hz (every 2 steps of the 60 Hz
+simulation).
 
-### 為何調高賽道數
+The actions are `{RUN, JUMP, DUCK, LEFT, RIGHT}`. `JUMP` has **hold** semantics: selecting it on
+consecutive decisions keeps `holdingJump` set, which naturally produces cute-dino's higher held jump
+(`jumpHoldMax = 0.18s`, an extra −1200 px/s² of lift while held).
+The machine gun and flames fire automatically once picked up and do not occupy an action.
 
-實測冠軍權重在 40 條賽道上的分數變異係數達 **0.74**
-（平均 1603、標準差 1180）。以原作的 3 條賽道估計，標準誤是平均值的 42% ——
-CEM 會挑到運氣好的候選而非真正強的。4 個驗證種子同樣太吵：
-第一輪跑出的僥倖高分會把冠軍門檻永久鎖死（實測 80 代中有 46 代驗證分數完全沒動）。
-
-Chrome Dino 沒有道具、HP、正弦擺動障礙這些隨機來源，變異小得多，所以原作 3 條夠用。
-原作參數保留在 `src/lib/training.js` 的 `FLYJUMP_TRAINING`。
-
-調高後，驗證曲線變成單調上升（51 → 366 → 576 → 854 → 1205 → 1418 → 1758 → 2082），
-代表冠軍挑選終於反映真實能力而非運氣。至第 400 代仍未見平台期。
+`DUCK` copies the original's keydown-edge semantics: it ducks only on the transition from not-pressed
+to pressed while on the ground. Pressing in mid-air does not take effect on landing.
 
 ---
 
-## 7. 基準
+## 6. Training: the cross-entropy method
 
-Held-out 種子 `2100001–2100100`，每條上限 180 秒。對照組與原作對齊：
+```
+population       64
+elites            8
+generations     400   (original: 80)
+courseSeconds   180
+trainingCourses  12   (original: 3)
+validationSeeds  16   (original: 4)
+mean/sigma update  0.3·old + 0.7·elite statistic
+sigma floor      0.07
+initialSigma     0.8
+```
 
-| 對照組 | 說明 |
+Every generation runs all candidates on the **same** set of fresh courses; candidate 0 holds the
+previous generation's champion (elitism). Fitness is the mean cute-dino score across the courses.
+The champion is replaced only when the validation score **strictly improves**.
+
+### Why the course counts were raised
+
+The champion weights measured across 40 courses have a score coefficient of variation of **0.74**
+(mean 1603, SD 1180). Estimated from the original's 3 courses, the standard error is 42% of the mean —
+CEM would pick lucky candidates rather than genuinely strong ones. Four validation seeds are just as
+noisy: one fluke high score in the first round locks the champion threshold permanently (measured:
+validation did not move at all in 46 of 80 generations).
+
+Chrome Dino has no pickups, no HP and no sinusoidally weaving obstacles, so its variance is far
+smaller and the original's 3 courses are sufficient. The original parameters are preserved as
+`FLYJUMP_TRAINING` in `src/lib/training.js`.
+
+After raising them the validation curve became monotonically increasing
+(51 → 366 → 576 → 854 → 1205 → 1418 → 1758 → 2082), meaning champion selection finally reflects real
+ability rather than luck. No plateau is visible even at generation 400.
+
+---
+
+## 7. Benchmark
+
+Held-out seeds `2100001–2100100`, capped at 180 seconds each. The control groups match the original:
+
+| Control | Description |
 |---|---|
-| 連接體 + 訓練讀出 | 完整系統 |
-| 電路靜默（消融） | `ablated=true`，16 個 DN 輸出強制為 0，讀出權重不變 |
-| 未訓練讀出 | 電路正常，讀出換成 `rng(trainingSeed)` 產生的隨機權重 |
-| 手寫規則 | 不用連接體、不用神經網路，純幾何門檻（`ruleAction`） |
-| 隨機動作 | 每次決策均勻隨機選 5 個動作之一 |
-| 完全不動 | 永遠 RUN |
+| Connectome + trained readout | the full system |
+| Circuit silenced (ablation) | `ablated=true`; the 16 DN outputs are forced to 0, readout weights unchanged |
+| Untrained readout | circuit intact, readout replaced with random weights from `rng(trainingSeed)` |
+| Hand-written rules | no connectome, no neural network — pure geometric thresholds (`ruleAction`) |
+| Random actions | each decision picks uniformly among the 5 actions |
+| No action at all | always RUN |
 
-判定門檻：完整版 / 電路靜默 **> 2×** 且 完整版 / 未訓練讀出 **> 2×** 才算主張成立。
+Decision threshold: the claim holds only if full / circuit-silenced **> 2×** *and*
+full / untrained-readout **> 2×**.
 
 ```bash
 node scripts/benchmark.mjs
 ```
 
-### 結果（400 代冠軍，第 382 代）
+### Results (400-generation champion, from generation 382)
 
-| 對照組 | 跑完 | 平均存活 | 中位存活 | 平均分數 |
+| Control | Completed | Mean survival | Median survival | Mean score |
 |---|---:|---:|---:|---:|
-| 連接體 + 訓練讀出 | 40/100 | 102.0s | 98.0s | 1593 |
-| 電路靜默（消融） | 0/100 | 2.3s | 2.3s | 13 |
-| 未訓練讀出 | 0/100 | 2.7s | 2.7s | 16 |
-| 手寫規則 | 25/100 | 82.4s | 55.1s | 1354 |
-| 隨機動作 | 0/100 | 4.1s | 3.5s | 24 |
-| 完全不動 | 0/100 | 3.5s | 3.5s | 21 |
+| Connectome + trained readout | 40/100 | 102.0s | 98.0s | 1593 |
+| Circuit silenced (ablation) | 0/100 | 2.3s | 2.3s | 13 |
+| Untrained readout | 0/100 | 2.7s | 2.7s | 16 |
+| Hand-written rules | 25/100 | 82.4s | 55.1s | 1354 |
+| Random actions | 0/100 | 4.1s | 3.5s | 24 |
+| No action at all | 0/100 | 3.5s | 3.5s | 21 |
 
-消融比 **44.7×**、未訓練讀出比 **37.9×**，主張成立。
+Ablation ratio **44.7×**, untrained-readout ratio **37.9×** — the claim holds.
 
-### Replicate
+### Replicates
 
-單一訓練種子的結果不足採信。`scripts/replicates.mjs` 會用多個種子重跑整條管線，
-檢查消融比是否穩定重現：
+A single training seed is not trustworthy on its own. `scripts/replicates.mjs` reruns the whole
+pipeline across several seeds and checks whether the ablation ratio reproduces stably:
 
 ```bash
 node scripts/replicates.mjs 400 20260915 20260916 20260917
@@ -243,30 +258,32 @@ node scripts/replicates.mjs 400 20260915 20260916 20260917
 
 ---
 
-## 8. 已知限制
+## 8. Known limitations
 
-1. **agent 只比手寫規則好約 1.24 倍**。消融對照證明的是「電路有貢獻」，
-   不是「這個 agent 已經很強」。原作在較簡單的 Chrome Dino 上能跑完 99/100。
-   另外 CEM **尚未收斂**：驗證分數 150 代為 1418、400 代為 2082，全程仍在上升，
-   代數拉長仍有回報。目前成績是計算預算的下限，不是方法的上限。
-2. **訓練賽道長度不足以涵蓋遊戲的全部難度範圍**。
-   `speedScale = min(2.0, 1 + 0.04·⌊t/12⌋)`，在 t=300s 觸頂 2.00×。
-   但 `courseSeconds = 180`，所以訓練時 agent 最多只經歷到 **1.60×**；
-   **1.60×–2.00× 這段從未出現在任何一筆訓練樣本裡**。
-   而那正是高分區間：實測平台期的分數累積速率約 29.5 分/秒，是早期的三倍多。
-   拉長 `courseSeconds` 至 400s 以上應可直接改善長場表現。
+1. **The agent is only about 1.24× better than the hand-written rules.** The ablation control shows
+   *that the circuit contributes*, not *that this agent is strong*. The original completes 99/100 on
+   the simpler Chrome Dino. CEM has also **not converged**: validation was 1418 at generation 150 and
+   2082 at 400, still rising throughout, so more generations would still pay off. The current result
+   is a lower bound set by the compute budget, not the method's ceiling.
+2. **The training courses are too short to cover the game's full difficulty range.**
+   `speedScale = min(2.0, 1 + 0.04·⌊t/12⌋)` tops out at 2.00× at t=300s, but `courseSeconds = 180`,
+   so during training the agent only ever reaches **1.60×**; **the 1.60×–2.00× band never appears in a
+   single training sample**. That band is exactly where the points are: the measured plateau
+   accumulates about 29.5 points/second, more than three times the early rate. Raising
+   `courseSeconds` past 400s should improve long-run performance directly.
 
-3. **子彈通道的 horizon 設定過大**。`impact()` 的 horizon 為 1.5 秒，
-   平台期子彈速度 1020 px/s，等於感知範圍 1530px，但畫面上子彈最遠只出現在約 1053px。
-   結果 ch7 的值域永遠落在 0.31–1.00，低端三成浪費，關鍵區間的解析度被壓縮。
-   實測子彈造成 **46%** 的死亡，是最大單一死因。horizon 改為 0.7s 可讓 0–800px 完整展開。
+3. **The bullet channel's horizon is set too large.** `impact()` uses a horizon of 1.5 seconds; at the
+   plateau, bullets travel 1020 px/s, giving a 1530 px sensing range — but on screen bullets appear at
+   most about 1053 px away. So ch7's value range is permanently confined to 0.31–1.00, the bottom 30%
+   is wasted, and resolution in the critical band is compressed. Bullets cause a measured **46%** of
+   deaths, the single largest cause. A horizon of 0.7s would let 0–800 px use the full range.
 
-4. **13 個通道是這張 80 細胞圖的上限**。要更多獨立感官通道，必須回到
-   MaleCNS 原始資料重新選細胞（`flyjump/scripts/build-connectome.py`），
-   挑更多視覺投射型態。
-5. **`ch11 玩家水平位置` 的動態範圍偏低**。左右移動對存活的幫助有限，
-   演化出的策略很少使用，該通道實際攜帶的資訊量不高。
-6. **正負號是假定的，不是量測的**。ACh → +1、GABA/glutamate → −1 是慣例，
-   個別突觸的實際極性未經驗證。
-7. 手寫規則基線只調過一輪，稱不上「最佳的無神經網路解」，
-   它是對照而非上界。
+4. **13 channels is the ceiling for this 80-cell graph.** More independent sensory channels would
+   require going back to the raw MaleCNS data and reselecting cells
+   (`flyjump/scripts/build-connectome.py`) to include more visual projection types.
+5. **`ch11 player horizontal position` has a low dynamic range.** Lateral movement helps survival
+   little, the evolved policy rarely uses it, and the channel carries little actual information.
+6. **The signs are assumed, not measured.** ACh → +1 and GABA/glutamate → −1 is a convention; the
+   actual polarity of individual synapses has not been verified.
+7. The hand-written rule baseline was tuned for one round only. It does not qualify as "the best
+   possible solution without a neural network" — it is a control, not an upper bound.
