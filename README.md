@@ -1,72 +1,80 @@
-# 果蠅大腦玩 cute-dino
+# A fly brain plays cute-dino
 
-**[線上試玩 →](https://cchouse168.github.io/cutedino-fly-connectome/)**
+**[Try it live →](https://cchouse168.github.io/cutedino-fly-connectome/)** · [繁體中文](README.zh-TW.md)
 
-MaleCNS v1.0 果蠅連接體中 **80 顆真實神經元、1,296 條實測突觸連接**，構成一段
-完全固定、不可訓練的電路，去玩 [cute-dino](https://github.com/cchouse168/cute-dino)。
-電路後面只接一個 **269 參數**的讀出網路 —— 那是全系統唯一被訓練的東西。
+**80 real neurons and 1,296 measured synaptic connections** from the MaleCNS v1.0
+fly connectome form a circuit that is entirely fixed and never trained. Behind it sits a
+single **269-parameter** readout network — the only thing in the system that is trained.
+It plays [cute-dino](https://github.com/cchouse168/cute-dino).
 
 > Built with [fly-connectome-template](https://github.com/cobanov/fly-connectome-template) by [Mert Cobanov](https://github.com/cobanov).
 
-方法與程式架構改編自 [cobanov/flyjump](https://github.com/cobanov/flyjump)（[Fly Dino](https://flydino.cobanov.dev/)），
-依 **Cobanov Template Attribution License 1.0** 使用（[`LICENSE-flyjump.txt`](LICENSE-flyjump.txt)）。
-**本專案的修改**（該授權 §4 要求載明）：換成 cute-dino 並改寫為確定性 headless 模擬器、
-感官通道 8 → 13、動作空間 3 → 5（加入 LEFT/RIGHT）、CEM 的訓練賽道與驗證種子數調高。
+Method and code architecture adapted from [cobanov/flyjump](https://github.com/cobanov/flyjump)
+([Fly Dino](https://flydino.cobanov.dev/)) under the **Cobanov Template Attribution License 1.0**
+([`LICENSE-flyjump.txt`](LICENSE-flyjump.txt)). **Changes made in this project**, as required by
+section 4 of that license: plays cute-dino instead of the Chromium dinosaur game and rebuilt as a
+deterministic headless simulator; sensory channels remapped 8 → 13; action space expanded 3 → 5
+(LEFT/RIGHT added); CEM training courses and validation seeds raised for cute-dino's higher variance.
 
 ---
 
-## 結果
+## Results
 
-100 條從未見過的賽道，每條上限 180 秒：
+100 unseen tracks, 180 s cap each:
 
-| 對照組 | 跑完 | 平均存活 |
+| Group | Completed | Mean survival |
 |---|---:|---:|
-| **連接體 + 訓練讀出** | **82/100** | **161.1s** |
-| 電路靜默（消融） | 0/100 | 3.5s |
-| 未訓練讀出 | 0/100 | 3.5s |
-| 手寫規則 | 25/100 | 82.4s |
-| 完全不動 | 0/100 | 3.5s |
+| **Connectome + trained readout** | **82/100** | **161.1s** |
+| Circuit silenced (ablation) | 0/100 | 3.5s |
+| Untrained readout | 0/100 | 3.5s |
+| Hand-written rules | 25/100 | 82.4s |
+| No action at all | 0/100 | 3.5s |
 
-把電路歸零後，讀出網路收到的 16 個輸入全是 0，動作分數凍住，整場只重複同一個動作 ——
-3.5 秒就撞上第一個障礙物，和完全不操作一模一樣。
+With the circuit zeroed the readout receives 16 zeros, its action scores freeze, and the agent
+repeats a single action for the whole run — dead at the first obstacle after 3.5 s, exactly the
+same as doing nothing.
 
-兩個但書：**82/100 是這個部署模型的成績，不是方法的平均**（換訓練種子會得到 46–87）；
-而且**這不足以證明果蠅的接線比隨機接線好** —— 那需要打亂連接體重訓的對照組，本專案沒做。
-完整數據、檢定力分析與已知限制見 [`docs/report.md`](docs/report.md)。
+Two caveats: **82/100 is one deployed model, not the method's average** (other training seeds give
+46–87), and **this does not show that the fly's wiring beats random wiring** — that would need a
+shuffled-connectome control retrained from scratch, which this project did not run.
+Full data, power analysis and limitations are in [`docs/report.md`](docs/report.md) (Chinese).
 
-## 執行
+## Running it
 
-不需要 build step。
+No build step.
 
 ```bash
-npx serve -l 4173 .      # 開 http://localhost:4173
-npm test                 # 模擬器確定性 + 電路/讀出健全性
-npm run train            # CEM 訓練（12 執行緒約 20 分鐘）
-npm run benchmark        # 100 條 held-out + 消融對照
+npx serve -l 4173 .      # open http://localhost:4173
+npm test                 # simulator determinism + circuit/readout sanity checks
+npm run train            # CEM training (~20 min on 12 threads)
+npm run benchmark        # 100 held-out tracks + ablation controls
 ```
 
-「鍵盤輸出」面板需要 WebGL2；不支援時該面板顯示提示，其餘功能不受影響。
+The keyboard-output panel needs WebGL2; without it that panel shows a notice and everything
+else still works. The interface ships in both English and 繁體中文 — toggle in the top right.
 
-## 文件
+## Documentation
 
 | | |
 |---|---|
-| [`docs/report.md`](docs/report.md) | 完整實驗結果、方法取捨與已知限制 |
-| [`docs/experiment.md`](docs/experiment.md) | 重現用：協定、方程式、通道對照表、基準方法 |
-| [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) | 第三方出處與授權全貌 |
+| [`docs/report.md`](docs/report.md) | Full results, method trade-offs and known limitations (Chinese) |
+| [`docs/experiment.md`](docs/experiment.md) | Reproduction: protocol, equations, channel table, benchmark method (Chinese) |
+| [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) | Complete third-party provenance and licensing |
 
-## 授權
+## Licensing
 
-- 本專案原創部分：MIT（[`LICENSE`](LICENSE)）
-- 改編自 flyjump 的部分：Cobanov Template Attribution License 1.0 ——
-  網頁介面與本 README 的標註是該授權的**強制條款，不得移除**
-- `data/connectome.json`、`data/brain-atlas/`：MaleCNS v1.0 衍生資料，
-  CC BY 4.0，由 FlyEM / HHMI Janelia、University of Cambridge、MRC LMB
-  與 Google Research 建立（[`data/NOTICE.md`](data/NOTICE.md)）
-- `data/flybody/`：[TuragaLab/flybody](https://github.com/TuragaLab/flybody)，Apache 2.0
-- cute-dino 遊戲：[cchouse168](https://github.com/cchouse168)，MIT
+- Original work in this project: MIT ([`LICENSE`](LICENSE))
+- Parts adapted from flyjump: Cobanov Template Attribution License 1.0 — the attribution in the
+  web interface and in this README is a **mandatory condition of that license and must not be removed**
+- `data/connectome.json`, `data/brain-atlas/`: derived from MaleCNS v1.0, CC BY 4.0, created by
+  FlyEM / HHMI Janelia, University of Cambridge, MRC Laboratory of Molecular Biology and
+  Google Research ([`data/NOTICE.md`](data/NOTICE.md))
+- `data/flybody/`: [TuragaLab/flybody](https://github.com/TuragaLab/flybody), Apache 2.0
+- cute-dino game: [cchouse168](https://github.com/cchouse168), MIT
 
-## 免責
+## Disclaimer
 
-電路活性為模擬值、無量綱，不是膜電位也不是實測發放率。輸入編碼與動作讀出皆為人工指定，
-非生物量測。這是一小段選定的電路，不是完整的腦。資料提供方不對本實驗背書。
+Circuit activity is a simulated, dimensionless value — not a membrane potential and not a measured
+firing rate. The input encoding and action readout are both hand-specified, not biological
+measurements. This is one small selected circuit, not a complete brain. The data providers do not
+endorse this experiment.

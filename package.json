@@ -1,7 +1,7 @@
 {
   "name": "cutedino-fly-connectome",
   "version": "1.0.0",
-  "description": "用 MaleCNS 果蠅連接體的 80 顆真實神經元操控 cute-dino",
+  "description": "80 real neurons from the MaleCNS fly connectome playing cute-dino",
   "type": "module",
   "private": true,
   "scripts": {
