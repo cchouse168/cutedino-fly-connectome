@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+TC:wght@400;500;700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #0d1016; font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #4cc3e8; } a:hover { color: #8ad8f4; }
+    * { animation-play-state: var(--play, running); }
+    @keyframes sp-run { from { transform: translateX(0); } to { transform: translateX(158px); } }
+    .sp-h { font-family: "IBM Plex Mono", monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase; }
+    .sp-card { background: #12161d; border: 1px solid #232a33; border-radius: 6px; padding: 18px; }
+    .sp-track { position: relative; height: 22px; background: #0d1016; border: 1px solid #232a33; border-radius: 4px; overflow: hidden; }
+    .sp-ball { position: absolute; left: 4px; top: 4px; width: 12px; height: 12px; border-radius: 3px; background: #f0a93b; }
+    .sp-row { display: flex; align-items: center; gap: 14px; }
+  </style>
+</helmet>
+<div style="width: 1280px; height: 920px; box-sizing: border-box; padding: 44px 48px; background: #0d1016; color: #e8ecf1; display: flex; flex-direction: column; gap: 22px; --play: {{playState}};">
+
+  <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 36px;">
+    <div>
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .22em; color: #f0a93b; text-transform: uppercase;">Motion Spec · 製作規格</div>
+      <h2 style="margin: 8px 0 0; font-size: 34px; font-weight: 700; color: #f2f5f8; letter-spacing: -.01em;">七幕共用的動態語彙</h2>
+    </div>
+    <p style="margin: 0; max-width: 520px; font-size: 13px; color: #a7b1bd; line-height: 1.75;">全片只用一組 easing、一組色票、一種字幕框。每幕畫板的動畫都由這張表推出來 —— 要改整片的節奏，改這裡，不要在單一幕裡即興。</p>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px;">
+
+    <div class="sp-card">
+      <div class="sp-h">色票 · 沿用 src/style.css</div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 9px; margin-top: 14px;">
+        <div class="sp-row"><s style="width: 26px; height: 26px; border-radius: 4px; background: #0d1016; border: 1px solid #2a323c; display: inline-block; flex-shrink: 0;"></s><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd;">#0d1016 底</span></div>
+        <div class="sp-row"><s style="width: 26px; height: 26px; border-radius: 4px; background: #12161d; border: 1px solid #2a323c; display: inline-block; flex-shrink: 0;"></s><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd;">#12161d 卡片</span></div>
+        <div class="sp-row"><s style="width: 26px; height: 26px; border-radius: 4px; background: #f0a93b; display: inline-block; flex-shrink: 0;"></s><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd;">#f0a93b 主強調</span></div>
+        <div class="sp-row"><s style="width: 26px; height: 26px; border-radius: 4px; background: #f97316; display: inline-block; flex-shrink: 0;"></s><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd;">#f97316 興奮</span></div>
+        <div class="sp-row"><s style="width: 26px; height: 26px; border-radius: 4px; background: #38bdf8; display: inline-block; flex-shrink: 0;"></s><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd;">#38bdf8 抑制</span></div>
+        <div class="sp-row"><s style="width: 26px; height: 26px; border-radius: 4px; background: #ff5f56; display: inline-block; flex-shrink: 0;"></s><span style="font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd;">#ff5f56 消融／警示</span></div>
+      </div>
+      <p style="margin: 14px 0 0; font-size: 12px; color: #7e8a97; line-height: 1.7;">橘＝興奮、藍＝抑制是網站既有的色義，全片不得改用途。灰階只用 #a7b1bd / #7e8a97 / #6f7b88 三階，都在 #0d1016 上過 4.5:1。</p>
+    </div>
+
+    <div class="sp-card">
+      <div class="sp-h">Easing 與時長</div>
+      <div style="display: flex; flex-direction: column; gap: 12px; margin-top: 14px;">
+        <div>
+          <div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #a7b1bd; margin-bottom: 5px;"><span>標題上推 · 0.7s</span><span style="color: #6f7b88;">cubic-bezier(.16,.84,.26,1)</span></div>
+          <div class="sp-track"><span class="sp-ball" style="animation: sp-run 2.6s cubic-bezier(.16,.84,.26,1) infinite alternate;"></span></div>
+        </div>
+        <div>
+          <div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #a7b1bd; margin-bottom: 5px;"><span>彈入／印章 · 0.45s</span><span style="color: #6f7b88;">cubic-bezier(.2,1.3,.4,1)</span></div>
+          <div class="sp-track"><span class="sp-ball" style="animation: sp-run 2.6s cubic-bezier(.2,1.3,.4,1) infinite alternate;"></span></div>
+        </div>
+        <div>
+          <div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #a7b1bd; margin-bottom: 5px;"><span>長條／描線 · 2.4–3.4s</span><span style="color: #6f7b88;">cubic-bezier(.3,.6,.3,1)</span></div>
+          <div class="sp-track"><span class="sp-ball" style="animation: sp-run 2.6s cubic-bezier(.3,.6,.3,1) infinite alternate;"></span></div>
+        </div>
+        <div>
+          <div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #a7b1bd; margin-bottom: 5px;"><span>計數／播放頭 · 1.6s</span><span style="color: #6f7b88;">linear</span></div>
+          <div class="sp-track"><span class="sp-ball" style="animation: sp-run 2.6s linear infinite alternate;"></span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;">
+
+    <div class="sp-card">
+      <div class="sp-h">字級階層</div>
+      <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 14px;">
+        <div><div style="font-size: 38px; font-weight: 700; color: #f2f5f8; line-height: 1.2;">幕標題 38</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #6f7b88; margin-top: 2px;">Noto Sans TC 700 · 開場幕放大到 76</div></div>
+        <div><div style="font-size: 27px; font-weight: 500; color: #f2f5f8; line-height: 1.4;">字幕 27</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #6f7b88; margin-top: 2px;">Noto Sans TC 500 · 每行 ≤ 26 字</div></div>
+        <div><div style="font-size: 14px; color: #a7b1bd;">說明文字 13–15</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #6f7b88; margin-top: 2px;">行高 1.7</div></div>
+        <div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; letter-spacing: .18em; color: #f0a93b; text-transform: uppercase;">Eyebrow 11 / 字距 .24em</div><div style="font-family: 'IBM Plex Mono', monospace; font-size: 10.5px; color: #6f7b88; margin-top: 2px;">IBM Plex Mono · 數字一律用 mono</div></div>
+      </div>
+    </div>
+
+    <div class="sp-card">
+      <div class="sp-h">字幕規格</div>
+      <div style="margin-top: 14px; padding: 9px 14px; background: rgba(10,13,18,.86); border: 1px solid #232a33; border-radius: 6px; font-size: 17px; font-weight: 500; color: #f2f5f8; text-align: center; line-height: 1.5;">一行寫得完的一句話。</div>
+      <ul style="margin: 14px 0 0; padding-left: 16px; font-size: 12.5px; color: #a7b1bd; line-height: 1.85;">
+        <li>底邊固定 56px，置中，最寬 1080px</li>
+        <li>底色 rgba(10,13,18,.86) + 1px #232a33 邊</li>
+        <li>一次只出現一句，交叉淡入淡出各 0.3s</li>
+        <li>整句與旁白同進同出，不做逐字打字（唯一例外：S01 的 eyebrow）</li>
+        <li>數字、單位、型態名一律 mono，跟畫面上的數據對齊</li>
+      </ul>
+    </div>
+
+    <div class="sp-card">
+      <div class="sp-h">剪接與輸出</div>
+      <ul style="margin: 14px 0 0; padding-left: 16px; font-size: 12.5px; color: #a7b1bd; line-height: 1.85;">
+        <li>幕與幕之間 0.4s 暗場切，不用推移或翻頁</li>
+        <li>畫板的動畫為 12–14s 迴圈演示；成片依右下角時間碼把節拍等比拉開</li>
+        <li>錄製：瀏覽器開到 1920×1080、關閉捲軸，逐幕螢幕錄影後再對旁白</li>
+        <li>S01 / S03 / S05 建議把 <span style="font-family: 'IBM Plex Mono', monospace; color: #4cc3e8;">index.html</span> 的即時畫面墊在底層，證明「不是預錄」</li>
+        <li>每幕留 0.8s 的無聲尾巴給剪接呼吸</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sp-card" style="padding: 16px 18px;">
+    <div style="display: flex; gap: 28px; align-items: flex-start;">
+      <div style="flex: 1;">
+        <div class="sp-h">數據來源（改數字時兩邊一起改）</div>
+        <p style="margin: 9px 0 0; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd; line-height: 1.85;">README.md · docs/experiment.md · data/channels.json<br>models/benchmark.json · models/replicates-v2.json · models/training.json</p>
+      </div>
+      <div style="flex: 1.4;">
+        <div class="sp-h">不可省略的三件事</div>
+        <p style="margin: 9px 0 0; font-size: 12.5px; color: #a7b1bd; line-height: 1.8;">一、任何倍率都要連截尾上限一起報（45.8× / 180s、74.3× / 480s）。二、82/100 要說是「這個模型」的成績。三、S07 的授權四行不可刪、不可縮到讀不完。</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"paused":{"editor":"boolean","default":false,"section":"預覽"},"$preview":{"width":1280,"height":920}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { playState: this.props.paused ? "paused" : "running" };
+  }
+}
+</script>
+</body>
+</html>

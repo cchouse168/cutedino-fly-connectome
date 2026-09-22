@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>果蠅大腦玩 cute-dino · 影片播放器</title>
+<meta name="description" content="七幕動畫的連續播放器：3 分 45 秒，字幕與畫面依時間軸同步。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+/* ===== 播放器外殼 ===== */
+:root {
+  --play: running;
+  --bg: #07090d;
+  --panel: #12161d;
+  --line: #232a33;
+  --line-3: #2f3742;
+  --ink: #f2f5f8;
+  --muted: #a7b1bd;
+  --dim: #7e8a97;
+  --accent: #f0a93b;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --sans: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; background: var(--bg); overflow: hidden; font-family: var(--sans); }
+#app { position: fixed; left: 0; right: 0; top: 0; bottom: 96px; display: grid; place-items: center; }
+body.bare #app { bottom: 0; }
+#stage {
+  position: relative; width: 1280px; height: 720px; background: #0d1016;
+  transform: scale(var(--scale, 1)); transform-origin: center; overflow: hidden;
+}
+#stage * { animation-play-state: var(--play, running); }
+.scene { position: absolute; inset: 0; display: none; }
+.scene.on { display: block; }
+#cap { position: absolute; left: 0; right: 0; bottom: 56px; display: flex; justify-content: center; z-index: 30; pointer-events: none; }
+#capbox {
+  max-width: 1080px; padding: 11px 24px; background: rgba(10,13,18,.86);
+  border: 1px solid var(--line); border-radius: 6px;
+  font-size: 27px; font-weight: 500; color: var(--ink); line-height: 1.5; text-align: center;
+}
+#cap.off, #capbox.empty { visibility: hidden; }
+#fade { position: absolute; inset: 0; background: #0d1016; opacity: 0; pointer-events: none; z-index: 40; transition: opacity .2s linear; }
+#fade.cut { opacity: 1; transition: none; }
+
+/* ===== 控制列 ===== */
+#bar {
+  position: fixed; left: 0; right: 0; bottom: 0; height: 96px;
+  display: flex; align-items: center; gap: 14px; padding: 0 20px;
+  background: #0b0e13; border-top: 1px solid var(--line);
+}
+body.bare #bar { display: none; }
+#bar button, #bar select {
+  font-family: var(--mono); font-size: 12px; color: var(--muted);
+  background: #1b212a; border: 1px solid var(--line-3); border-radius: 4px;
+  padding: 0 12px; height: 36px; min-width: 44px; cursor: pointer;
+}
+#bar button:hover, #bar select:hover { color: var(--ink); border-color: #3c4653; }
+#bar button.primary { background: var(--accent); border-color: var(--accent); color: #1a1205; font-weight: 600; width: 52px; }
+#pp { font-size: 15px; }
+.tc { font-family: var(--mono); font-size: 12px; color: var(--dim); min-width: 44px; text-align: center; }
+#track { flex: 1; display: flex; flex-direction: column; gap: 6px; }
+#seek { width: 100%; accent-color: var(--accent); height: 20px; }
+#chips { display: flex; gap: 3px; }
+#chips button {
+  flex: none; height: 24px; padding: 0 9px; font-size: 10.5px; letter-spacing: .06em;
+  background: var(--panel); border: 1px solid var(--line); color: var(--dim); min-width: 0;
+}
+#chips button.now { background: rgba(240,169,59,.18); border-color: var(--accent); color: var(--ink); }
+.grp { display: flex; align-items: center; gap: 6px; }
+.lbl { font-family: var(--mono); font-size: 10px; letter-spacing: .12em; color: #6f7b88; text-transform: uppercase; }
+#hint {
+  position: fixed; right: 16px; top: 14px; font-family: var(--mono); font-size: 11px; color: #46505c;
+  pointer-events: none; z-index: 50;
+}
+body.bare #hint { display: none; }
+
+/* ===== 各幕樣式（由 build 腳本插入） ===== */
+/* ---- sc1 ---- */
+  @property --n1 { syntax: "<integer>"; initial-value: 0; inherits: false; }
+  @property --n2 { syntax: "<integer>"; initial-value: 0; inherits: false; }
+  @property --n3 { syntax: "<integer>"; initial-value: 0; inherits: false; }
+  @keyframes s1-cloud { 0% { opacity: 0; transform: scale(1.08); } 6% { opacity: 1; transform: scale(1); } 100% { opacity: 1; transform: scale(1.02); } }
+  @keyframes s1-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+  @keyframes s1-twinkle { 0%, 100% { opacity: .22; } 50% { opacity: 1; } }
+  @keyframes s1-grow { 0%, 8% { stroke-dashoffset: 360; } 24% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+  @keyframes s1-brow { 0%, 5% { opacity: 0; clip-path: inset(0 100% 0 0); } 11% { opacity: 1; clip-path: inset(0 0 0 0); } 100% { opacity: 1; clip-path: inset(0 0 0 0); } }
+  @keyframes s1-rise { 0% { transform: translateY(105%); } 12% { transform: translateY(105%); } 19% { transform: translateY(0); } 100% { transform: translateY(0); } }
+  @keyframes s1-rise2 { 0% { transform: translateY(105%); } 17% { transform: translateY(105%); } 24% { transform: translateY(0); } 100% { transform: translateY(0); } }
+  @keyframes s1-stats { 0%, 25% { opacity: 0; transform: translateY(14px); } 32% { opacity: 1; transform: translateY(0); } 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s1-c1 { 0%, 27% { --n1: 0; } 42% { --n1: 80; } 100% { --n1: 80; } }
+  @keyframes s1-c2 { 0%, 27% { --n2: 0; opacity: 1; } 41% { --n2: 1296; opacity: 1; } 43%, 100% { --n2: 1296; opacity: 0; } }
+  @keyframes s1-c3 { 0%, 27% { --n3: 0; opacity: 1; } 41% { --n3: 26029; opacity: 1; } 43%, 100% { --n3: 26029; opacity: 0; } }
+  @keyframes s1-final { 0%, 41% { opacity: 0; } 43%, 100% { opacity: 1; } }
+  .s1-dot { animation: s1-twinkle 4s ease-in-out infinite; }
+  .s1-dot:nth-child(3n) { animation-delay: -1.1s; }
+  .s1-dot:nth-child(3n+1) { animation-delay: -2.4s; }
+  .s1-dot:nth-child(5n) { animation-delay: -3.2s; }
+  .s1-edge { stroke-dasharray: 360; animation: s1-grow 13s cubic-bezier(.22,.7,.2,1) both; animation-delay: var(--seek, 0s); }
+  .s1-num { font-variant-numeric: tabular-nums; }
+  .s1-n1 { counter-reset: c var(--n1); animation: s1-c1 13s linear both; animation-delay: var(--seek, 0s); }
+  .s1-n1::after { content: counter(c); }
+  .s1-n2 { counter-reset: c var(--n2); animation: s1-c2 13s linear both; animation-delay: var(--seek, 0s); }
+  .s1-n2::after { content: counter(c); }
+  .s1-n3 { counter-reset: c var(--n3); animation: s1-c3 13s linear both; animation-delay: var(--seek, 0s); }
+  .s1-n3::after { content: counter(c); }
+  .s1-fin { animation: s1-final 13s linear both; animation-delay: var(--seek, 0s); }
+/* ---- sc2 ---- */
+  @keyframes s2-outline { 0% { stroke-dashoffset: 2600; opacity: 0; } 4% { opacity: .9; } 22% { stroke-dashoffset: 0; opacity: .9; } 100% { opacity: .9; } }
+  @keyframes s2-soma { 0%, 7% { opacity: 0; } 16% { opacity: .55; } 100% { opacity: .55; } }
+  @keyframes s2-cellA { 0%, 18% { opacity: 0; transform: scale(.2); } 21% { opacity: 1; transform: scale(1.5); } 24%, 100% { opacity: 1; transform: scale(1); } }
+  @keyframes s2-cellB { 0%, 20% { opacity: 0; transform: scale(.2); } 23% { opacity: 1; transform: scale(1.5); } 26%, 100% { opacity: 1; transform: scale(1); } }
+  @keyframes s2-cellC { 0%, 22% { opacity: 0; transform: scale(.2); } 25% { opacity: 1; transform: scale(1.5); } 28%, 100% { opacity: 1; transform: scale(1); } }
+  @keyframes s2-cellD { 0%, 24% { opacity: 0; transform: scale(.2); } 27% { opacity: 1; transform: scale(1.5); } 30%, 100% { opacity: 1; transform: scale(1); } }
+  @keyframes s2-edge { 0%, 34% { stroke-dashoffset: 300; } 52% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: 0; } }
+  @keyframes s2-rowA { 0%, 51% { opacity: 0; transform: translateX(16px); } 55%, 100% { opacity: 1; transform: translateX(0); } }
+  @keyframes s2-rowB { 0%, 54% { opacity: 0; transform: translateX(16px); } 58%, 100% { opacity: 1; transform: translateX(0); } }
+  @keyframes s2-rowC { 0%, 57% { opacity: 0; transform: translateX(16px); } 61%, 100% { opacity: 1; transform: translateX(0); } }
+  @keyframes s2-rowD { 0%, 60% { opacity: 0; transform: translateX(16px); } 64%, 100% { opacity: 1; transform: translateX(0); } }
+  @keyframes s2-rowE { 0%, 63% { opacity: 0; transform: translateX(16px); } 67%, 100% { opacity: 1; transform: translateX(0); } }
+  @keyframes s2-stamp { 0%, 71% { opacity: 0; transform: scale(2.3) rotate(-16deg); } 75% { opacity: 1; transform: scale(.94) rotate(-7deg); } 77% { transform: scale(1.05) rotate(-7deg); } 79%, 100% { opacity: 1; transform: scale(1) rotate(-7deg); } }
+  @keyframes s2-shake { 75% { transform: translate(0, 0); } 76% { transform: translate(-3px, 2px); } 77% { transform: translate(3px, -2px); } 78.5% { transform: translate(0, 0); } }
+  .s2-line { stroke-dasharray: 2600; animation: s2-outline 26s cubic-bezier(.3,.7,.3,1) both; animation-delay: var(--seek, 0s); }
+  .s2-bg { animation: s2-soma 26s ease-out both; animation-delay: var(--seek, 0s); }
+  .s2-c { opacity: 0; transform-box: fill-box; transform-origin: center; }
+  .s2-ca { animation: s2-cellA 26s cubic-bezier(.2,1.3,.4,1) both; animation-delay: var(--seek, 0s); }
+  .s2-cb { animation: s2-cellB 26s cubic-bezier(.2,1.3,.4,1) both; animation-delay: var(--seek, 0s); }
+  .s2-cc { animation: s2-cellC 26s cubic-bezier(.2,1.3,.4,1) both; animation-delay: var(--seek, 0s); }
+  .s2-cd { animation: s2-cellD 26s cubic-bezier(.2,1.3,.4,1) both; animation-delay: var(--seek, 0s); }
+  .s2-e { stroke-dasharray: 300; animation: s2-edge 26s cubic-bezier(.25,.75,.3,1) both; animation-delay: var(--seek, 0s); }
+  .s2-t { opacity: 0; }
+  .s2-ta { animation: s2-rowA 26s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s); }
+  .s2-tb { animation: s2-rowB 26s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s); }
+  .s2-tc { animation: s2-rowC 26s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s); }
+  .s2-td { animation: s2-rowD 26s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s); }
+  .s2-te { animation: s2-rowE 26s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s); }
+/* ---- sc3 ---- */
+  @keyframes s3-nA { 0%, 6% { opacity: 0; transform: translateY(18px) scale(.96); } 11%, 100% { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes s3-nB { 0%, 8% { opacity: 0; transform: translateY(18px) scale(.96); } 13%, 100% { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes s3-nC { 0%, 10% { opacity: 0; transform: translateY(18px) scale(.96); } 15%, 100% { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes s3-nD { 0%, 12% { opacity: 0; transform: translateY(18px) scale(.96); } 17%, 100% { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes s3-nE { 0%, 14% { opacity: 0; transform: translateY(18px) scale(.96); } 19%, 100% { opacity: 1; transform: translateY(0) scale(1); } }
+  @keyframes s3-flow { 0% { transform: translateX(-6px); opacity: 0; } 18% { opacity: 1; } 82% { opacity: 1; } 100% { transform: translateX(46px); opacity: 0; } }
+  @keyframes s3-chA { 0%, 28% { opacity: 0; transform: translateY(8px); } 32%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s3-chB { 0%, 31% { opacity: 0; transform: translateY(8px); } 35%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s3-chC { 0%, 34% { opacity: 0; transform: translateY(8px); } 38%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s3-chD { 0%, 37% { opacity: 0; transform: translateY(8px); } 41%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s3-eq { 0%, 48% { opacity: 0; filter: blur(6px); } 53%, 100% { opacity: 1; filter: blur(0); } }
+  @keyframes s3-r1 { 0%, 56% { background: #12161d; color: #6f7b88; border-color: #2a323c; } 59%, 100% { background: rgba(249,115,22,.22); color: #f2f5f8; border-color: #f97316; } }
+  @keyframes s3-r2 { 0%, 60% { background: #12161d; color: #6f7b88; border-color: #2a323c; } 63%, 100% { background: rgba(249,115,22,.22); color: #f2f5f8; border-color: #f97316; } }
+  @keyframes s3-r3 { 0%, 64% { background: #12161d; color: #6f7b88; border-color: #2a323c; } 67%, 100% { background: rgba(249,115,22,.22); color: #f2f5f8; border-color: #f97316; } }
+  .s3-n { opacity: 0; }
+  .s3-na { animation: s3-nA 38s cubic-bezier(.2,.9,.3,1) both; animation-delay: var(--seek, 0s); }
+  .s3-nb { animation: s3-nB 38s cubic-bezier(.2,.9,.3,1) both; animation-delay: var(--seek, 0s); }
+  .s3-nc { animation: s3-nC 38s cubic-bezier(.2,.9,.3,1) both; animation-delay: var(--seek, 0s); }
+  .s3-nd { animation: s3-nD 38s cubic-bezier(.2,.9,.3,1) both; animation-delay: var(--seek, 0s); }
+  .s3-ne { animation: s3-nE 38s cubic-bezier(.2,.9,.3,1) both; animation-delay: var(--seek, 0s); }
+  .s3-p { position: absolute; top: 50%; left: 0; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: #f0a93b; box-shadow: 0 0 8px rgba(240,169,59,.9); animation: s3-flow 1.7s linear infinite; }
+  .s3-ch { opacity: 0; }
+  .s3-cha { animation: s3-chA 38s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s); }
+  .s3-chb { animation: s3-chB 38s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s); }
+  .s3-chc { animation: s3-chC 38s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s); }
+  .s3-chd { animation: s3-chD 38s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s); }
+/* ---- sc4 ---- */
+  @keyframes s4-lock { 0%, 5% { opacity: 0; transform: translateX(-14px); } 10%, 100% { opacity: 1; transform: translateX(0); } }
+  @keyframes s4-train { 0%, 13% { opacity: 0; transform: translateX(-14px); } 18% { opacity: 1; transform: translateX(0); } 21% { box-shadow: 0 0 0 6px rgba(240,169,59,.22); } 26%, 100% { opacity: 1; transform: translateX(0); box-shadow: 0 0 0 0 rgba(240,169,59,0); } }
+  @keyframes s4-l1 { 0%, 24% { opacity: 0; } 28%, 100% { opacity: 1; } }
+  @keyframes s4-l2 { 0%, 27% { opacity: 0; } 31%, 100% { opacity: 1; } }
+  @keyframes s4-l3 { 0%, 30% { opacity: 0; } 34%, 100% { opacity: 1; } }
+  @keyframes s4-wire { 0%, 33% { opacity: 0; } 38%, 100% { opacity: .5; } }
+  @keyframes s4-pulse { 0%, 100% { opacity: .18; } 50% { opacity: .95; } }
+  @keyframes s4-act1 { 0%, 17% { background: rgba(240,169,59,.9); color: #1a1205; } 19%, 100% { background: #12161d; color: #7e8a97; } }
+  @keyframes s4-act2 { 0%, 19% { background: #12161d; color: #7e8a97; } 21%, 37% { background: rgba(240,169,59,.9); color: #1a1205; } 39%, 100% { background: #12161d; color: #7e8a97; } }
+  @keyframes s4-act3 { 0%, 39% { background: #12161d; color: #7e8a97; } 41%, 57% { background: rgba(240,169,59,.9); color: #1a1205; } 59%, 100% { background: #12161d; color: #7e8a97; } }
+  @keyframes s4-act4 { 0%, 59% { background: #12161d; color: #7e8a97; } 61%, 77% { background: rgba(240,169,59,.9); color: #1a1205; } 79%, 100% { background: #12161d; color: #7e8a97; } }
+  @keyframes s4-act5 { 0%, 79% { background: #12161d; color: #7e8a97; } 81%, 97% { background: rgba(240,169,59,.9); color: #1a1205; } 99%, 100% { background: #12161d; color: #7e8a97; } }
+  @keyframes s4-curve { 0%, 52% { stroke-dashoffset: 620; } 76%, 100% { stroke-dashoffset: 0; } }
+  @keyframes s4-champ { 0%, 74% { opacity: 0; transform: scale(2.4); } 78% { opacity: 1; transform: scale(.92); } 81%, 100% { opacity: 1; transform: scale(1); } }
+  .s4-wire { opacity: 0; animation: s4-wire 28s ease-out both; animation-delay: var(--seek, 0s); }
+  .s4-hot { animation: s4-pulse 1.9s ease-in-out infinite; }
+  .s4-hot:nth-of-type(2n) { animation-delay: -.7s; }
+  .s4-hot:nth-of-type(3n) { animation-delay: -1.3s; }
+  .s4-act { padding: 9px 0; text-align: center; border: 1px solid #2a323c; border-radius: 4px; font-family: "IBM Plex Mono", monospace; font-size: 13px; letter-spacing: .1em; }
+/* ---- sc5 ---- */
+  @property --sv { syntax: "<integer>"; initial-value: 0; inherits: false; }
+  @keyframes s5-barA { 0%, 11% { width: 0; } 40%, 100% { width: 89.5%; } }
+  @keyframes s5-barB { 0%, 11% { width: 0; } 13%, 100% { width: 1.95%; } }
+  @keyframes s5-barC { 0%, 11% { width: 0; } 28%, 100% { width: 45.8%; } }
+  @keyframes s5-cnt { 0%, 11% { --sv: 0; opacity: 1; } 39% { --sv: 161; opacity: 1; } 41%, 100% { --sv: 161; opacity: 0; } }
+  @keyframes s5-fin { 0%, 39% { opacity: 0; } 41%, 100% { opacity: 1; } }
+  @keyframes s5-tagB { 0%, 14% { opacity: 0; transform: translateX(-8px); } 18%, 100% { opacity: 1; transform: translateX(0); } }
+  @keyframes s5-tagC { 0%, 29% { opacity: 0; transform: translateX(-8px); } 33%, 100% { opacity: 1; transform: translateX(0); } }
+  @keyframes s5-floor { 0%, 43% { opacity: 0; } 47%, 100% { opacity: 1; } }
+  @keyframes s5-ratio { 0%, 53% { opacity: 0; transform: scale(3.2); filter: blur(10px); } 58% { opacity: 1; transform: scale(.94); filter: blur(0); } 61%, 100% { opacity: 1; transform: scale(1); filter: blur(0); } }
+  @keyframes s5-repA { 0%, 66% { opacity: 0; transform: translateY(10px); } 70%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s5-repB { 0%, 69% { opacity: 0; transform: translateY(10px); } 73%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s5-repC { 0%, 72% { opacity: 0; transform: translateY(10px); } 76%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s5-repD { 0%, 77% { opacity: 0; transform: translateY(10px); } 81%, 100% { opacity: 1; transform: translateY(0); } }
+  .s5-sv { counter-reset: c var(--sv); animation: s5-cnt 32s linear both; animation-delay: var(--seek, 0s); }
+  .s5-sv::after { content: counter(c) "s"; }
+  .s5-track { position: relative; height: 34px; background: #12161d; border: 1px solid #232a33; border-radius: 4px; overflow: hidden; }
+  .s5-fill { position: absolute; left: 0; top: 0; bottom: 0; width: 0; border-radius: 3px 0 0 3px; }
+/* ---- sc6 ---- */
+  @keyframes s6-axis { 0%, 6% { opacity: 0; transform: scaleX(.2); } 12%, 100% { opacity: 1; transform: scaleX(1); } }
+  @keyframes s6-sdA { 0%, 12% { opacity: 0; transform: translateY(-16px); } 17%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s6-sdB { 0%, 15% { opacity: 0; transform: translateY(-16px); } 20%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s6-sdC { 0%, 18% { opacity: 0; transform: translateY(-16px); } 23%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s6-band { 0%, 25% { opacity: 0; transform: scaleX(.1); } 31%, 100% { opacity: 1; transform: scaleX(1); } }
+  @keyframes s6-grid { 0%, 34% { opacity: 0; } 40%, 100% { opacity: 1; } }
+  @keyframes s6-ceil { 0%, 45% { opacity: 0; transform: translateY(-38px); } 50%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s6-tie { 0%, 50% { fill: #f0a93b; } 55%, 100% { fill: #3b434e; } }
+  @keyframes s6-ratio { 0%, 60% { opacity: 0; transform: translateY(14px); } 65%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s6-note { 0%, 72% { opacity: 0; } 77%, 100% { opacity: 1; } }
+  .s6-t { animation: s6-tie 28s linear both; animation-delay: var(--seek, 0s); }
+/* ---- sc7 ---- */
+  @keyframes s7-collapse { 0% { opacity: 0; transform: scale(2.1); } 6% { opacity: .85; transform: scale(1.9); } 26% { opacity: .5; transform: scale(.14); } 30%, 100% { opacity: 0; transform: scale(.1); } }
+  @keyframes s7-mark { 0%, 22% { opacity: 0; transform: scale(.4); } 28% { opacity: 1; transform: scale(1.18); } 32%, 100% { opacity: 1; transform: scale(1); } }
+  @keyframes s7-glow { 0%, 100% { box-shadow: 0 0 0 0 rgba(240,169,59,0); } 50% { box-shadow: 0 0 34px 6px rgba(240,169,59,.18); } }
+  @keyframes s7-title { 0%, 26% { opacity: 0; transform: translateY(20px); } 33%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s7-stats { 0%, 36% { opacity: 0; transform: translateY(12px); } 42%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s7-links { 0%, 45% { opacity: 0; transform: translateY(12px); } 51%, 100% { opacity: 1; transform: translateY(0); } }
+  @keyframes s7-crA { 0%, 56% { opacity: 0; } 61%, 100% { opacity: 1; } }
+  @keyframes s7-crB { 0%, 60% { opacity: 0; } 65%, 100% { opacity: 1; } }
+  @keyframes s7-crC { 0%, 64% { opacity: 0; } 69%, 100% { opacity: 1; } }
+  @keyframes s7-crD { 0%, 72% { opacity: 0; } 77%, 100% { opacity: 1; } }
+  @keyframes s7-beat { 0%, 100% { opacity: .25; transform: scale(.85); } 50% { opacity: 1; transform: scale(1); } }
+</style>
+</head>
+<body>
+
+<div id="app">
+  <div id="stage">
+    <div class="scene" id="sc1">
+    <div style="position: relative; width: 1280px; height: 720px; overflow: hidden; background: #0d1016;">
+    
+        <div style="position: absolute; inset: 0; animation: s1-cloud 13s ease-out both; animation-delay: var(--seek, 0s);">
+          <div style="position: absolute; left: 50%; top: 46%; width: 900px; height: 900px; margin: -450px 0 0 -450px; background: radial-gradient(circle, rgba(249,115,22,.10) 0%, rgba(13,16,22,0) 62%);"></div>
+          <svg viewBox="0 0 1280 720" width="1280" height="720" style="position: absolute; inset: 0;" aria-hidden="true">
+            <g style="transform-origin: 640px 330px; animation: s1-spin 90s linear infinite;">
+              <g stroke="#f97316" stroke-width="1" opacity=".30" fill="none">
+                <line class="s1-edge" x1="470" y1="250" x2="610" y2="196"></line>
+                <line class="s1-edge" x1="610" y1="196" x2="742" y2="248"></line>
+                <line class="s1-edge" x1="742" y1="248" x2="812" y2="360"></line>
+                <line class="s1-edge" x1="812" y1="360" x2="700" y2="452"></line>
+                <line class="s1-edge" x1="700" y1="452" x2="546" y2="438"></line>
+                <line class="s1-edge" x1="546" y1="438" x2="470" y2="250"></line>
+                <line class="s1-edge" x1="546" y1="438" x2="742" y2="248"></line>
+                <line class="s1-edge" x1="470" y1="250" x2="700" y2="452"></line>
+              </g>
+              <g stroke="#38bdf8" stroke-width="1" opacity=".26" fill="none">
+                <line class="s1-edge" x1="398" y1="372" x2="546" y2="438"></line>
+                <line class="s1-edge" x1="880" y1="270" x2="742" y2="248"></line>
+              </g>
+              <g fill="#78899e">
+                <circle class="s1-dot" cx="352" cy="196" r="1.6"></circle>
+                <circle class="s1-dot" cx="286" cy="318" r="1.2"></circle>
+                <circle class="s1-dot" cx="432" cy="132" r="1.4"></circle>
+                <circle class="s1-dot" cx="962" cy="176" r="1.5"></circle>
+                <circle class="s1-dot" cx="1042" cy="300" r="1.2"></circle>
+                <circle class="s1-dot" cx="886" cy="452" r="1.6"></circle>
+                <circle class="s1-dot" cx="366" cy="486" r="1.3"></circle>
+                <circle class="s1-dot" cx="244" cy="436" r="1.5"></circle>
+                <circle class="s1-dot" cx="628" cy="112" r="1.2"></circle>
+                <circle class="s1-dot" cx="758" cy="520" r="1.4"></circle>
+                <circle class="s1-dot" cx="520" cy="560" r="1.2"></circle>
+                <circle class="s1-dot" cx="1090" cy="430" r="1.3"></circle>
+                <circle class="s1-dot" cx="196" cy="236" r="1.2"></circle>
+                <circle class="s1-dot" cx="1146" cy="224" r="1.4"></circle>
+              </g>
+              <g fill="#f97316">
+                <circle class="s1-dot" cx="470" cy="250" r="4"></circle>
+                <circle class="s1-dot" cx="610" cy="196" r="3.4"></circle>
+                <circle class="s1-dot" cx="742" cy="248" r="4.2"></circle>
+                <circle class="s1-dot" cx="812" cy="360" r="3.2"></circle>
+                <circle class="s1-dot" cx="700" cy="452" r="3.8"></circle>
+                <circle class="s1-dot" cx="546" cy="438" r="4.4"></circle>
+              </g>
+              <g fill="#38bdf8">
+                <circle class="s1-dot" cx="398" cy="372" r="3.2"></circle>
+                <circle class="s1-dot" cx="880" cy="270" r="3"></circle>
+              </g>
+            </g>
+          </svg>
+        </div>
+    
+        <div style="position: absolute; left: 88px; top: 96px; right: 88px; display: flex; flex-direction: column; gap: 22px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; letter-spacing: .3em; color: #f0a93b; text-transform: uppercase; animation: s1-brow 13s steps(24, end) both; animation-delay: var(--seek, 0s);">CUTE-DINO · MALECNS v1.0</div>
+          <div style="display: flex; flex-direction: column; gap: 2px;">
+            <div style="overflow: hidden; padding-bottom: 4px;"><div style="font-size: 76px; font-weight: 700; color: #f2f5f8; line-height: 1.16; letter-spacing: -.02em; animation: s1-rise 13s cubic-bezier(.16,.84,.26,1) both; animation-delay: var(--seek, 0s);">一段果蠅神經迴路，</div></div>
+            <div style="overflow: hidden; padding-bottom: 6px;"><div style="font-size: 76px; font-weight: 700; color: #f0a93b; line-height: 1.16; letter-spacing: -.02em; animation: s1-rise2 13s cubic-bezier(.16,.84,.26,1) both; animation-delay: var(--seek, 0s);">正在玩你的遊戲。</div></div>
+          </div>
+        </div>
+    
+        <div style="position: absolute; left: 88px; top: 404px; display: flex; gap: 64px; animation: s1-stats 13s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s);">
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div class="s1-num s1-n1" style="font-family: 'IBM Plex Mono', monospace; font-size: 58px; font-weight: 500; color: #f2f5f8; line-height: 1;"></div>
+            <div style="font-size: 14px; color: #a7b1bd; letter-spacing: .04em;">顆真實神經元</div>
+          </div>
+          <div style="width: 1px; height: 64px; background: #232a33; align-self: center;"></div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: grid; line-height: 1;">
+              <div class="s1-num s1-n2" style="grid-area: 1 / 1; font-family: 'IBM Plex Mono', monospace; font-size: 58px; font-weight: 500; color: #f2f5f8; line-height: 1;"></div>
+              <div class="s1-fin" style="grid-area: 1 / 1; font-family: 'IBM Plex Mono', monospace; font-size: 58px; font-weight: 500; color: #f2f5f8; line-height: 1;">1,296</div>
+            </div>
+            <div style="font-size: 14px; color: #a7b1bd; letter-spacing: .04em;">條實測突觸連接</div>
+          </div>
+          <div style="width: 1px; height: 64px; background: #232a33; align-self: center;"></div>
+          <div style="display: flex; flex-direction: column; gap: 4px;">
+            <div style="display: grid; line-height: 1;">
+              <div class="s1-num s1-n3" style="grid-area: 1 / 1; font-family: 'IBM Plex Mono', monospace; font-size: 58px; font-weight: 500; color: #f2f5f8; line-height: 1;"></div>
+              <div class="s1-fin" style="grid-area: 1 / 1; font-family: 'IBM Plex Mono', monospace; font-size: 58px; font-weight: 500; color: #f2f5f8; line-height: 1;">26,029</div>
+            </div>
+            <div style="font-size: 14px; color: #a7b1bd; letter-spacing: .04em;">個突觸接觸</div>
+          </div>
+        </div>
+    
+        
+      </div>
+    </div>
+    <div class="scene" id="sc2">
+    <div style="position: relative; width: 1280px; height: 720px; overflow: hidden; background: #0d1016;">
+    
+        <div style="position: absolute; left: 64px; top: 44px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .24em; color: #f0a93b; text-transform: uppercase;">02 / 這段電路是真的</div>
+        <div style="position: absolute; left: 64px; top: 74px; font-size: 38px; font-weight: 700; color: #f2f5f8; letter-spacing: -.01em;">連法不是我設計的，是掃出來的</div>
+    
+        <svg viewBox="0 0 700 460" width="700" height="460" style="position: absolute; left: 48px; top: 152px;" aria-hidden="true">
+          <path class="s2-line" d="M120 250 C104 168 176 96 286 84 C400 72 520 104 566 172 C606 230 598 312 544 356 C486 404 372 424 276 404 C186 386 134 330 120 250 Z" fill="none" stroke="#2f3742" stroke-width="1.5"></path>
+          <g class="s2-bg" fill="#5c6875">
+            <circle cx="200" cy="200" r="1.1"></circle><circle cx="232" cy="164" r="1"></circle><circle cx="268" cy="140" r="1.2"></circle>
+            <circle cx="312" cy="128" r="1"></circle><circle cx="356" cy="136" r="1.1"></circle><circle cx="404" cy="150" r="1"></circle>
+            <circle cx="448" cy="172" r="1.2"></circle><circle cx="486" cy="200" r="1"></circle><circle cx="514" cy="236" r="1.1"></circle>
+            <circle cx="520" cy="280" r="1"></circle><circle cx="496" cy="318" r="1.2"></circle><circle cx="456" cy="346" r="1"></circle>
+            <circle cx="408" cy="366" r="1.1"></circle><circle cx="356" cy="378" r="1"></circle><circle cx="304" cy="376" r="1.2"></circle>
+            <circle cx="256" cy="362" r="1"></circle><circle cx="212" cy="338" r="1.1"></circle><circle cx="178" cy="306" r="1"></circle>
+            <circle cx="158" cy="266" r="1.2"></circle><circle cx="160" cy="222" r="1"></circle><circle cx="178" cy="182" r="1.1"></circle>
+            <circle cx="244" cy="226" r="1"></circle><circle cx="288" cy="196" r="1.2"></circle><circle cx="338" cy="184" r="1"></circle>
+            <circle cx="390" cy="196" r="1.1"></circle><circle cx="434" cy="222" r="1"></circle><circle cx="462" cy="262" r="1.2"></circle>
+            <circle cx="452" cy="304" r="1"></circle><circle cx="414" cy="328" r="1.1"></circle><circle cx="366" cy="340" r="1"></circle>
+            <circle cx="314" cy="336" r="1.2"></circle><circle cx="268" cy="318" r="1"></circle><circle cx="232" cy="288" r="1.1"></circle>
+            <circle cx="216" cy="250" r="1"></circle><circle cx="330" cy="260" r="1.2"></circle><circle cx="378" cy="276" r="1"></circle>
+          </g>
+          <g stroke="#f97316" stroke-width=".9" opacity=".34" fill="none">
+            <line class="s2-e" x1="226" y1="212" x2="318" y2="176"></line>
+            <line class="s2-e" x1="318" y1="176" x2="410" y2="206"></line>
+            <line class="s2-e" x1="410" y1="206" x2="468" y2="278"></line>
+            <line class="s2-e" x1="468" y1="278" x2="392" y2="330"></line>
+            <line class="s2-e" x1="392" y1="330" x2="286" y2="316"></line>
+            <line class="s2-e" x1="286" y1="316" x2="226" y2="212"></line>
+            <line class="s2-e" x1="226" y1="212" x2="410" y2="206"></line>
+            <line class="s2-e" x1="318" y1="176" x2="392" y2="330"></line>
+            <line class="s2-e" x1="286" y1="316" x2="468" y2="278"></line>
+          </g>
+          <g fill="#f97316">
+            <circle class="s2-c s2-ca" cx="226" cy="212" r="5"></circle>
+            <circle class="s2-c s2-cb" cx="318" cy="176" r="4.4"></circle>
+            <circle class="s2-c s2-cc" cx="410" cy="206" r="5.2"></circle>
+            <circle class="s2-c s2-cd" cx="468" cy="278" r="4.2"></circle>
+            <circle class="s2-c s2-ca" cx="392" cy="330" r="4.8"></circle>
+            <circle class="s2-c s2-cb" cx="286" cy="316" r="5"></circle>
+            <circle class="s2-c s2-cc" cx="352" cy="242" r="4"></circle>
+            <circle class="s2-c s2-cd" cx="256" cy="264" r="3.8"></circle>
+          </g>
+          <g fill="none" stroke="#38bdf8" stroke-width="1.6">
+            <circle class="s2-c s2-cb" cx="498" cy="196" r="6"></circle>
+            <circle class="s2-c s2-cc" cx="516" cy="246" r="5.4"></circle>
+            <circle class="s2-c s2-cd" cx="486" cy="322" r="5.8"></circle>
+          </g>
+          <text x="498" y="176" fill="#7e8a97" font-family="IBM Plex Mono, monospace" font-size="11">DNp01</text>
+          <text x="196" y="200" fill="#7e8a97" font-family="IBM Plex Mono, monospace" font-size="11" text-anchor="end">LC4</text>
+        </svg>
+    
+        <div style="position: absolute; left: 62px; top: 618px; display: flex; gap: 30px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #7e8a97;">
+          <span><span style="color: #f2f5f8;">124,289</span> 顆實測胞體</span>
+          <span><span style="color: #f97316;">●</span> 輸入／中繼</span>
+          <span><span style="color: #38bdf8;">○</span> 下行神經元</span>
+        </div>
+    
+        <div style="position: absolute; right: 64px; top: 158px; width: 430px; display: flex; flex-direction: column; gap: 7px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase; margin-bottom: 3px;">MaleCNS v1.0 · 電路組成</div>
+          <div class="s2-t s2-ta" style="display: flex; justify-content: space-between; align-items: baseline; padding: 7px 12px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #f2f5f8;">LC4 / LC11 / LC17</span><span style="font-size: 12px; color: #7e8a97;">各 4 顆 · 投射相似度 0.94–0.99</span></div>
+          <div class="s2-t s2-tb" style="display: flex; justify-content: space-between; align-items: baseline; padding: 7px 12px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #f2f5f8;">LC9 / LC16 / LC21 / LPLC2</span><span style="font-size: 12px; color: #7e8a97;">可拆成 8 通道</span></div>
+          <div class="s2-t s2-tc" style="display: flex; justify-content: space-between; align-items: baseline; padding: 7px 12px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #f2f5f8;">LC15</span><span style="font-size: 12px; color: #7e8a97;">勉強可拆 · 0.534</span></div>
+          <div class="s2-t s2-td" style="display: flex; justify-content: space-between; align-items: baseline; padding: 7px 12px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #38bdf8; border-radius: 4px;"><span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #f2f5f8;">DNp01 / DNp04 / DNp35 …</span><span style="font-size: 12px; color: #7e8a97;">16 顆下行神經元</span></div>
+          <div class="s2-t s2-te" style="display: flex; justify-content: space-between; align-items: baseline; padding: 9px 12px; margin-top: 6px; background: #141820; border: 1px solid #2a323c; border-radius: 4px;"><span style="font-size: 13px; color: #a7b1bd;">總計</span><span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #f0a93b;">80 細胞 · 1,296 連接</span></div>
+        </div>
+    
+        <div style="position: absolute; right: 108px; top: 470px; animation: s2-shake 26s linear both; animation-delay: var(--seek, 0s);">
+          <div style="padding: 12px 26px; border: 2px solid #f0a93b; border-radius: 5px; background: rgba(240,169,59,.08); animation: s2-stamp 26s cubic-bezier(.2,1.3,.4,1) both; animation-delay: var(--seek, 0s);">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 19px; letter-spacing: .26em; color: #f0a93b; font-weight: 600;">WEIGHTS FROZEN</div>
+            <div style="font-size: 13px; color: #f0a93b; letter-spacing: .1em; margin-top: 2px;">權重完全固定 · 一個都不訓練</div>
+          </div>
+        </div>
+    
+        
+      </div>
+    </div>
+    <div class="scene" id="sc3">
+    <div style="position: relative; width: 1280px; height: 720px; overflow: hidden; background: #0d1016;">
+    
+        <div style="position: absolute; left: 64px; top: 40px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .24em; color: #f0a93b; text-transform: uppercase;">03 / 資料怎麼流過去</div>
+        <div style="position: absolute; left: 64px; top: 70px; font-size: 38px; font-weight: 700; color: #f2f5f8; letter-spacing: -.01em;">每秒三十次，畫面被壓成 13 個數字</div>
+    
+        <div style="position: absolute; left: 64px; right: 64px; top: 148px; display: flex; align-items: stretch; gap: 0;">
+          <div class="s3-n s3-na" style="flex: 1; padding: 14px 14px 13px; background: #12161d; border: 1px solid #232a33; border-top: 2px solid #4cc3e8; border-radius: 5px;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97;">INPUT</div>
+            <div style="font-size: 16px; font-weight: 500; color: #f2f5f8; margin-top: 5px;">遊戲狀態</div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">cute-dino · 60 Hz</div>
+          </div>
+          <div style="position: relative; width: 46px; flex-shrink: 0; align-self: center; height: 2px; background: #232a33;"><span class="s3-p"></span></div>
+          <div class="s3-n s3-nb" style="flex: 1; padding: 14px 14px 13px; background: #12161d; border: 1px solid #232a33; border-top: 2px solid #f0a93b; border-radius: 5px;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97;">ENCODE</div>
+            <div style="font-size: 16px; font-weight: 500; color: #f2f5f8; margin-top: 5px;">13 個感官通道</div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">值域 0..1</div>
+          </div>
+          <div style="position: relative; width: 46px; flex-shrink: 0; align-self: center; height: 2px; background: #232a33;"><span class="s3-p" style="animation-delay: -.42s;"></span></div>
+          <div class="s3-n s3-nc" style="flex: 1; padding: 14px 14px 13px; background: #12161d; border: 1px solid #232a33; border-top: 2px solid #f97316; border-radius: 5px;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97;">INJECT</div>
+            <div style="font-size: 16px; font-weight: 500; color: #f2f5f8; margin-top: 5px;">32 顆輸入細胞</div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">u = 2·(f − 0.5)</div>
+          </div>
+          <div style="position: relative; width: 46px; flex-shrink: 0; align-self: center; height: 2px; background: #232a33;"><span class="s3-p" style="animation-delay: -.84s;"></span></div>
+          <div class="s3-n s3-nd" style="flex: 1; padding: 14px 14px 13px; background: #12161d; border: 1px solid #232a33; border-top: 2px solid #f97316; border-radius: 5px;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97;">PROPAGATE</div>
+            <div style="font-size: 16px; font-weight: 500; color: #f2f5f8; margin-top: 5px;">同步傳播 ×3</div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">1,296 條實測連接</div>
+          </div>
+          <div style="position: relative; width: 46px; flex-shrink: 0; align-self: center; height: 2px; background: #232a33;"><span class="s3-p" style="animation-delay: -1.26s;"></span></div>
+          <div class="s3-n s3-ne" style="flex: 1; padding: 14px 14px 13px; background: #12161d; border: 1px solid #232a33; border-top: 2px solid #38bdf8; border-radius: 5px;">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97;">OUTPUT</div>
+            <div style="font-size: 16px; font-weight: 500; color: #f2f5f8; margin-top: 5px;">16 顆下行神經元</div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">DNp01 · DNp04 · DNp35</div>
+          </div>
+        </div>
+    
+        <div style="position: absolute; left: 64px; top: 288px; width: 706px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase; margin-bottom: 10px;">13 個工程特徵 · 取自 data/channels.json</div>
+          <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px;">
+            <div class="s3-ch s3-cha" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">障礙物撞擊倒數</div>
+            <div class="s3-ch s3-cha" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">障礙物底端離地高</div>
+            <div class="s3-ch s3-cha" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">障礙物頂端離地高</div>
+            <div class="s3-ch s3-chb" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">次近障礙物撞擊倒數</div>
+            <div class="s3-ch s3-chb" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">玩家離地高度</div>
+            <div class="s3-ch s3-chb" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">玩家垂直速度</div>
+            <div class="s3-ch s3-chc" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #4cc3e8; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">是否踩地</div>
+            <div class="s3-ch s3-chc" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #4cc3e8; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">玩家水平位置</div>
+            <div class="s3-ch s3-chc" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #4cc3e8; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">護盾狀態</div>
+            <div class="s3-ch s3-chd" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #ff5f56; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">子彈撞擊倒數</div>
+            <div class="s3-ch s3-chd" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #ff5f56; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">子彈相對高度差</div>
+            <div class="s3-ch s3-chd" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #34d399; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">道具接近倒數</div>
+            <div class="s3-ch s3-chd" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #34d399; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">道具相對高度差</div>
+          </div>
+        </div>
+    
+        <div style="position: absolute; right: 64px; top: 288px; width: 420px; display: flex; flex-direction: column; gap: 16px;">
+          <div style="animation: s3-eq 38s ease-out both; animation-delay: var(--seek, 0s);">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase; margin-bottom: 10px;">傳播規則</div>
+            <div style="padding: 18px 16px; background: #12161d; border: 1px solid #232a33; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 17px; color: #f2f5f8; text-align: center; letter-spacing: .01em;">h′ = 0.3·h + 0.7·tanh<span style="color: #7e8a97;">(</span> u + 1.4·<span style="color: #f0a93b;">Σ W·h</span> <span style="color: #7e8a97;">)</span></div>
+          </div>
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase; margin-bottom: 10px;">同步更新輪次</div>
+            <div style="display: flex; gap: 10px;">
+              <div style="flex: 1; padding: 13px 0; text-align: center; border: 1px solid #2a323c; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 20px; animation: s3-r1 38s linear both; animation-delay: var(--seek, 0s);">1</div>
+              <div style="flex: 1; padding: 13px 0; text-align: center; border: 1px solid #2a323c; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 20px; animation: s3-r2 38s linear both; animation-delay: var(--seek, 0s);">2</div>
+              <div style="flex: 1; padding: 13px 0; text-align: center; border: 1px solid #2a323c; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 20px; animation: s3-r3 38s linear both; animation-delay: var(--seek, 0s);">3</div>
+            </div>
+            <p style="margin: 12px 0 0; font-size: 12.5px; color: #7e8a97; line-height: 1.7;">三輪之後才讀值。輪數與動態常數沿用原作 flyjump，未經調整。</p>
+          </div>
+        </div>
+    
+        
+      </div>
+    </div>
+    <div class="scene" id="sc4">
+    <div style="position: relative; width: 1280px; height: 720px; overflow: hidden; background: #0d1016;">
+    
+        <div style="position: absolute; left: 64px; top: 40px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .24em; color: #f0a93b; text-transform: uppercase;">04 / 唯一被訓練的東西</div>
+        <div style="position: absolute; left: 64px; top: 70px; font-size: 38px; font-weight: 700; color: #f2f5f8; letter-spacing: -.01em;">269 個參數，就這麼多</div>
+    
+        <div style="position: absolute; left: 64px; top: 150px; width: 330px; display: flex; flex-direction: column; gap: 14px;">
+          <div style="padding: 16px; background: #12161d; border: 1px solid #232a33; border-radius: 6px; animation: s4-lock 28s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <svg width="14" height="16" viewBox="0 0 14 16" fill="none" stroke="#7e8a97" stroke-width="1.4" aria-hidden="true"><rect x="1.5" y="6.5" width="11" height="8" rx="1.5"></rect><path d="M4 6.5V4.2a3 3 0 0 1 6 0v2.3"></path></svg>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase;">Frozen</span>
+            </div>
+            <div style="font-size: 17px; font-weight: 500; color: #a7b1bd; margin-top: 10px;">連接體電路</div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #7e8a97; margin-top: 6px; line-height: 1.7;">80 顆細胞 · 1,296 條連接<br>可訓練參數 <span style="color: #e8ecf1;">0</span></div>
+          </div>
+          <div style="padding: 16px; background: rgba(240,169,59,.09); border: 1px solid #f0a93b; border-radius: 6px; animation: s4-train 28s cubic-bezier(.2,.9,.3,1) both; animation-delay: var(--seek, 0s);">
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <svg width="15" height="15" viewBox="0 0 15 15" fill="none" stroke="#f0a93b" stroke-width="1.4" aria-hidden="true"><path d="M1.5 11.5 5 7l3 2.6L13.5 3"></path><path d="M10.2 3h3.3v3.3"></path></svg>
+              <span style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #f0a93b; text-transform: uppercase;">Trainable</span>
+            </div>
+            <div style="font-size: 17px; font-weight: 500; color: #f2f5f8; margin-top: 10px;">動作讀出網路</div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #a7b1bd; margin-top: 6px; line-height: 1.7;">16 → 12 (tanh) → 5<br>可訓練參數 <span style="color: #f0a93b; font-size: 17px;">269</span></div>
+          </div>
+          <div style="font-size: 12.5px; color: #7e8a97; line-height: 1.75;">交叉熵方法（CEM）：每代 64 個候選、取最好的 8 個更新分布，一代換一批新賽道。</div>
+        </div>
+    
+        <svg viewBox="0 0 420 270" width="420" height="270" style="position: absolute; left: 432px; top: 176px;" aria-hidden="true">
+          <g class="s4-wire" stroke="#4a5666" stroke-width=".7">
+            <line x1="30" y1="20" x2="160" y2="35"></line><line x1="30" y1="49" x2="160" y2="87"></line>
+            <line x1="30" y1="78" x2="160" y2="52"></line><line x1="30" y1="107" x2="160" y2="139"></line>
+            <line x1="30" y1="137" x2="160" y2="104"></line><line x1="30" y1="166" x2="160" y2="191"></line>
+            <line x1="30" y1="196" x2="160" y2="156"></line><line x1="30" y1="225" x2="160" y2="208"></line>
+            <line x1="30" y1="35" x2="160" y2="121"></line><line x1="30" y1="152" x2="160" y2="70"></line>
+            <line x1="30" y1="93" x2="160" y2="225"></line><line x1="30" y1="210" x2="160" y2="173"></line>
+            <line x1="160" y1="35" x2="290" y2="50"></line><line x1="160" y1="52" x2="290" y2="90"></line>
+            <line x1="160" y1="70" x2="290" y2="130"></line><line x1="160" y1="87" x2="290" y2="50"></line>
+            <line x1="160" y1="104" x2="290" y2="170"></line><line x1="160" y1="121" x2="290" y2="90"></line>
+            <line x1="160" y1="139" x2="290" y2="210"></line><line x1="160" y1="156" x2="290" y2="130"></line>
+            <line x1="160" y1="173" x2="290" y2="50"></line><line x1="160" y1="191" x2="290" y2="170"></line>
+            <line x1="160" y1="208" x2="290" y2="210"></line><line x1="160" y1="225" x2="290" y2="130"></line>
+          </g>
+          <g class="s4-wire" stroke="#f97316" stroke-width="1.3">
+            <line class="s4-hot" x1="30" y1="49" x2="160" y2="87"></line>
+            <line class="s4-hot" x1="160" y1="87" x2="290" y2="50"></line>
+            <line class="s4-hot" x1="30" y1="137" x2="160" y2="104"></line>
+            <line class="s4-hot" x1="160" y1="121" x2="290" y2="90"></line>
+            <line class="s4-hot" x1="160" y1="191" x2="290" y2="170"></line>
+          </g>
+          <g fill="#38bdf8" style="animation: s4-l1 28s ease-out both; animation-delay: var(--seek, 0s);">
+            <circle cx="30" cy="20" r="3.4"></circle><circle cx="30" cy="35" r="3.4"></circle><circle cx="30" cy="49" r="3.4"></circle>
+            <circle cx="30" cy="64" r="3.4"></circle><circle cx="30" cy="78" r="3.4"></circle><circle cx="30" cy="93" r="3.4"></circle>
+            <circle cx="30" cy="107" r="3.4"></circle><circle cx="30" cy="122" r="3.4"></circle><circle cx="30" cy="137" r="3.4"></circle>
+            <circle cx="30" cy="152" r="3.4"></circle><circle cx="30" cy="166" r="3.4"></circle><circle cx="30" cy="181" r="3.4"></circle>
+            <circle cx="30" cy="196" r="3.4"></circle><circle cx="30" cy="210" r="3.4"></circle><circle cx="30" cy="225" r="3.4"></circle>
+            <circle cx="30" cy="240" r="3.4"></circle>
+          </g>
+          <g fill="#f0a93b" style="animation: s4-l2 28s ease-out both; animation-delay: var(--seek, 0s);">
+            <circle cx="160" cy="35" r="3.6"></circle><circle cx="160" cy="52" r="3.6"></circle><circle cx="160" cy="70" r="3.6"></circle>
+            <circle cx="160" cy="87" r="3.6"></circle><circle cx="160" cy="104" r="3.6"></circle><circle cx="160" cy="121" r="3.6"></circle>
+            <circle cx="160" cy="139" r="3.6"></circle><circle cx="160" cy="156" r="3.6"></circle><circle cx="160" cy="173" r="3.6"></circle>
+            <circle cx="160" cy="191" r="3.6"></circle><circle cx="160" cy="208" r="3.6"></circle><circle cx="160" cy="225" r="3.6"></circle>
+          </g>
+          <g fill="#f2f5f8" style="animation: s4-l3 28s ease-out both; animation-delay: var(--seek, 0s);">
+            <circle cx="290" cy="50" r="4.2"></circle><circle cx="290" cy="90" r="4.2"></circle><circle cx="290" cy="130" r="4.2"></circle>
+            <circle cx="290" cy="170" r="4.2"></circle><circle cx="290" cy="210" r="4.2"></circle>
+          </g>
+          <text x="30" y="262" fill="#7e8a97" font-family="IBM Plex Mono, monospace" font-size="10.5" text-anchor="middle">16 DN</text>
+          <text x="160" y="262" fill="#7e8a97" font-family="IBM Plex Mono, monospace" font-size="10.5" text-anchor="middle">12 tanh</text>
+          <text x="290" y="262" fill="#7e8a97" font-family="IBM Plex Mono, monospace" font-size="10.5" text-anchor="middle">5 動作</text>
+        </svg>
+    
+        <div style="position: absolute; left: 748px; top: 186px; width: 104px; display: flex; flex-direction: column; gap: 9px;">
+          <div class="s4-act" style="animation: s4-act1 11s steps(1, end) infinite;">RUN</div>
+          <div class="s4-act" style="animation: s4-act2 11s steps(1, end) infinite;">JUMP</div>
+          <div class="s4-act" style="animation: s4-act3 11s steps(1, end) infinite;">DUCK</div>
+          <div class="s4-act" style="animation: s4-act4 11s steps(1, end) infinite;">LEFT</div>
+          <div class="s4-act" style="animation: s4-act5 11s steps(1, end) infinite;">RIGHT</div>
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #6f7b88; text-align: center; margin-top: 2px; line-height: 1.5;">argmax<br>30 Hz</div>
+        </div>
+    
+        <div style="position: absolute; right: 64px; top: 150px; width: 300px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase; margin-bottom: 10px;">CEM 訓練曲線 · 種子 20260917</div>
+          <div style="position: relative; padding: 14px 12px 10px; background: #12161d; border: 1px solid #232a33; border-radius: 6px;">
+            <svg viewBox="0 0 276 180" width="276" height="180" aria-hidden="true">
+              <g stroke="#1a2028" stroke-width="1">
+                <line x1="0" y1="40" x2="276" y2="40"></line><line x1="0" y1="80" x2="276" y2="80"></line>
+                <line x1="0" y1="120" x2="276" y2="120"></line><line x1="0" y1="160" x2="276" y2="160"></line>
+              </g>
+              <polyline points="4,170 18,158 32,140 46,146 60,126 74,112 88,118 102,98 116,86 130,92 144,72 158,60 172,66 186,50 200,42 214,46 224,30 232,26 246,32 258,28 270,30" fill="none" stroke="#f0a93b" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" style="stroke-dasharray: 620; animation: s4-curve 28s cubic-bezier(.25,.7,.3,1) both; animation-delay: var(--seek, 0s);"></polyline>
+              <g style="animation: s4-champ 28s cubic-bezier(.2,1.3,.4,1) both; animation-delay: var(--seek, 0s); transform-origin: 232px 26px; transform-box: fill-box;">
+                <circle cx="232" cy="26" r="5" fill="none" stroke="#f2f5f8" stroke-width="1.6"></circle>
+              </g>
+              <text x="270" y="176" fill="#6f7b88" font-family="IBM Plex Mono, monospace" font-size="9" text-anchor="end">400 代</text>
+              <text x="4" y="176" fill="#6f7b88" font-family="IBM Plex Mono, monospace" font-size="9">0</text>
+            </svg>
+            <div style="position: absolute; right: 14px; top: 12px; text-align: right; animation: s4-champ 28s cubic-bezier(.2,1.3,.4,1) both; animation-delay: var(--seek, 0s);">
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #7e8a97;">第 311 代冠軍</div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 22px; color: #f2f5f8;">2965</div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #6f7b88;">驗證分數</div>
+            </div>
+          </div>
+          <p style="margin: 12px 0 0; font-size: 12.5px; color: #7e8a97; line-height: 1.75;">選模型看的是訓練期的驗證分數，不是後面那張 held-out 表 —— 否則等於拿測試集挑模型。</p>
+        </div>
+    
+        
+      </div>
+    </div>
+    <div class="scene" id="sc5">
+    <div style="position: relative; width: 1280px; height: 720px; overflow: hidden; background: #0d1016;">
+    
+        <div style="position: absolute; left: 64px; top: 40px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .24em; color: #f0a93b; text-transform: uppercase;">05 / 消融對照</div>
+        <div style="position: absolute; left: 64px; top: 70px; font-size: 38px; font-weight: 700; color: #f2f5f8; letter-spacing: -.01em;">把電路關掉，牠就不會玩了</div>
+    
+        <div style="position: absolute; left: 64px; top: 158px; width: 772px;">
+          <div style="display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #6f7b88; margin-bottom: 7px;">
+            <span>0s</span><span>60s</span><span>120s</span><span>180s 上限</span>
+          </div>
+    
+          <div style="display: flex; flex-direction: column; gap: 18px;">
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                <span style="font-size: 14px; color: #f2f5f8; font-weight: 500;">連接體 + 訓練讀出</span>
+                <span style="display: grid; font-family: 'IBM Plex Mono', monospace; font-size: 18px;">
+                  <span class="s5-sv" style="grid-area: 1 / 1; color: #f0a93b; justify-self: end;"></span>
+                  <span style="grid-area: 1 / 1; color: #f0a93b; justify-self: end; animation: s5-fin 32s linear both; animation-delay: var(--seek, 0s);">161.1s</span>
+                </span>
+              </div>
+              <div class="s5-track"><div class="s5-fill" style="background: linear-gradient(90deg, rgba(240,169,59,.55), #f0a93b); animation: s5-barA 32s cubic-bezier(.3,.6,.3,1) both; animation-delay: var(--seek, 0s);"></div></div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">82/100 跑完 · 中位 180.0s（撞頂）</div>
+            </div>
+    
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                <span style="font-size: 14px; color: #f2f5f8; font-weight: 500;">電路靜默（消融）</span>
+                <span style="font-family: 'IBM Plex Mono', monospace; font-size: 18px; color: #ff5f56; animation: s5-tagB 32s ease-out both; animation-delay: var(--seek, 0s);">3.5s</span>
+              </div>
+              <div class="s5-track"><div class="s5-fill" style="background: #ff5f56; animation: s5-barB 32s cubic-bezier(.2,.9,.3,1) both; animation-delay: var(--seek, 0s);"></div></div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px; animation: s5-floor 32s ease-out both; animation-delay: var(--seek, 0s);">0/100 跑完 · 100 條賽道全部 3.5s ＝ 這個環境的地板</div>
+            </div>
+    
+            <div>
+              <div style="display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 6px;">
+                <span style="font-size: 14px; color: #a7b1bd; font-weight: 500;">手寫規則（不用神經網路）</span>
+                <span style="font-family: 'IBM Plex Mono', monospace; font-size: 18px; color: #a7b1bd; animation: s5-tagC 32s ease-out both; animation-delay: var(--seek, 0s);">82.4s</span>
+              </div>
+              <div class="s5-track"><div class="s5-fill" style="background: #4a5666; animation: s5-barC 32s cubic-bezier(.3,.6,.3,1) both; animation-delay: var(--seek, 0s);"></div></div>
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">25/100 跑完 · 中位 55.1s</div>
+            </div>
+          </div>
+    
+          <div style="margin-top: 18px; padding: 10px 13px; background: #141820; border: 1px solid #232a33; border-radius: 5px; font-size: 12.5px; color: #a7b1bd; line-height: 1.6; animation: s5-floor 32s ease-out both; animation-delay: var(--seek, 0s);">消融組只把 16 顆下行神經元的輸出強制歸零，其餘一切不變。掉到 3.5s，代表讀出網路真的在用那段電路。</div>
+        </div>
+    
+        <div style="position: absolute; right: 64px; top: 168px; width: 348px; display: flex; flex-direction: column; gap: 22px;">
+          <div style="padding: 22px 20px; background: #12161d; border: 1px solid #2a323c; border-radius: 6px; text-align: center; animation: s5-ratio 32s cubic-bezier(.2,1.2,.4,1) both; animation-delay: var(--seek, 0s);">
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .18em; color: #7e8a97; text-transform: uppercase;">存活時間比</div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 72px; font-weight: 600; color: #f0a93b; line-height: 1.05; margin-top: 4px;">45.8×</div>
+            <div style="font-size: 12px; color: #7e8a97; margin-top: 4px;">在 180 秒截尾下 · 無截尾 480s 量尺為 74.3×</div>
+          </div>
+    
+          <div>
+            <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase; margin-bottom: 10px;">三個訓練種子 · 消融比</div>
+            <div style="display: flex; flex-direction: column; gap: 7px;">
+              <div style="display: flex; justify-content: space-between; padding: 7px 11px; background: #12161d; border: 1px solid #232a33; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; animation: s5-repA 32s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s);"><span style="color: #7e8a97;">20260915</span><span style="color: #e8ecf1;">31.2×</span></div>
+              <div style="display: flex; justify-content: space-between; padding: 7px 11px; background: #12161d; border: 1px solid #232a33; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; animation: s5-repB 32s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s);"><span style="color: #7e8a97;">20260916</span><span style="color: #e8ecf1;">47.7×</span></div>
+              <div style="display: flex; justify-content: space-between; padding: 7px 11px; background: #12161d; border: 1px solid #232a33; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; animation: s5-repC 32s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s);"><span style="color: #7e8a97;">20260917</span><span style="color: #e8ecf1;">45.8×</span></div>
+              <div style="display: flex; justify-content: space-between; padding: 9px 11px; background: #141820; border: 1px solid #f0a93b; border-radius: 4px; font-family: 'IBM Plex Mono', monospace; font-size: 13px; animation: s5-repD 32s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s);"><span style="color: #a7b1bd;">平均 ± 標準差</span><span style="color: #f0a93b;">41.6 ± 7.4×</span></div>
+            </div>
+            <p style="margin: 11px 0 0; font-size: 12px; color: #7e8a97; line-height: 1.7;">減一個標準差後仍有 34×，遠高於 2× 的判定門檻 —— 效應穩定重現（t = 7.8、p = 0.016）。</p>
+          </div>
+        </div>
+    
+        
+      </div>
+    </div>
+    <div class="scene" id="sc6">
+    <div style="position: relative; width: 1280px; height: 720px; overflow: hidden; background: #0d1016;">
+    
+        <div style="position: absolute; left: 64px; top: 40px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .24em; color: #f0a93b; text-transform: uppercase;">06 / 該誠實講的地方</div>
+        <div style="position: absolute; left: 64px; top: 70px; font-size: 38px; font-weight: 700; color: #f2f5f8; letter-spacing: -.01em;">兩件不能不講的事</div>
+    
+        <div style="position: absolute; left: 64px; top: 158px; width: 560px;">
+          <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ff5f56; letter-spacing: .14em;">01</span>
+            <span style="font-size: 17px; font-weight: 500; color: #f2f5f8;">換一個訓練種子，成績就不一樣</span>
+          </div>
+    
+          <div style="position: relative; height: 150px;">
+            <div style="position: absolute; left: 0; right: 0; top: 96px; height: 2px; background: #2a323c; transform-origin: left; animation: s6-axis 28s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s);"></div>
+            <div style="position: absolute; left: 0; right: 0; top: 106px; display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #6f7b88;">
+              <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+            </div>
+            <div style="position: absolute; left: 46%; top: 88px; width: 36.6%; height: 18px; margin-top: -8px; background: rgba(240,169,59,.16); border-left: 1px solid #f0a93b; border-right: 1px solid #f0a93b; transform-origin: center; animation: s6-band 28s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s);"></div>
+    
+            <div style="position: absolute; left: 46%; top: 52px; transform: translateX(-50%); text-align: center; animation: s6-sdA 28s cubic-bezier(.2,1.1,.4,1) both; animation-delay: var(--seek, 0s);">
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 19px; color: #e8ecf1;">46</div>
+              <div style="width: 1px; height: 22px; background: #4a5666; margin: 2px auto 0;"></div>
+            </div>
+            <div style="position: absolute; left: 82%; top: 20px; transform: translateX(-50%); text-align: center; animation: s6-sdB 28s cubic-bezier(.2,1.1,.4,1) both; animation-delay: var(--seek, 0s);">
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 19px; color: #f0a93b;">82</div>
+              <div style="width: 1px; height: 54px; background: #f0a93b; margin: 2px auto 0;"></div>
+            </div>
+            <div style="position: absolute; left: 87%; top: 52px; transform: translateX(-50%); text-align: center; animation: s6-sdC 28s cubic-bezier(.2,1.1,.4,1) both; animation-delay: var(--seek, 0s);">
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 19px; color: #e8ecf1;">87</div>
+              <div style="width: 1px; height: 22px; background: #4a5666; margin: 2px auto 0;"></div>
+            </div>
+          </div>
+    
+          <div style="margin-top: 6px; display: flex; gap: 12px; align-items: baseline;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #f0a93b;">71.7 ± 18.3</span>
+            <span style="font-size: 12.5px; color: #7e8a97;">場跑完（三個訓練種子，同一條管線）</span>
+          </div>
+          <p style="margin: 12px 0 0; font-size: 14px; color: #e8ecf1; line-height: 1.75;">影片裡那個 <span style="font-family: 'IBM Plex Mono', monospace; color: #f0a93b;">82/100</span>，是<b style="color: #f2f5f8;">這個部署模型</b>的成績，不是這個<b style="color: #f2f5f8;">方法</b>的成績。</p>
+        </div>
+    
+        <div style="position: absolute; right: 64px; top: 158px; width: 560px;">
+          <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px;">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ff5f56; letter-spacing: .14em;">02</span>
+            <span style="font-size: 17px; font-weight: 500; color: #f2f5f8;">180 秒上限把差距壓小了</span>
+          </div>
+    
+          <div style="display: flex; gap: 26px; align-items: flex-start;">
+            <div style="position: relative;">
+              <svg viewBox="0 0 182 182" width="182" height="182" style="animation: s6-grid 28s ease-out both; animation-delay: var(--seek, 0s);" aria-hidden="true">
+                <g fill="#f0a93b">
+                  <rect x="0" y="0" width="14" height="14" rx="2"></rect><rect x="18" y="0" width="14" height="14" rx="2"></rect><rect x="36" y="0" width="14" height="14" rx="2"></rect><rect x="54" y="0" width="14" height="14" rx="2"></rect><rect x="72" y="0" width="14" height="14" rx="2"></rect><rect x="90" y="0" width="14" height="14" rx="2"></rect><rect x="108" y="0" width="14" height="14" rx="2"></rect><rect x="126" y="0" width="14" height="14" rx="2"></rect><rect x="144" y="0" width="14" height="14" rx="2"></rect><rect x="162" y="0" width="14" height="14" rx="2"></rect>
+                  <rect x="0" y="18" width="14" height="14" rx="2"></rect><rect x="18" y="18" width="14" height="14" rx="2"></rect><rect x="36" y="18" width="14" height="14" rx="2"></rect><rect x="54" y="18" width="14" height="14" rx="2"></rect><rect x="72" y="18" width="14" height="14" rx="2"></rect><rect x="90" y="18" width="14" height="14" rx="2"></rect><rect x="108" y="18" width="14" height="14" rx="2"></rect><rect x="126" y="18" width="14" height="14" rx="2"></rect><rect x="144" y="18" width="14" height="14" rx="2"></rect><rect x="162" y="18" width="14" height="14" rx="2"></rect>
+                  <rect x="0" y="36" width="14" height="14" rx="2"></rect><rect x="18" y="36" width="14" height="14" rx="2"></rect><rect x="36" y="36" width="14" height="14" rx="2"></rect><rect x="54" y="36" width="14" height="14" rx="2"></rect><rect x="72" y="36" width="14" height="14" rx="2"></rect><rect x="90" y="36" width="14" height="14" rx="2"></rect><rect x="108" y="36" width="14" height="14" rx="2"></rect><rect x="126" y="36" width="14" height="14" rx="2"></rect><rect x="144" y="36" width="14" height="14" rx="2"></rect><rect x="162" y="36" width="14" height="14" rx="2"></rect>
+                  <rect x="0" y="54" width="14" height="14" rx="2"></rect><rect x="18" y="54" width="14" height="14" rx="2"></rect><rect x="36" y="54" width="14" height="14" rx="2"></rect><rect x="54" y="54" width="14" height="14" rx="2"></rect><rect x="72" y="54" width="14" height="14" rx="2"></rect><rect x="90" y="54" width="14" height="14" rx="2"></rect><rect x="108" y="54" width="14" height="14" rx="2"></rect><rect x="126" y="54" width="14" height="14" rx="2"></rect><rect x="144" y="54" width="14" height="14" rx="2"></rect><rect x="162" y="54" width="14" height="14" rx="2"></rect>
+                  <rect x="0" y="72" width="14" height="14" rx="2"></rect><rect x="18" y="72" width="14" height="14" rx="2"></rect><rect x="36" y="72" width="14" height="14" rx="2"></rect><rect x="54" y="72" width="14" height="14" rx="2"></rect><rect x="72" y="72" width="14" height="14" rx="2"></rect><rect x="90" y="72" width="14" height="14" rx="2"></rect><rect x="108" y="72" width="14" height="14" rx="2"></rect><rect x="126" y="72" width="14" height="14" rx="2"></rect><rect x="144" y="72" width="14" height="14" rx="2"></rect><rect x="162" y="72" width="14" height="14" rx="2"></rect>
+                  <rect x="0" y="90" width="14" height="14" rx="2"></rect><rect x="18" y="90" width="14" height="14" rx="2"></rect><rect x="36" y="90" width="14" height="14" rx="2"></rect><rect x="54" y="90" width="14" height="14" rx="2"></rect><rect x="72" y="90" width="14" height="14" rx="2"></rect><rect x="90" y="90" width="14" height="14" rx="2"></rect><rect x="108" y="90" width="14" height="14" rx="2"></rect><rect x="126" y="90" width="14" height="14" rx="2"></rect>
+                  <rect class="s6-t" x="144" y="90" width="14" height="14" rx="2"></rect><rect class="s6-t" x="162" y="90" width="14" height="14" rx="2"></rect>
+                  <rect class="s6-t" x="0" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="18" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="36" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="54" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="72" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="90" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="108" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="126" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="144" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="162" y="108" width="14" height="14" rx="2"></rect>
+                  <rect class="s6-t" x="0" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="18" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="36" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="54" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="72" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="90" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="108" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="126" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="144" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="162" y="126" width="14" height="14" rx="2"></rect>
+                  <rect class="s6-t" x="0" y="144" width="14" height="14" rx="2"></rect><rect class="s6-t" x="18" y="144" width="14" height="14" rx="2"></rect>
+                </g>
+                <g fill="#232a33">
+                  <rect x="36" y="144" width="14" height="14" rx="2"></rect><rect x="54" y="144" width="14" height="14" rx="2"></rect><rect x="72" y="144" width="14" height="14" rx="2"></rect><rect x="90" y="144" width="14" height="14" rx="2"></rect><rect x="108" y="144" width="14" height="14" rx="2"></rect><rect x="126" y="144" width="14" height="14" rx="2"></rect><rect x="144" y="144" width="14" height="14" rx="2"></rect><rect x="162" y="144" width="14" height="14" rx="2"></rect>
+                  <rect x="0" y="162" width="14" height="14" rx="2"></rect><rect x="18" y="162" width="14" height="14" rx="2"></rect><rect x="36" y="162" width="14" height="14" rx="2"></rect><rect x="54" y="162" width="14" height="14" rx="2"></rect><rect x="72" y="162" width="14" height="14" rx="2"></rect><rect x="90" y="162" width="14" height="14" rx="2"></rect><rect x="108" y="162" width="14" height="14" rx="2"></rect><rect x="126" y="162" width="14" height="14" rx="2"></rect><rect x="144" y="162" width="14" height="14" rx="2"></rect><rect x="162" y="162" width="14" height="14" rx="2"></rect>
+                </g>
+              </svg>
+              <div style="position: absolute; left: -6px; right: -6px; top: 84px; display: flex; align-items: center; gap: 6px; animation: s6-ceil 28s cubic-bezier(.3,1.1,.4,1) both; animation-delay: var(--seek, 0s);">
+                <div style="flex: 1; height: 2px; background: #ff5f56;"></div>
+              </div>
+            </div>
+    
+            <div style="flex: 1; display: flex; flex-direction: column; gap: 9px; padding-top: 2px;">
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #a7b1bd;"><s style="width: 11px; height: 11px; background: #f0a93b; border-radius: 2px; display: inline-block; flex-shrink: 0;"></s>58 條真的贏過手寫規則</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #a7b1bd;"><s style="width: 11px; height: 11px; background: #3b434e; border-radius: 2px; display: inline-block; flex-shrink: 0;"></s>24 條雙方都撞到 180s 上限 —— 假平手</div>
+              <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #a7b1bd;"><s style="width: 11px; height: 11px; background: #232a33; border-radius: 2px; display: inline-block; flex-shrink: 0;"></s>18 條沒跑完</div>
+              <div style="margin-top: 8px; padding: 10px 12px; background: #12161d; border: 1px solid #232a33; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd; line-height: 1.7;">180s 截尾 → 逐場勝 69/100<br>480s 無截尾 → 逐場勝 <span style="color: #f0a93b;">92/100</span></div>
+            </div>
+          </div>
+    
+          <div style="margin-top: 16px; display: flex; gap: 12px; animation: s6-ratio 28s cubic-bezier(.2,.9,.3,1) both; animation-delay: var(--seek, 0s);">
+            <div style="flex: 1; padding: 13px 14px; background: #12161d; border: 1px solid #232a33; border-radius: 5px;">
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; color: #f2f5f8;">1.77<span style="font-size: 15px; color: #7e8a97;"> ± 0.31×</span></div>
+              <div style="font-size: 11.5px; color: #7e8a97; margin-top: 3px;">勝過手寫規則（180s 截尾）</div>
+            </div>
+            <div style="flex: 1; padding: 13px 14px; background: #12161d; border: 1px solid #232a33; border-radius: 5px;">
+              <div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; color: #f2f5f8;">2.60×</div>
+              <div style="font-size: 11.5px; color: #7e8a97; margin-top: 3px;">同一模型（480s 無截尾）</div>
+            </div>
+          </div>
+        </div>
+    
+        <div style="position: absolute; left: 64px; top: 566px; width: 560px; font-size: 12.5px; color: #7e8a97; line-height: 1.7; animation: s6-note 28s ease-out both; animation-delay: var(--seek, 0s);">消融對照證明的是「這段電路有貢獻」，不是「這個 agent 已經是最強解」。</div>
+    
+        
+      </div>
+    </div>
+    <div class="scene" id="sc7">
+    <div style="position: relative; width: 1280px; height: 720px; overflow: hidden; background: #0d1016;">
+    
+        <svg viewBox="0 0 1280 720" width="1280" height="720" style="position: absolute; inset: 0;" aria-hidden="true">
+          <g style="transform-origin: 640px 268px; animation: s7-collapse 17s cubic-bezier(.5,.05,.25,1) both; animation-delay: var(--seek, 0s);">
+            <g fill="#f97316">
+              <circle cx="470" cy="190" r="3.6"></circle><circle cx="610" cy="140" r="3"></circle><circle cx="742" cy="196" r="3.8"></circle>
+              <circle cx="812" cy="300" r="2.8"></circle><circle cx="700" cy="392" r="3.4"></circle><circle cx="546" cy="378" r="4"></circle>
+            </g>
+            <g fill="#38bdf8">
+              <circle cx="398" cy="312" r="2.8"></circle><circle cx="880" cy="212" r="2.6"></circle>
+            </g>
+            <g fill="#78899e">
+              <circle cx="352" cy="146" r="1.6"></circle><circle cx="286" cy="268" r="1.2"></circle><circle cx="962" cy="126" r="1.5"></circle>
+              <circle cx="1042" cy="250" r="1.2"></circle><circle cx="366" cy="436" r="1.3"></circle><circle cx="758" cy="470" r="1.4"></circle>
+              <circle cx="520" cy="500" r="1.2"></circle><circle cx="1090" cy="380" r="1.3"></circle>
+            </g>
+          </g>
+        </svg>
+    
+        <div style="position: absolute; left: 0; right: 0; top: 180px; display: flex; flex-direction: column; align-items: center; gap: 20px;">
+          <div style="width: 74px; height: 74px; display: flex; align-items: center; justify-content: center; border: 1px solid #2a323c; border-radius: 10px; background: #12161d; animation: s7-mark 17s cubic-bezier(.2,1.3,.4,1) both, s7-glow 3.4s ease-in-out infinite; animation-delay: var(--seek, 0s), 0s;">
+            <span style="font-size: 30px; color: #f0a93b; line-height: 1;">◈</span>
+          </div>
+          <div style="text-align: center; animation: s7-title 17s cubic-bezier(.16,.84,.26,1) both; animation-delay: var(--seek, 0s);">
+            <div style="font-size: 46px; font-weight: 700; color: #f2f5f8; letter-spacing: -.01em; line-height: 1.3;">畫面是即時運算，不是預錄動畫</div>
+            <div style="font-size: 18px; color: #a7b1bd; margin-top: 10px;">每 1/30 秒，遊戲狀態都真的流過那 1,296 條接線一次</div>
+          </div>
+          <div style="display: flex; align-items: center; gap: 30px; animation: s7-stats 17s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s);">
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #7e8a97;">80 細胞</span>
+            <span style="width: 1px; height: 14px; background: #2a323c;"></span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #7e8a97;">1,296 連接</span>
+            <span style="width: 1px; height: 14px; background: #2a323c;"></span>
+            <span style="font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #7e8a97;">269 參數</span>
+            <span style="width: 1px; height: 14px; background: #2a323c;"></span>
+            <span style="display: inline-flex; align-items: center; gap: 7px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #7e8a97;"><s style="width: 7px; height: 7px; border-radius: 50%; background: #34d399; display: inline-block; animation: s7-beat 1s ease-in-out infinite;"></s>30 Hz</span>
+          </div>
+          <div style="display: flex; gap: 12px; animation: s7-links 17s cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--seek, 0s);">
+            <a href="https://github.com" style="padding: 10px 20px; border: 1px solid #f0a93b; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #f0a93b; border-bottom: 1px solid #f0a93b;">[你的 GitHub Pages 網址]</a>
+            <a href="https://github.com" style="padding: 10px 20px; border: 1px solid #2f3742; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 14px; color: #a7b1bd; border-bottom: 1px solid #2f3742;">[你的 repo 位址]</a>
+          </div>
+        </div>
+    
+        <div style="position: absolute; left: 64px; right: 64px; bottom: 136px; display: flex; flex-direction: column; gap: 5px; text-align: center;">
+          <p style="margin: 0; font-size: 12.5px; color: #7e8a97; line-height: 1.7; animation: s7-crA 17s ease-out both; animation-delay: var(--seek, 0s);">Built with fly-connectome-template by Mert Cobanov.</p>
+          <p style="margin: 0; font-size: 12.5px; color: #7e8a97; line-height: 1.7; animation: s7-crB 17s ease-out both; animation-delay: var(--seek, 0s);">方法與程式架構改編自 cobanov/flyjump，依 Cobanov Template Attribution License 1.0 使用。</p>
+          <p style="margin: 0; font-size: 12.5px; color: #7e8a97; line-height: 1.7; animation: s7-crC 17s ease-out both; animation-delay: var(--seek, 0s);">連接體資料：MaleCNS v1.0 衍生，CC BY 4.0 · cute-dino 遊戲邏輯：原作者 cchouse168</p>
+          <p style="margin: 0; font-size: 11.5px; color: #6f7b88; line-height: 1.7; animation: s7-crD 17s ease-out both; animation-delay: var(--seek, 0s);">電路活性為模擬值、無量綱，不是膜電位也不是實測發放率。這是一小段選定的電路，不是完整的腦。資料提供方不對本實驗背書。</p>
+        </div>
+    
+        
+      </div>
+    </div>
+    <div id="cap"><div id="capbox" class="empty"></div></div>
+    <div id="fade"></div>
+  </div>
+</div>
+
+<div id="hint">空白鍵 播放／暫停 · ←→ 5 秒 · 1–7 跳幕 · H 隱藏介面 · F 全螢幕</div>
+
+<div id="bar">
+  <button id="pp" class="primary" aria-label="播放或暫停">▶</button>
+  <span class="tc" id="tcNow">0:00</span>
+  <div id="track">
+    <input id="seek" type="range" min="0" max="225" step="0.02" value="0" aria-label="影片時間軸">
+    <div id="chips"></div>
+  </div>
+  <span class="tc" id="tcAll">3:45</span>
+  <div class="grp">
+    <span class="lbl">速度</span>
+    <select id="rate" aria-label="播放速度">
+      <option value="0.25">0.25×</option>
+      <option value="0.5">0.5×</option>
+      <option value="1" selected>1×</option>
+      <option value="1.5">1.5×</option>
+      <option value="2">2×</option>
+    </select>
+  </div>
+  <button id="cc" aria-label="切換字幕">字幕 開</button>
+  <button id="hide" aria-label="隱藏介面">隱藏介面</button>
+  <button id="fs" aria-label="全螢幕">全螢幕</button>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  // 每一幕在成片中的起點與長度（秒）。改動時請同步 SCENE_DUR 的動畫總長。
+  var SCENES = [
+    { id: "sc1", name: "01 鉤子",     start: 0,   dur: 14 },
+    { id: "sc2", name: "02 連接體",   start: 14,  dur: 34 },
+    { id: "sc3", name: "03 資料流",   start: 48,  dur: 47 },
+    { id: "sc4", name: "04 269 參數", start: 95,  dur: 35 },
+    { id: "sc5", name: "05 消融",     start: 130, dur: 40 },
+    { id: "sc6", name: "06 但書",     start: 170, dur: 35 },
+    { id: "sc7", name: "07 收尾",     start: 205, dur: 20 }
+  ];
+  var TOTAL = 225;
+
+  // 字幕：[起, 訖, 文字]，秒。與旁白同進同出。
+  var CUES = [
+    [0.8, 7.0, "這不是遊戲 AI。這是一段真實的果蠅神經迴路，正在玩一款跑酷遊戲。"],
+    [7.4, 13.6, "80 顆神經元、1,296 條實際量測到的突觸連接。"],
+
+    [14.6, 21.0, "這些細胞來自 MaleCNS v1.0，雄果蠅全腦的電子顯微鏡連接體。"],
+    [21.4, 27.5, "牠們之間怎麼接，不是我設計的，是掃出來的。"],
+    [28.0, 35.0, "1,296 條連線、26,029 個突觸接觸。"],
+    [35.5, 42.5, "整段電路的權重從頭到尾固定，一個都不訓練。"],
+    [43.0, 47.6, "我只是把它接上遊戲。"],
+
+    [48.6, 55.0, "每秒三十次，遊戲畫面被壓成 13 個數字。"],
+    [55.5, 63.0, "最近的障礙物還有多久撞上、它的底端離地多高。"],
+    [63.5, 70.0, "玩家在不在地上、子彈的高度差。"],
+    [70.5, 78.0, "這 13 個通道注入 32 顆視覺投射神經元。"],
+    [78.5, 86.0, "沿著那 1,296 條實測接線同步傳播三輪。"],
+    [86.5, 94.6, "最後匯聚到 16 顆下行神經元 —— 真實果蠅裡，下令起跳的就是這批細胞。"],
+
+    [95.6, 103.0, "全系統唯一會學習的東西，是末端這個讀出網路。"],
+    [103.5, 110.5, "16 進、12 個隱藏單元、5 個動作出，總共 269 個參數。"],
+    [111.0, 118.5, "用交叉熵方法演化 400 代，每代 64 個候選、留最好的 8 個。"],
+    [119.0, 129.6, "它決定的只有一件事：現在要跑、跳、蹲，還是左右移。"],
+
+    [130.6, 136.5, "那段電路真的有在做事嗎？"],
+    [137.0, 144.5, "消融實驗：把 16 顆下行神經元的輸出強制歸零，其他一切不動。"],
+    [145.0, 152.5, "100 條沒看過的賽道，完整版平均活 161 秒。"],
+    [153.0, 159.0, "電路一靜默 —— 3.5 秒。"],
+    [159.5, 165.0, "那是這個環境的地板，跟完全不按鍵一模一樣。"],
+    [165.5, 169.6, "三個訓練種子重跑，消融比 41.6 ± 7.4 倍。"],
+
+    [170.6, 176.0, "兩件必須講清楚的事。"],
+    [176.5, 183.5, "第一，換一個訓練種子，成績會在 46 到 87 之間跳。"],
+    [184.0, 191.0, "82/100 是這個模型的成績，不是這個方法的成績。"],
+    [191.5, 198.5, "第二，跟完全不用神經網路的手寫規則比，它只好 1.77 倍。"],
+    [199.0, 204.6, "消融證明的是這段電路有貢獻，不是這個 agent 已經是最強解。"],
+
+    [205.6, 212.0, "畫面是即時運算，不是預錄動畫。"],
+    [212.5, 219.0, "每 1/30 秒，遊戲狀態都真的流過那 1,296 條接線一次。"],
+    [219.5, 224.6, "程式、資料、完整實驗協定都開源。"]
+  ];
+
+  var stage = document.getElementById("stage");
+  var fade = document.getElementById("fade");
+  var cap = document.getElementById("cap");
+  var capbox = document.getElementById("capbox");
+  var seek = document.getElementById("seek");
+  var tcNow = document.getElementById("tcNow");
+  var ppBtn = document.getElementById("pp");
+  var chips = document.getElementById("chips");
+  var rateSel = document.getElementById("rate");
+
+  var els = SCENES.map(function (s) { return document.getElementById(s.id); });
+  var t = 0, playing = false, rate = 1, cur = -1, lastNow = 0, lastCap = null, dragging = false;
+
+  SCENES.forEach(function (s, i) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.textContent = s.name;
+    b.addEventListener("click", function () { jump(s.start + 0.01); });
+    chips.appendChild(b);
+  });
+  var chipBtns = Array.prototype.slice.call(chips.children);
+
+  function fmt(x) {
+    var m = Math.floor(x / 60), s = Math.floor(x % 60);
+    return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  function sceneAt(time) {
+    for (var i = SCENES.length - 1; i >= 0; i--) { if (time >= SCENES[i].start) return i; }
+    return 0;
+  }
+
+  function applyRate() {
+    var list = document.getAnimations ? document.getAnimations() : [];
+    for (var i = 0; i < list.length; i++) {
+      try { list[i].playbackRate = rate; } catch (e) { /* 部分動畫不可調速，略過 */ }
+    }
+  }
+
+  // 切幕：display 切換會讓該幕的 CSS 動畫重新開始，再用 --seek 把它推到正確的進度。
+  function mount(i, time, hardCut) {
+    if (hardCut) { fade.classList.add("cut"); }
+    for (var k = 0; k < els.length; k++) { els[k].classList.toggle("on", k === i); }
+    var into = time - SCENES[i].start;
+    els[i].style.setProperty("--seek", (-into).toFixed(3) + "s");
+    cur = i;
+    requestAnimationFrame(function () {
+      applyRate();
+      if (hardCut) { fade.classList.remove("cut"); }
+    });
+  }
+
+  function jump(time) {
+    t = Math.max(0, Math.min(TOTAL, time));
+    mount(sceneAt(t), t, true);
+    paint();
+  }
+
+  function paint() {
+    if (!dragging) { seek.value = t; }
+    tcNow.textContent = fmt(t);
+    var txt = "";
+    for (var i = 0; i < CUES.length; i++) {
+      if (t >= CUES[i][0] && t < CUES[i][1]) { txt = CUES[i][2]; break; }
+    }
+    if (txt !== lastCap) {
+      capbox.textContent = txt;
+      capbox.classList.toggle("empty", !txt);
+      lastCap = txt;
+    }
+    for (var j = 0; j < chipBtns.length; j++) { chipBtns[j].classList.toggle("now", j === cur); }
+  }
+
+  function loop(now) {
+    if (playing) {
+      if (lastNow) { t += (now - lastNow) / 1000 * rate; }
+      if (t >= TOTAL) { t = TOTAL; setPlaying(false); }
+      var i = sceneAt(t);
+      if (i !== cur) { mount(i, t, true); }
+      paint();
+    }
+    lastNow = now;
+    requestAnimationFrame(loop);
+  }
+
+  function setPlaying(on) {
+    playing = on;
+    lastNow = 0;
+    document.documentElement.style.setProperty("--play", on ? "running" : "paused");
+    ppBtn.textContent = on ? "❚❚" : "▶";
+    if (on && t >= TOTAL) { jump(0); }
+  }
+
+  ppBtn.addEventListener("click", function () { setPlaying(!playing); });
+  seek.addEventListener("input", function () { dragging = true; jump(parseFloat(seek.value)); });
+  seek.addEventListener("change", function () { dragging = false; });
+  rateSel.addEventListener("change", function () { rate = parseFloat(rateSel.value); applyRate(); });
+  document.getElementById("cc").addEventListener("click", function (e) {
+    cap.classList.toggle("off");
+    e.currentTarget.textContent = cap.classList.contains("off") ? "字幕 關" : "字幕 開";
+  });
+  document.getElementById("hide").addEventListener("click", function () { document.body.classList.add("bare"); fit(); });
+  document.getElementById("fs").addEventListener("click", function () {
+    if (document.fullscreenElement) { document.exitFullscreen(); } else { document.documentElement.requestFullscreen(); }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.target && /^(INPUT|SELECT|TEXTAREA)$/.test(e.target.tagName)) { return; }
+    var k = e.key;
+    if (k === " ") { e.preventDefault(); setPlaying(!playing); }
+    else if (k === "ArrowRight") { e.preventDefault(); jump(t + 5); }
+    else if (k === "ArrowLeft") { e.preventDefault(); jump(t - 5); }
+    else if (k === "Home") { jump(0); }
+    else if (k >= "1" && k <= "7") { jump(SCENES[parseInt(k, 10) - 1].start + 0.01); }
+    else if (k === "h" || k === "H") { document.body.classList.toggle("bare"); fit(); }
+    else if (k === "c" || k === "C") { document.getElementById("cc").click(); }
+    else if (k === "f" || k === "F") { document.getElementById("fs").click(); }
+  });
+
+  function fit() {
+    var bare = document.body.classList.contains("bare");
+    var h = window.innerHeight - (bare ? 0 : 96);
+    stage.style.setProperty("--scale", Math.min(window.innerWidth / 1280, h / 720));
+  }
+  window.addEventListener("resize", fit);
+
+  fit();
+  jump(0);
+  setPlaying(false);
+  requestAnimationFrame(loop);
+})();
+</script>
+</body>
+</html>

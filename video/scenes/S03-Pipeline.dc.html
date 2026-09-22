@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+TC:wght@400;500;700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #0d1016; font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #4cc3e8; } a:hover { color: #8ad8f4; }
+    * { animation-play-state: var(--play, running); }
+    @keyframes s3-nA { 0%, 6% { opacity: 0; transform: translateY(18px) scale(.96); } 11%, 96% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(0) scale(1); } }
+    @keyframes s3-nB { 0%, 8% { opacity: 0; transform: translateY(18px) scale(.96); } 13%, 96% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(0) scale(1); } }
+    @keyframes s3-nC { 0%, 10% { opacity: 0; transform: translateY(18px) scale(.96); } 15%, 96% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(0) scale(1); } }
+    @keyframes s3-nD { 0%, 12% { opacity: 0; transform: translateY(18px) scale(.96); } 17%, 96% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(0) scale(1); } }
+    @keyframes s3-nE { 0%, 14% { opacity: 0; transform: translateY(18px) scale(.96); } 19%, 96% { opacity: 1; transform: translateY(0) scale(1); } 100% { opacity: 0; transform: translateY(0) scale(1); } }
+    @keyframes s3-flow { 0% { transform: translateX(-6px); opacity: 0; } 18% { opacity: 1; } 82% { opacity: 1; } 100% { transform: translateX(46px); opacity: 0; } }
+    @keyframes s3-chA { 0%, 28% { opacity: 0; transform: translateY(8px); } 32%, 96% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(0); } }
+    @keyframes s3-chB { 0%, 31% { opacity: 0; transform: translateY(8px); } 35%, 96% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(0); } }
+    @keyframes s3-chC { 0%, 34% { opacity: 0; transform: translateY(8px); } 38%, 96% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(0); } }
+    @keyframes s3-chD { 0%, 37% { opacity: 0; transform: translateY(8px); } 41%, 96% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(0); } }
+    @keyframes s3-eq { 0%, 48% { opacity: 0; filter: blur(6px); } 53%, 96% { opacity: 1; filter: blur(0); } 100% { opacity: 0; filter: blur(0); } }
+    @keyframes s3-r1 { 0%, 56% { background: #12161d; color: #6f7b88; border-color: #2a323c; } 59%, 96% { background: rgba(249,115,22,.22); color: #f2f5f8; border-color: #f97316; } 100% { background: #12161d; color: #6f7b88; border-color: #2a323c; } }
+    @keyframes s3-r2 { 0%, 60% { background: #12161d; color: #6f7b88; border-color: #2a323c; } 63%, 96% { background: rgba(249,115,22,.22); color: #f2f5f8; border-color: #f97316; } 100% { background: #12161d; color: #6f7b88; border-color: #2a323c; } }
+    @keyframes s3-r3 { 0%, 64% { background: #12161d; color: #6f7b88; border-color: #2a323c; } 67%, 96% { background: rgba(249,115,22,.22); color: #f2f5f8; border-color: #f97316; } 100% { background: #12161d; color: #6f7b88; border-color: #2a323c; } }
+    @keyframes s3-sub1 { 0%, 3% { opacity: 0; transform: translateY(8px); } 6%, 33% { opacity: 1; transform: translateY(0); } 36%, 100% { opacity: 0; } }
+    @keyframes s3-sub2 { 0%, 36% { opacity: 0; transform: translateY(8px); } 39%, 65% { opacity: 1; transform: translateY(0); } 68%, 100% { opacity: 0; } }
+    @keyframes s3-sub3 { 0%, 68% { opacity: 0; transform: translateY(8px); } 71%, 94% { opacity: 1; transform: translateY(0); } 97%, 100% { opacity: 0; } }
+    .s3-n { opacity: 0; }
+    .s3-na { animation: s3-nA 14s cubic-bezier(.2,.9,.3,1) infinite; }
+    .s3-nb { animation: s3-nB 14s cubic-bezier(.2,.9,.3,1) infinite; }
+    .s3-nc { animation: s3-nC 14s cubic-bezier(.2,.9,.3,1) infinite; }
+    .s3-nd { animation: s3-nD 14s cubic-bezier(.2,.9,.3,1) infinite; }
+    .s3-ne { animation: s3-nE 14s cubic-bezier(.2,.9,.3,1) infinite; }
+    .s3-p { position: absolute; top: 50%; left: 0; width: 6px; height: 6px; margin-top: -3px; border-radius: 50%; background: #f0a93b; box-shadow: 0 0 8px rgba(240,169,59,.9); animation: s3-flow 1.7s linear infinite; }
+    .s3-ch { opacity: 0; }
+    .s3-cha { animation: s3-chA 14s cubic-bezier(.2,.8,.2,1) infinite; }
+    .s3-chb { animation: s3-chB 14s cubic-bezier(.2,.8,.2,1) infinite; }
+    .s3-chc { animation: s3-chC 14s cubic-bezier(.2,.8,.2,1) infinite; }
+    .s3-chd { animation: s3-chD 14s cubic-bezier(.2,.8,.2,1) infinite; }
+  </style>
+</helmet>
+<div style="width: 1280px; height: 920px; box-sizing: border-box; background: #0d1016; display: flex; flex-direction: column; --play: {{playState}};">
+
+  <div style="position: relative; width: 1280px; height: 720px; overflow: hidden; background: #0d1016;">
+
+    <div style="position: absolute; left: 64px; top: 40px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .24em; color: #f0a93b; text-transform: uppercase;">03 / 資料怎麼流過去</div>
+    <div style="position: absolute; left: 64px; top: 70px; font-size: 38px; font-weight: 700; color: #f2f5f8; letter-spacing: -.01em;">每秒三十次，畫面被壓成 13 個數字</div>
+
+    <div style="position: absolute; left: 64px; right: 64px; top: 148px; display: flex; align-items: stretch; gap: 0;">
+      <div class="s3-n s3-na" style="flex: 1; padding: 14px 14px 13px; background: #12161d; border: 1px solid #232a33; border-top: 2px solid #4cc3e8; border-radius: 5px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97;">INPUT</div>
+        <div style="font-size: 16px; font-weight: 500; color: #f2f5f8; margin-top: 5px;">遊戲狀態</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">cute-dino · 60 Hz</div>
+      </div>
+      <div style="position: relative; width: 46px; flex-shrink: 0; align-self: center; height: 2px; background: #232a33;"><span class="s3-p"></span></div>
+      <div class="s3-n s3-nb" style="flex: 1; padding: 14px 14px 13px; background: #12161d; border: 1px solid #232a33; border-top: 2px solid #f0a93b; border-radius: 5px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97;">ENCODE</div>
+        <div style="font-size: 16px; font-weight: 500; color: #f2f5f8; margin-top: 5px;">13 個感官通道</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">值域 0..1</div>
+      </div>
+      <div style="position: relative; width: 46px; flex-shrink: 0; align-self: center; height: 2px; background: #232a33;"><span class="s3-p" style="animation-delay: -.42s;"></span></div>
+      <div class="s3-n s3-nc" style="flex: 1; padding: 14px 14px 13px; background: #12161d; border: 1px solid #232a33; border-top: 2px solid #f97316; border-radius: 5px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97;">INJECT</div>
+        <div style="font-size: 16px; font-weight: 500; color: #f2f5f8; margin-top: 5px;">32 顆輸入細胞</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">u = 2·(f − 0.5)</div>
+      </div>
+      <div style="position: relative; width: 46px; flex-shrink: 0; align-self: center; height: 2px; background: #232a33;"><span class="s3-p" style="animation-delay: -.84s;"></span></div>
+      <div class="s3-n s3-nd" style="flex: 1; padding: 14px 14px 13px; background: #12161d; border: 1px solid #232a33; border-top: 2px solid #f97316; border-radius: 5px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97;">PROPAGATE</div>
+        <div style="font-size: 16px; font-weight: 500; color: #f2f5f8; margin-top: 5px;">同步傳播 ×3</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">1,296 條實測連接</div>
+      </div>
+      <div style="position: relative; width: 46px; flex-shrink: 0; align-self: center; height: 2px; background: #232a33;"><span class="s3-p" style="animation-delay: -1.26s;"></span></div>
+      <div class="s3-n s3-ne" style="flex: 1; padding: 14px 14px 13px; background: #12161d; border: 1px solid #232a33; border-top: 2px solid #38bdf8; border-radius: 5px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97;">OUTPUT</div>
+        <div style="font-size: 16px; font-weight: 500; color: #f2f5f8; margin-top: 5px;">16 顆下行神經元</div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; margin-top: 5px;">DNp01 · DNp04 · DNp35</div>
+      </div>
+    </div>
+
+    <div style="position: absolute; left: 64px; top: 288px; width: 706px;">
+      <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase; margin-bottom: 10px;">13 個工程特徵 · 取自 data/channels.json</div>
+      <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 7px;">
+        <div class="s3-ch s3-cha" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">障礙物撞擊倒數</div>
+        <div class="s3-ch s3-cha" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">障礙物底端離地高</div>
+        <div class="s3-ch s3-cha" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">障礙物頂端離地高</div>
+        <div class="s3-ch s3-chb" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">次近障礙物撞擊倒數</div>
+        <div class="s3-ch s3-chb" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">玩家離地高度</div>
+        <div class="s3-ch s3-chb" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #f97316; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">玩家垂直速度</div>
+        <div class="s3-ch s3-chc" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #4cc3e8; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">是否踩地</div>
+        <div class="s3-ch s3-chc" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #4cc3e8; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">玩家水平位置</div>
+        <div class="s3-ch s3-chc" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #4cc3e8; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">護盾狀態</div>
+        <div class="s3-ch s3-chd" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #ff5f56; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">子彈撞擊倒數</div>
+        <div class="s3-ch s3-chd" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #ff5f56; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">子彈相對高度差</div>
+        <div class="s3-ch s3-chd" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #34d399; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">道具接近倒數</div>
+        <div class="s3-ch s3-chd" style="padding: 7px 10px; background: #12161d; border: 1px solid #232a33; border-left: 2px solid #34d399; border-radius: 4px; font-size: 12.5px; color: #e8ecf1;">道具相對高度差</div>
+      </div>
+    </div>
+
+    <div style="position: absolute; right: 64px; top: 288px; width: 420px; display: flex; flex-direction: column; gap: 16px;">
+      <div style="animation: s3-eq 14s ease-out infinite;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase; margin-bottom: 10px;">傳播規則</div>
+        <div style="padding: 18px 16px; background: #12161d; border: 1px solid #232a33; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 17px; color: #f2f5f8; text-align: center; letter-spacing: .01em;">h′ = 0.3·h + 0.7·tanh<span style="color: #7e8a97;">(</span> u + 1.4·<span style="color: #f0a93b;">Σ W·h</span> <span style="color: #7e8a97;">)</span></div>
+      </div>
+      <div>
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .16em; color: #7e8a97; text-transform: uppercase; margin-bottom: 10px;">同步更新輪次</div>
+        <div style="display: flex; gap: 10px;">
+          <div style="flex: 1; padding: 13px 0; text-align: center; border: 1px solid #2a323c; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 20px; animation: s3-r1 14s linear infinite;">1</div>
+          <div style="flex: 1; padding: 13px 0; text-align: center; border: 1px solid #2a323c; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 20px; animation: s3-r2 14s linear infinite;">2</div>
+          <div style="flex: 1; padding: 13px 0; text-align: center; border: 1px solid #2a323c; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 20px; animation: s3-r3 14s linear infinite;">3</div>
+        </div>
+        <p style="margin: 12px 0 0; font-size: 12.5px; color: #7e8a97; line-height: 1.7;">三輪之後才讀值。輪數與動態常數沿用原作 flyjump，未經調整。</p>
+      </div>
+    </div>
+
+    <div style="position: absolute; left: 0; right: 0; bottom: 56px; display: grid; justify-items: center;">
+      <div style="grid-area: 1 / 1; max-width: 1060px; padding: 11px 24px; background: rgba(10,13,18,.86); border: 1px solid #232a33; border-radius: 6px; font-size: 27px; font-weight: 500; color: #f2f5f8; line-height: 1.5; text-align: center; animation: s3-sub1 14s ease-out infinite;">每秒三十次，遊戲畫面被壓成 13 個數字。</div>
+      <div style="grid-area: 1 / 1; max-width: 1060px; padding: 11px 24px; background: rgba(10,13,18,.86); border: 1px solid #232a33; border-radius: 6px; font-size: 27px; font-weight: 500; color: #f2f5f8; line-height: 1.5; text-align: center; animation: s3-sub2 14s ease-out infinite;">這 13 個通道注入 32 顆視覺投射神經元，沿實測接線同步傳播三輪。</div>
+      <div style="grid-area: 1 / 1; max-width: 1060px; padding: 11px 24px; background: rgba(10,13,18,.86); border: 1px solid #232a33; border-radius: 6px; font-size: 27px; font-weight: 500; color: #f2f5f8; line-height: 1.5; text-align: center; animation: s3-sub3 14s ease-out infinite;">最後匯聚到 16 顆下行神經元 —— 真實果蠅裡，下令起跳的就是這批細胞。</div>
+    </div>
+
+    <div style="position: absolute; right: 24px; bottom: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; letter-spacing: .1em;">S03 · 00:48–01:35</div>
+  </div>
+
+  <div style="width: 1280px; height: 200px; box-sizing: border-box; padding: 18px 32px; background: #141820; border-top: 1px solid #232a33; display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: baseline; gap: 14px;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #f0a93b; letter-spacing: .18em;">S03</span>
+      <b style="font-size: 15px; color: #f2f5f8;">資料怎麼流過去 · 全片的解釋主幹</b>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88;">47s · 迴圈演示 14s</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97; text-transform: uppercase;">旁白</div>
+        <p style="margin: 0; font-size: 13px; color: #e8ecf1; line-height: 1.65;">「每秒三十次，遊戲畫面被壓成 13 個數字：最近的障礙物還有多久撞上、它的底端離地多高、玩家在不在地上、子彈的高度差……這 13 個通道注入 32 顆視覺投射神經元，沿著那 1,296 條實測接線同步傳播三輪，最後匯聚到 16 顆下行神經元 —— 在真實的果蠅身上，下令起跳和轉向的就是這批細胞。」</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97; text-transform: uppercase;">節拍</div>
+        <ul style="margin: 0; padding-left: 0; list-style: none; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd; line-height: 1.85;">
+          <li><span style="color: #4cc3e8;">0.9s</span> 五張管線卡依序落位（0.28s 一張）</li>
+          <li><span style="color: #4cc3e8;">全程</span> 光點沿管線推進，1.7s 一趟、四段錯開</li>
+          <li><span style="color: #4cc3e8;">4.0s</span> 13 個通道分 4 波點亮</li>
+          <li><span style="color: #4cc3e8;">6.7s</span> 傳播方程式去模糊浮現</li>
+          <li><span style="color: #4cc3e8;">7.8s</span> 輪次 1 → 2 → 3 逐格點亮</li>
+        </ul>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97; text-transform: uppercase;">要點</div>
+        <p style="margin: 0; font-size: 12.5px; color: #a7b1bd; line-height: 1.7;">通道左側色條分四類：橘＝障礙物與自身姿態、青＝狀態旗標、紅＝子彈、綠＝道具，唸到哪一類就亮哪一批。方程式只出現這一次，之後不再重複，避免觀眾疲勞。</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"paused":{"editor":"boolean","default":false,"section":"預覽"},"$preview":{"width":1280,"height":920}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { playState: this.props.paused ? "paused" : "running" };
+  }
+}
+</script>
+</body>
+</html>

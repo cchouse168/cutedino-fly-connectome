@@ -1,0 +1,13 @@
+# 統一以 LF 存進 repo，Windows 上簽出時再轉回 CRLF。
+# 沒有這個檔的話，不同作業系統的協作者會互相產生整檔改動的假 diff。
+* text=auto eol=lf
+
+# 二進位資料：不要做任何行尾轉換，否則檔案會壞掉
+*.bin  binary
+*.png  binary
+*.jpg  binary
+*.mp4  binary
+*.wav  binary
+*.ttc  binary
+*.woff binary
+*.woff2 binary

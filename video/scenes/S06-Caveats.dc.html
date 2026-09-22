@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8">
+  <script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&amp;family=Noto+Sans+TC:wght@400;500;700&amp;display=swap">
+  <style>
+    body { margin: 0; background: #0d1016; font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+    a { color: #4cc3e8; } a:hover { color: #8ad8f4; }
+    * { animation-play-state: var(--play, running); }
+    @keyframes s6-axis { 0%, 6% { opacity: 0; transform: scaleX(.2); } 12%, 96% { opacity: 1; transform: scaleX(1); } 100% { opacity: 0; transform: scaleX(1); } }
+    @keyframes s6-sdA { 0%, 12% { opacity: 0; transform: translateY(-16px); } 17%, 96% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; } }
+    @keyframes s6-sdB { 0%, 15% { opacity: 0; transform: translateY(-16px); } 20%, 96% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; } }
+    @keyframes s6-sdC { 0%, 18% { opacity: 0; transform: translateY(-16px); } 23%, 96% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; } }
+    @keyframes s6-band { 0%, 25% { opacity: 0; transform: scaleX(.1); } 31%, 96% { opacity: 1; transform: scaleX(1); } 100% { opacity: 0; transform: scaleX(1); } }
+    @keyframes s6-grid { 0%, 34% { opacity: 0; } 40%, 96% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes s6-ceil { 0%, 45% { opacity: 0; transform: translateY(-38px); } 50%, 96% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; transform: translateY(0); } }
+    @keyframes s6-tie { 0%, 50% { fill: #f0a93b; } 55%, 96% { fill: #3b434e; } 100% { fill: #3b434e; } }
+    @keyframes s6-ratio { 0%, 60% { opacity: 0; transform: translateY(14px); } 65%, 96% { opacity: 1; transform: translateY(0); } 100% { opacity: 0; } }
+    @keyframes s6-note { 0%, 72% { opacity: 0; } 77%, 96% { opacity: 1; } 100% { opacity: 0; } }
+    @keyframes s6-sub1 { 0%, 3% { opacity: 0; transform: translateY(8px); } 6%, 31% { opacity: 1; transform: translateY(0); } 34%, 100% { opacity: 0; } }
+    @keyframes s6-sub2 { 0%, 34% { opacity: 0; transform: translateY(8px); } 37%, 63% { opacity: 1; transform: translateY(0); } 66%, 100% { opacity: 0; } }
+    @keyframes s6-sub3 { 0%, 66% { opacity: 0; transform: translateY(8px); } 69%, 94% { opacity: 1; transform: translateY(0); } 97%, 100% { opacity: 0; } }
+    .s6-t { animation: s6-tie 14s linear infinite; }
+  </style>
+</helmet>
+<div style="width: 1280px; height: 920px; box-sizing: border-box; background: #0d1016; display: flex; flex-direction: column; --play: {{playState}};">
+
+  <div style="position: relative; width: 1280px; height: 720px; overflow: hidden; background: #0d1016;">
+
+    <div style="position: absolute; left: 64px; top: 40px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; letter-spacing: .24em; color: #f0a93b; text-transform: uppercase;">06 / 該誠實講的地方</div>
+    <div style="position: absolute; left: 64px; top: 70px; font-size: 38px; font-weight: 700; color: #f2f5f8; letter-spacing: -.01em;">兩件不能不講的事</div>
+
+    <div style="position: absolute; left: 64px; top: 158px; width: 560px;">
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ff5f56; letter-spacing: .14em;">01</span>
+        <span style="font-size: 17px; font-weight: 500; color: #f2f5f8;">換一個訓練種子，成績就不一樣</span>
+      </div>
+
+      <div style="position: relative; height: 150px;">
+        <div style="position: absolute; left: 0; right: 0; top: 96px; height: 2px; background: #2a323c; transform-origin: left; animation: s6-axis 14s cubic-bezier(.2,.8,.2,1) infinite;"></div>
+        <div style="position: absolute; left: 0; right: 0; top: 106px; display: flex; justify-content: space-between; font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: #6f7b88;">
+          <span>0</span><span>25</span><span>50</span><span>75</span><span>100</span>
+        </div>
+        <div style="position: absolute; left: 46%; top: 88px; width: 36.6%; height: 18px; margin-top: -8px; background: rgba(240,169,59,.16); border-left: 1px solid #f0a93b; border-right: 1px solid #f0a93b; transform-origin: center; animation: s6-band 14s cubic-bezier(.2,.8,.2,1) infinite;"></div>
+
+        <div style="position: absolute; left: 46%; top: 52px; transform: translateX(-50%); text-align: center; animation: s6-sdA 14s cubic-bezier(.2,1.1,.4,1) infinite;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 19px; color: #e8ecf1;">46</div>
+          <div style="width: 1px; height: 22px; background: #4a5666; margin: 2px auto 0;"></div>
+        </div>
+        <div style="position: absolute; left: 82%; top: 20px; transform: translateX(-50%); text-align: center; animation: s6-sdB 14s cubic-bezier(.2,1.1,.4,1) infinite;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 19px; color: #f0a93b;">82</div>
+          <div style="width: 1px; height: 54px; background: #f0a93b; margin: 2px auto 0;"></div>
+        </div>
+        <div style="position: absolute; left: 87%; top: 52px; transform: translateX(-50%); text-align: center; animation: s6-sdC 14s cubic-bezier(.2,1.1,.4,1) infinite;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 19px; color: #e8ecf1;">87</div>
+          <div style="width: 1px; height: 22px; background: #4a5666; margin: 2px auto 0;"></div>
+        </div>
+      </div>
+
+      <div style="margin-top: 6px; display: flex; gap: 12px; align-items: baseline;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 15px; color: #f0a93b;">71.7 ± 18.3</span>
+        <span style="font-size: 12.5px; color: #7e8a97;">場跑完（三個訓練種子，同一條管線）</span>
+      </div>
+      <p style="margin: 12px 0 0; font-size: 14px; color: #e8ecf1; line-height: 1.75;">影片裡那個 <span style="font-family: 'IBM Plex Mono', monospace; color: #f0a93b;">82/100</span>，是<b style="color: #f2f5f8;">這個部署模型</b>的成績，不是這個<b style="color: #f2f5f8;">方法</b>的成績。</p>
+    </div>
+
+    <div style="position: absolute; right: 64px; top: 158px; width: 560px;">
+      <div style="display: flex; align-items: baseline; gap: 10px; margin-bottom: 16px;">
+        <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #ff5f56; letter-spacing: .14em;">02</span>
+        <span style="font-size: 17px; font-weight: 500; color: #f2f5f8;">180 秒上限把差距壓小了</span>
+      </div>
+
+      <div style="display: flex; gap: 26px; align-items: flex-start;">
+        <div style="position: relative;">
+          <svg viewBox="0 0 182 182" width="182" height="182" style="animation: s6-grid 14s ease-out infinite;" aria-hidden="true">
+            <g fill="#f0a93b">
+              <rect x="0" y="0" width="14" height="14" rx="2"></rect><rect x="18" y="0" width="14" height="14" rx="2"></rect><rect x="36" y="0" width="14" height="14" rx="2"></rect><rect x="54" y="0" width="14" height="14" rx="2"></rect><rect x="72" y="0" width="14" height="14" rx="2"></rect><rect x="90" y="0" width="14" height="14" rx="2"></rect><rect x="108" y="0" width="14" height="14" rx="2"></rect><rect x="126" y="0" width="14" height="14" rx="2"></rect><rect x="144" y="0" width="14" height="14" rx="2"></rect><rect x="162" y="0" width="14" height="14" rx="2"></rect>
+              <rect x="0" y="18" width="14" height="14" rx="2"></rect><rect x="18" y="18" width="14" height="14" rx="2"></rect><rect x="36" y="18" width="14" height="14" rx="2"></rect><rect x="54" y="18" width="14" height="14" rx="2"></rect><rect x="72" y="18" width="14" height="14" rx="2"></rect><rect x="90" y="18" width="14" height="14" rx="2"></rect><rect x="108" y="18" width="14" height="14" rx="2"></rect><rect x="126" y="18" width="14" height="14" rx="2"></rect><rect x="144" y="18" width="14" height="14" rx="2"></rect><rect x="162" y="18" width="14" height="14" rx="2"></rect>
+              <rect x="0" y="36" width="14" height="14" rx="2"></rect><rect x="18" y="36" width="14" height="14" rx="2"></rect><rect x="36" y="36" width="14" height="14" rx="2"></rect><rect x="54" y="36" width="14" height="14" rx="2"></rect><rect x="72" y="36" width="14" height="14" rx="2"></rect><rect x="90" y="36" width="14" height="14" rx="2"></rect><rect x="108" y="36" width="14" height="14" rx="2"></rect><rect x="126" y="36" width="14" height="14" rx="2"></rect><rect x="144" y="36" width="14" height="14" rx="2"></rect><rect x="162" y="36" width="14" height="14" rx="2"></rect>
+              <rect x="0" y="54" width="14" height="14" rx="2"></rect><rect x="18" y="54" width="14" height="14" rx="2"></rect><rect x="36" y="54" width="14" height="14" rx="2"></rect><rect x="54" y="54" width="14" height="14" rx="2"></rect><rect x="72" y="54" width="14" height="14" rx="2"></rect><rect x="90" y="54" width="14" height="14" rx="2"></rect><rect x="108" y="54" width="14" height="14" rx="2"></rect><rect x="126" y="54" width="14" height="14" rx="2"></rect><rect x="144" y="54" width="14" height="14" rx="2"></rect><rect x="162" y="54" width="14" height="14" rx="2"></rect>
+              <rect x="0" y="72" width="14" height="14" rx="2"></rect><rect x="18" y="72" width="14" height="14" rx="2"></rect><rect x="36" y="72" width="14" height="14" rx="2"></rect><rect x="54" y="72" width="14" height="14" rx="2"></rect><rect x="72" y="72" width="14" height="14" rx="2"></rect><rect x="90" y="72" width="14" height="14" rx="2"></rect><rect x="108" y="72" width="14" height="14" rx="2"></rect><rect x="126" y="72" width="14" height="14" rx="2"></rect><rect x="144" y="72" width="14" height="14" rx="2"></rect><rect x="162" y="72" width="14" height="14" rx="2"></rect>
+              <rect x="0" y="90" width="14" height="14" rx="2"></rect><rect x="18" y="90" width="14" height="14" rx="2"></rect><rect x="36" y="90" width="14" height="14" rx="2"></rect><rect x="54" y="90" width="14" height="14" rx="2"></rect><rect x="72" y="90" width="14" height="14" rx="2"></rect><rect x="90" y="90" width="14" height="14" rx="2"></rect><rect x="108" y="90" width="14" height="14" rx="2"></rect><rect x="126" y="90" width="14" height="14" rx="2"></rect>
+              <rect class="s6-t" x="144" y="90" width="14" height="14" rx="2"></rect><rect class="s6-t" x="162" y="90" width="14" height="14" rx="2"></rect>
+              <rect class="s6-t" x="0" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="18" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="36" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="54" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="72" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="90" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="108" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="126" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="144" y="108" width="14" height="14" rx="2"></rect><rect class="s6-t" x="162" y="108" width="14" height="14" rx="2"></rect>
+              <rect class="s6-t" x="0" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="18" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="36" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="54" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="72" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="90" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="108" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="126" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="144" y="126" width="14" height="14" rx="2"></rect><rect class="s6-t" x="162" y="126" width="14" height="14" rx="2"></rect>
+              <rect class="s6-t" x="0" y="144" width="14" height="14" rx="2"></rect><rect class="s6-t" x="18" y="144" width="14" height="14" rx="2"></rect>
+            </g>
+            <g fill="#232a33">
+              <rect x="36" y="144" width="14" height="14" rx="2"></rect><rect x="54" y="144" width="14" height="14" rx="2"></rect><rect x="72" y="144" width="14" height="14" rx="2"></rect><rect x="90" y="144" width="14" height="14" rx="2"></rect><rect x="108" y="144" width="14" height="14" rx="2"></rect><rect x="126" y="144" width="14" height="14" rx="2"></rect><rect x="144" y="144" width="14" height="14" rx="2"></rect><rect x="162" y="144" width="14" height="14" rx="2"></rect>
+              <rect x="0" y="162" width="14" height="14" rx="2"></rect><rect x="18" y="162" width="14" height="14" rx="2"></rect><rect x="36" y="162" width="14" height="14" rx="2"></rect><rect x="54" y="162" width="14" height="14" rx="2"></rect><rect x="72" y="162" width="14" height="14" rx="2"></rect><rect x="90" y="162" width="14" height="14" rx="2"></rect><rect x="108" y="162" width="14" height="14" rx="2"></rect><rect x="126" y="162" width="14" height="14" rx="2"></rect><rect x="144" y="162" width="14" height="14" rx="2"></rect><rect x="162" y="162" width="14" height="14" rx="2"></rect>
+            </g>
+          </svg>
+          <div style="position: absolute; left: -6px; right: -6px; top: 84px; display: flex; align-items: center; gap: 6px; animation: s6-ceil 14s cubic-bezier(.3,1.1,.4,1) infinite;">
+            <div style="flex: 1; height: 2px; background: #ff5f56;"></div>
+          </div>
+        </div>
+
+        <div style="flex: 1; display: flex; flex-direction: column; gap: 9px; padding-top: 2px;">
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #a7b1bd;"><s style="width: 11px; height: 11px; background: #f0a93b; border-radius: 2px; display: inline-block; flex-shrink: 0;"></s>58 條真的贏過手寫規則</div>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #a7b1bd;"><s style="width: 11px; height: 11px; background: #3b434e; border-radius: 2px; display: inline-block; flex-shrink: 0;"></s>24 條雙方都撞到 180s 上限 —— 假平手</div>
+          <div style="display: flex; align-items: center; gap: 8px; font-size: 12.5px; color: #a7b1bd;"><s style="width: 11px; height: 11px; background: #232a33; border-radius: 2px; display: inline-block; flex-shrink: 0;"></s>18 條沒跑完</div>
+          <div style="margin-top: 8px; padding: 10px 12px; background: #12161d; border: 1px solid #232a33; border-radius: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd; line-height: 1.7;">180s 截尾 → 逐場勝 69/100<br>480s 無截尾 → 逐場勝 <span style="color: #f0a93b;">92/100</span></div>
+        </div>
+      </div>
+
+      <div style="margin-top: 16px; display: flex; gap: 12px; animation: s6-ratio 14s cubic-bezier(.2,.9,.3,1) infinite;">
+        <div style="flex: 1; padding: 13px 14px; background: #12161d; border: 1px solid #232a33; border-radius: 5px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; color: #f2f5f8;">1.77<span style="font-size: 15px; color: #7e8a97;"> ± 0.31×</span></div>
+          <div style="font-size: 11.5px; color: #7e8a97; margin-top: 3px;">勝過手寫規則（180s 截尾）</div>
+        </div>
+        <div style="flex: 1; padding: 13px 14px; background: #12161d; border: 1px solid #232a33; border-radius: 5px;">
+          <div style="font-family: 'IBM Plex Mono', monospace; font-size: 26px; color: #f2f5f8;">2.60×</div>
+          <div style="font-size: 11.5px; color: #7e8a97; margin-top: 3px;">同一模型（480s 無截尾）</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="position: absolute; left: 64px; top: 566px; width: 560px; font-size: 12.5px; color: #7e8a97; line-height: 1.7; animation: s6-note 14s ease-out infinite;">消融對照證明的是「這段電路有貢獻」，不是「這個 agent 已經是最強解」。</div>
+
+    <div style="position: absolute; left: 0; right: 0; bottom: 56px; display: grid; justify-items: center;">
+      <div style="grid-area: 1 / 1; max-width: 1080px; padding: 11px 24px; background: rgba(10,13,18,.86); border: 1px solid #232a33; border-radius: 6px; font-size: 27px; font-weight: 500; color: #f2f5f8; line-height: 1.5; text-align: center; animation: s6-sub1 14s ease-out infinite;">換一個訓練種子，成績會在 46 到 87 之間跳。</div>
+      <div style="grid-area: 1 / 1; max-width: 1080px; padding: 11px 24px; background: rgba(10,13,18,.86); border: 1px solid #232a33; border-radius: 6px; font-size: 27px; font-weight: 500; color: #f2f5f8; line-height: 1.5; text-align: center; animation: s6-sub2 14s ease-out infinite;">82/100 是這個模型的成績，不是這個方法的成績。</div>
+      <div style="grid-area: 1 / 1; max-width: 1080px; padding: 11px 24px; background: rgba(10,13,18,.86); border: 1px solid #232a33; border-radius: 6px; font-size: 27px; font-weight: 500; color: #f2f5f8; line-height: 1.5; text-align: center; animation: s6-sub3 14s ease-out infinite;">跟完全不用神經網路的手寫規則比，它只好 1.77 倍。</div>
+    </div>
+
+    <div style="position: absolute; right: 24px; bottom: 16px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88; letter-spacing: .1em;">S06 · 02:50–03:25</div>
+  </div>
+
+  <div style="width: 1280px; height: 200px; box-sizing: border-box; padding: 18px 32px; background: #141820; border-top: 1px solid #232a33; display: flex; flex-direction: column; gap: 12px;">
+    <div style="display: flex; align-items: baseline; gap: 14px;">
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: #f0a93b; letter-spacing: .18em;">S06</span>
+      <b style="font-size: 15px; color: #f2f5f8;">誠實的但書 · 這一幕決定觀眾信不信你</b>
+      <span style="font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: #6f7b88;">35s · 迴圈演示 14s</span>
+    </div>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 26px;">
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97; text-transform: uppercase;">旁白</div>
+        <p style="margin: 0; font-size: 13px; color: #e8ecf1; line-height: 1.65;">「兩件必須講清楚的事。第一，換一個訓練種子，成績會在 46 到 87 之間跳 —— 82/100 是這個模型的成績，不是這個方法的成績。第二，跟完全不用神經網路的手寫規則比，它只好 1.77 倍。消融證明的是這段電路有貢獻，不是這個 agent 已經是最強解。」</p>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97; text-transform: uppercase;">節拍</div>
+        <ul style="margin: 0; padding-left: 0; list-style: none; font-family: 'IBM Plex Mono', monospace; font-size: 11.5px; color: #a7b1bd; line-height: 1.85;">
+          <li><span style="color: #4cc3e8;">0.9s</span> 數線展開，三個種子值逐一落下</li>
+          <li><span style="color: #4cc3e8;">3.5s</span> ± 標準差帶由中央向兩側撐開</li>
+          <li><span style="color: #4cc3e8;">4.8s</span> 100 格賽道方陣淡入</li>
+          <li><span style="color: #4cc3e8;">6.3s</span> 紅色 180s 天花板壓下 → 24 格轉灰</li>
+          <li><span style="color: #4cc3e8;">8.4s</span> 1.77× 與 2.60× 並列升起</li>
+        </ul>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px;">
+        <div style="font-family: 'IBM Plex Mono', monospace; font-size: 10px; letter-spacing: .14em; color: #7e8a97; text-transform: uppercase;">要點</div>
+        <p style="margin: 0; font-size: 12.5px; color: #a7b1bd; line-height: 1.7;">這一幕的動態刻意比 S05 收斂：沒有撞入、沒有光暈，只有壓下來的天花板。兩個倍率一定要同框並列，觀眾才看得到「數字會隨量尺改變」這件事本身。</p>
+      </div>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script data-dc-script data-props='{"paused":{"editor":"boolean","default":false,"section":"預覽"},"$preview":{"width":1280,"height":920}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { playState: this.props.paused ? "paused" : "running" };
+  }
+}
+</script>
+</body>
+</html>

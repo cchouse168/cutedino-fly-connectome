@@ -1,7 +1,7 @@
 /**
  * 介面文案（繁體中文 / English）。
  *
- * 英文文案沿用 `Fly Connectome Dashboard.dc.html` 已有的那一套，兩處必須一致。
+ * 英文文案與設計稿 dashboard 的用語一致（該稿已不在本 repo 內）。
  *
  * 用法：
  *   靜態文字  在 HTML 上標 data-i18n="key"（含標記的用 data-i18n-html，
