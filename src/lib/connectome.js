@@ -1,18 +1,18 @@
 /**
- * 80 細胞 MaleCNS 子電路。
+ * The 80-cell MaleCNS subcircuit.
  *
- * 移植自 flyjump/src/lib/connectome.ts，動態常數與正規化公式完全未改：
+ * Ported from flyjump/src/lib/connectome.ts; the dynamics constants and normalisation are unchanged:
  *
  *   W[j,i] = c[j,i]·s[j] / Σ_k( c[k,i]·|s[k]| )
  *   h_new[i] = (1-leak)·h[i] + leak·tanh( u[i] + gain·Σ_j W[j,i]·h[j] )
  *
- * 其中 c 為實測突觸接觸數、s 為依神經傳導物質假定的正負號
- * （acetylcholine +1；GABA / glutamate −1）。
+ * where c is the measured synaptic contact count and s the sign assumed from the
+ * neurotransmitter (acetylcholine +1; GABA / glutamate -1).
  *
- * 唯一的差異：輸入廣播表改讀 data/channels.json（13 通道，見 scripts/remap-channels.mjs），
- * 而非 connectome.json 內建的 8 通道。節點、邊、接觸數、DN 輸出皆未更動。
+ * The only difference: the input broadcast table is read from data/channels.json (13 channels, see
+ * scripts/remap-channels.mjs) instead of connectome.json's built-in 8. Nodes, edges, contact counts and DN outputs are untouched.
  *
- * 這是無量綱的 signed leaky tanh 活性，不是膜電位、也不是實測發放率。
+ * This is a dimensionless signed leaky-tanh activity -- not a membrane potential, not a measured firing rate.
  */
 export const DYNAMICS = { iterations: 3, leak: 0.7, gain: 1.4, outputGain: 4 };
 
@@ -28,12 +28,12 @@ export class Connectome {
     this.outputs = graph.outputs;
     this.channelCount = channelMap.channelCount;
 
-    // 每個 post 節點的入邊接觸數總和（取正負號絕對值），用於正規化
+    // Summed incoming contact counts per post node (using the sign's absolute value), for normalisation
     const totals = new Float64Array(this.count);
     for (const [pre, post, contacts] of graph.edges)
       totals[post] += contacts * Math.abs(graph.nodes[pre].sign);
 
-    // 攤平成三個 typed array，避免傳播迴圈裡的物件解構開銷
+    // Flattened into three typed arrays, avoiding object-destructuring overhead in the propagation loop
     const n = graph.edges.length;
     this.pre = new Int32Array(n);
     this.post = new Int32Array(n);
@@ -59,10 +59,10 @@ export class Connectome {
   }
 
   /**
-   * 推進一次決策（3 個同步時間步）。
-   * @param {number[]} features  長度 = channelCount，值域 0..1
-   * @param {boolean} ablated  消融對照：強制電路靜默
-   * @returns {number[]} 16 顆下行神經元的活性 × outputGain
+   * Advance one decision (3 synchronous time steps).
+   * @param {number[]} features  length = channelCount, values in 0..1
+   * @param {boolean} ablated  ablation control: force the circuit silent
+   * @returns {number[]} the 16 descending neurons' activity x outputGain
    */
   step(features, ablated = false) {
     if (ablated) {

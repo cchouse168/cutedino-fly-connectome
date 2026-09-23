@@ -1,9 +1,9 @@
 /**
- * 離線 CEM 訓練（Node，多執行緒）。
+ * Offline CEM training (Node, multi-threaded).
  *
  *   node scripts/train.mjs [seed] [generations]
  *
- * 產出 models/model.json 與 models/training.json。
+ * Writes models/model.json and models/training.json.
  */
 import fs from "node:fs";
 import os from "node:os";
@@ -18,10 +18,10 @@ const channelMap = JSON.parse(fs.readFileSync(path.join(root, "data/channels.jso
 
 const seed = Number(process.argv[2] ?? 20260914);
 const generations = Number(process.argv[3] ?? TRAINING.generations);
-const outDir = process.argv[4] ?? "models";   // replicate 跑法：傳入 models/replicates/<seed>
+const outDir = process.argv[4] ?? "models";   // for replicate runs, pass models/replicates/<seed>
 const threads = Math.max(1, Math.min(os.cpus().length, TRAINING.population));
 
-console.log(`CEM 訓練  seed=${seed}  generations=${generations}  threads=${threads}`);
+console.log(`CEM training  seed=${seed}  generations=${generations}  threads=${threads}`);
 console.log(`population=${TRAINING.population} elites=${TRAINING.elites} ` +
   `courses=${TRAINING.trainingCourses}x${TRAINING.courseSeconds}s\n`);
 
@@ -41,7 +41,7 @@ const t0 = Date.now();
 for (let gen = 0; gen < generations; gen++) {
   const { seeds, candidates } = trainer.proposal();
 
-  // 平均切給各 worker
+  // Split evenly across the workers
   const chunks = Array.from({ length: threads }, () => []);
   candidates.forEach((w, i) => chunks[i % threads].push(w));
   const results = await Promise.all(
@@ -49,11 +49,11 @@ for (let gen = 0; gen < generations; gen++) {
       c.length ? call(workers[i], { candidates: c, seeds, seconds: TRAINING.courseSeconds, id: i }) : [],
     ),
   );
-  // 還原成原本的候選順序
+  // Restore the original candidate order
   const fits = new Array(candidates.length);
   chunks.forEach((c, i) => c.forEach((_, j) => { fits[j * threads + i] = results[i][j]; }));
 
-  // 驗證同樣平行化：同一組權重、16 條驗證賽道切給各 worker
+  // Validation is parallelised too: one weight vector, 16 validation courses split across workers
   const p = await trainer.absorb(candidates, fits, seeds, async (w) => {
     const vChunks = Array.from({ length: threads }, () => []);
     TRAINING.validationSeeds.forEach((s, i) => vChunks[i % threads].push(s));
@@ -62,7 +62,7 @@ for (let gen = 0; gen < generations; gen++) {
         vs.length ? call(workers[i], { candidates: [w], seeds: vs, seconds: TRAINING.validationSeconds, id: i }) : null,
       ),
     );
-    // 各 worker 回傳的是該子集的平均，需依子集大小加權還原成總平均
+    // Each worker returns its subset's mean, so weight by subset size to recover the overall mean
     let total = 0;
     vChunks.forEach((vs, i) => { if (vs.length) total += parts[i][0] * vs.length; });
     return total / TRAINING.validationSeeds.length;
@@ -99,6 +99,6 @@ fs.writeFileSync(
   ) + "\n",
 );
 
-console.log(`\n完成，耗時 ${((Date.now() - t0) / 60000).toFixed(1)} 分鐘`);
-console.log(`冠軍：第 ${trainer.champion.generation} 代，驗證分數 ${trainer.champion.validation.toFixed(0)}`);
-console.log(`寫入 ${outDir}/model.json 與 ${outDir}/training.json`);
+console.log(`\nDone in ${((Date.now() - t0) / 60000).toFixed(1)} minutes`);
+console.log(`Champion: generation ${trainer.champion.generation}, validation score ${trainer.champion.validation.toFixed(0)}`);
+console.log(`Wrote ${outDir}/model.json and ${outDir}/training.json`);

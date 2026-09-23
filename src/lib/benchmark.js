@@ -1,11 +1,11 @@
 /**
- * Held-out 基準與消融對照。
+ * Held-out benchmark and ablation controls.
  *
- * 對照組與 flyjump/src/lib/benchmark.ts 對齊，才有可比性：
- *   連接體+訓練讀出 / 電路靜默 / 未訓練讀出 / 手寫規則 / 隨機 / 無動作
+ * The control groups match flyjump/src/lib/benchmark.ts so the results stay comparable:
+ *   connectome+trained readout / circuit silenced / untrained readout / hand-written rules / random / no action
  *
- * 核心主張：若「電路靜默」與「未訓練讀出」的表現接近完整版，
- * 就代表讀出網路在硬記而非真的利用了解剖結構 —— 實驗即失敗。
+ * The core claim: if "circuit silenced" and "untrained readout" come close to the full system,
+ * the readout is memorising rather than using the anatomy -- and the experiment has failed.
  */
 import { episode, randomWeights, mean } from "./training.js";
 import { rng } from "../engine/rng.js";
@@ -35,12 +35,12 @@ export function benchmark(model, graph, channelMap, opts = {}) {
   const untrained = randomWeights(rng(model.trainingSeed));
 
   const policies = [
-    ["連接體 + 訓練讀出", model.weights, "model"],
-    ["電路靜默（消融）", model.weights, "ablated"],
-    ["未訓練讀出", untrained, "model"],
-    ["手寫規則", null, "rule"],
-    ["隨機動作", null, "random"],
-    ["完全不動", null, "idle"],
+    ["Connectome + trained readout", model.weights, "model"],
+    ["Circuit silenced (ablation)", model.weights, "ablated"],
+    ["Untrained readout", untrained, "model"],
+    ["Hand-written rules", null, "rule"],
+    ["Random actions", null, "random"],
+    ["No action at all", null, "idle"],
   ];
 
   return {

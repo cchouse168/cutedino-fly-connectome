@@ -1,9 +1,9 @@
 # vendor/
 
-`cute-dino-index.html` 是 [cchouse168/cute-dino](https://github.com/cchouse168/cute-dino)
-`main` 分支的 `index.html` 原始快照，保留於此有兩個目的：
+`cute-dino-index.html` is the original `index.html` from
+[cchouse168/cute-dino](https://github.com/cchouse168/cute-dino) at `main`, kept here so that:
 
-1. `docs/experiment.md` 引用的行號（`update(dt)` 第 324–436 行等）可以直接對照驗證
-2. 日後上游遊戲改版時，可以 diff 出需要同步到 `src/engine/game.js` 的規則變更
+1. the line ranges cited in `docs/experiment.md` (`update(dt)` at lines 324-436, and so on) can be checked against the source
+2. when the upstream game changes, a diff shows which rule changes `src/engine/game.js` needs to follow
 
-**此檔案不參與網站執行**，只是對照用的參考。
+**This file takes no part in the build** -- it is a reference copy only.

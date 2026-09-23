@@ -1,17 +1,17 @@
 /**
- * cute-dino 畫面繪製。
+ * cute-dino frame rendering.
  *
- * 這一層是 cchouse168/cute-dino 原版 draw() 區段（index.html 第 458–677 行）的
- * 忠實移植，**視覺輸出刻意與原版完全一致**。只做了機械式的取代：
+ * This layer is a faithful port of the original draw() section of cchouse168/cute-dino
+ * (index.html lines 458-677); **the visual output is deliberately identical to the original**.
  *
- *   state        → s（傳入的遊戲狀態）
+ *   state        -> s (the game state passed in)
  *   dino         → s.dino
- *   W() / H()    → GEOM.W / GEOM.H（邏輯尺寸鎖定，不隨視窗變動）
+ *   W() / H()    -> GEOM.W / GEOM.H (logical size is locked and does not follow the window)
  *   groundY()    → G
- *   state.palmWaves → s.time * 1.2（原版每幀累加 dt*1.2，總和等於 time*1.2）
+ *   state.palmWaves -> s.time * 1.2 (the original adds dt*1.2 per frame, summing to time*1.2)
  *
- * 邏輯層（update）為了訓練必須改寫成確定性版本，但渲染層沒有這個必要 ——
- * 這些畫圖函式只依賴 ctx 與狀態，是純函式，照搬即可。
+ * The logic layer (update) had to be rewritten deterministically for training, but rendering
+ * does not: these draw functions depend only on ctx and state, so they port over unchanged.
  */
 import { GEOM } from "./game.js";
 
@@ -214,7 +214,7 @@ export function createRenderer(canvas) {
       } else ctx.fillStyle = skin.body;
     }
 
-    // --- 繪製順序（與原版一致）---
+    // --- draw order (same as the original) ---
     drawWing(); drawPinkWings();
     setBodyFill();
     if (crouch) roundRect(-w * 0.35, h * 0.25, w * 0.7, h * 0.45, 10, true);
@@ -502,7 +502,7 @@ export function createRenderer(canvas) {
     ctx.restore();
   }
 
-  /** 觀測疊圖：把 agent 當下鎖定的目標框出來（本專案新增，非原版內容）。 */
+  /** Observation overlay: box whatever the agent is currently locked on to (added by this project). */
   function drawOverlay(s, targets) {
     if (!targets) return;
     const box = (o, color, label) => {
@@ -516,9 +516,9 @@ export function createRenderer(canvas) {
       ctx.fillText(label, o.x, o.y - 5);
       ctx.restore();
     };
-    box(targets.obstacle, "#ef4444", "障礙");
-    box(targets.bullet, "#f97316", "子彈");
-    box(targets.powerup, "#22c55e", "道具");
+    box(targets.obstacle, "#ef4444", "obstacle");
+    box(targets.bullet, "#f97316", "bullet");
+    box(targets.powerup, "#22c55e", "pickup");
     const d = s.dino;
     ctx.save();
     ctx.strokeStyle = "rgba(59,130,246,.9)"; ctx.lineWidth = 1.5; ctx.setLineDash([3, 3]);
@@ -526,7 +526,7 @@ export function createRenderer(canvas) {
     ctx.restore();
   }
 
-  /** 繪製順序與原版 draw() 完全一致。 */
+  /** Draw order is exactly the original draw()'s. */
   return function render(s, targets) {
     ctx.clearRect(0, 0, GEOM.W, GEOM.H);
     ctx.fillStyle = s.night ? "#0b1020" : "#eaf5ff";

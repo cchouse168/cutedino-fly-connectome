@@ -1,14 +1,14 @@
 /**
- * 驗證集大小對選模準確度的影響（報告 §5.2、§5.6）。
+ * How validation-set size affects model-selection accuracy (report §5.2, §5.6).
  *
  *   node scripts/validation-size.mjs
  *
- * 拿現存的冠軍權重，用不同大小的驗證集重新評分，比對它們對 held-out 的等級相關。
- * 要看的是：擴大驗證集能不能讓「驗證分數最高的模型」真的是「held-out 最好的模型」。
+ * Re-score existing champion weights on validation sets of different sizes and compare their rank correlation with held-out.
+ * The question: does a larger validation set make "highest validation score" actually mean "best on held-out"?
  *
- * 注意：只列入用目前 policy.js 訓練出來的權重。models/exp-v3/ 的權重是在
- * BULLET_HORIZON=0.7 下訓練的，而那個常數不在 channelVersion 裡（見報告 §6.11），
- * 用現在的觀測函式評估它們沒有意義。
+ * Note: only weights trained with the current policy.js are included. The weights in models/exp-v3/
+ * were trained at BULLET_HORIZON=0.7, and that constant is not part of channelVersion (report §6.11),
+ * so evaluating them with today's observation function would be meaningless.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -31,12 +31,12 @@ const heldOut = (w) => {
 };
 
 const MODELS = [
-  ["V1 s20260917（主模型）", "models/model.json"],
-  ["V1 s20260914 400代", "models/baseline-v1/model.json"],
-  ["V1 s20260914 150代", "models/run-150gen/model.json"],
+  ["V1 s20260917 (main model)", "models/model.json"],
+  ["V1 s20260914 gen400", "models/baseline-v1/model.json"],
+  ["V1 s20260914 gen150", "models/run-150gen/model.json"],
   ["V2 s20260915", "models/exp-v2/per-seed/20260915/model.json"],
   ["V2 s20260916", "models/exp-v2/per-seed/20260916/model.json"],
-  ["V2 s20260917（第39代鎖死）", "models/exp-v2/per-seed/20260917/model.json"],
+  ["V2 s20260917 (froze at gen 39)", "models/exp-v2/per-seed/20260917/model.json"],
 ];
 
 const rows = MODELS.map(([tag, p]) => {
@@ -62,13 +62,13 @@ const spearman = (x, y) => pearson(rank(x), rank(y));
 const truth = rows.map((r) => r.meanSeconds);
 const bestByHeldOut = [...rows].sort((a, b) => b.meanSeconds - a.meanSeconds)[0].tag;
 
-console.log(`\n${"驗證集".padEnd(10)}${"Spearman ρ".padStart(12)}${"Pearson r".padStart(12)}   驗證分數最高的模型`);
+console.log(`\n${"Val set".padEnd(10)}${"Spearman ρ".padStart(12)}${"Pearson r".padStart(12)}   Model with the highest validation score`);
 for (const n of SIZES) {
   const v = rows.map((r) => r["v" + n]);
   const pick = [...rows].sort((a, b) => b["v" + n] - a["v" + n])[0].tag;
   console.log(
     String(n).padEnd(10) + spearman(v, truth).toFixed(3).padStart(12) + pearson(v, truth).toFixed(3).padStart(12) +
-      `   ${pick}${pick === bestByHeldOut ? " ✓" : " ✗（真正最好的是 " + bestByHeldOut + "）"}`,
+      `   ${pick}${pick === bestByHeldOut ? " ✓" : " ✗ (actually best: " + bestByHeldOut + ")"}`,
   );
 }
-console.log(`\nheld-out 最好的模型：${bestByHeldOut}`);
+console.log(`\nBest model on held-out: ${bestByHeldOut}`);

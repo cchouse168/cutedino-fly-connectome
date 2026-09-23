@@ -7,7 +7,7 @@
   },
   "results": [
     {
-      "name": "連接體 + 訓練讀出",
+      "name": "Connectome + trained readout",
       "mode": "model",
       "completed": 0,
       "past300": 35,
@@ -1224,7 +1224,7 @@
       ]
     },
     {
-      "name": "電路靜默（消融）",
+      "name": "Circuit silenced (ablation)",
       "mode": "ablated",
       "completed": 0,
       "past300": 0,
@@ -2441,7 +2441,7 @@
       ]
     },
     {
-      "name": "未訓練讀出",
+      "name": "Untrained readout",
       "mode": "model",
       "completed": 0,
       "past300": 0,
@@ -3658,7 +3658,7 @@
       ]
     },
     {
-      "name": "手寫規則",
+      "name": "Hand-written rules",
       "mode": "rule",
       "completed": 0,
       "past300": 3,

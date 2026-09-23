@@ -1,13 +1,13 @@
 /**
- * M1 驗收：確定性模擬器
- *   1. 同一 seed 跑兩次，逐步快照必須位元級相同
- *   2. 不同 seed 必須產生不同賽道
- *   3. 非 1/60 的時間步必須被拒絕
- *   4. headless 與 visual 模式的物理軌跡必須一致（裝飾實體不得污染亂數流）
+ * M1 acceptance: the deterministic simulator
+ *   1. the same seed run twice must produce bit-identical step-by-step snapshots
+ *   2. different seeds must produce different courses
+ *   3. a time step other than 1/60 must be rejected
+ *   4. headless and visual physics trajectories must match (decorative entities must not pollute the random stream)
  */
 import { createGame, tick, score, STEP, RUN, JUMP, DUCK, LEFT, RIGHT } from "../src/engine/game.js";
 
-/** 把所有影響物理的量攤平成字串，用於位元級比對。 */
+/** Flatten everything that affects physics into a string, for bit-level comparison. */
 function snapshot(s) {
   const f = (n) => (Object.is(n, -0) ? "0" : String(n));
   const d = s.dino;
@@ -23,7 +23,7 @@ function snapshot(s) {
   ].join(";");
 }
 
-/** 用固定的偽隨機動作序列驅動，確保三種動作與道具互動都被覆蓋。 */
+/** Drive with a fixed pseudo-random action sequence, so all three actions and pickup interactions are covered. */
 function scriptedAction(i) {
   const pattern = [RUN, RUN, JUMP, JUMP, RUN, DUCK, RUN, RIGHT, RUN, LEFT, JUMP, RUN];
   return pattern[i % pattern.length];
@@ -46,9 +46,9 @@ const check = (name, ok, detail = "") => {
   if (!ok) failures++;
 };
 
-const STEPS = 10800; // 180 秒
+const STEPS = 10800; // 180 seconds
 
-console.log("\n[1] 同一 seed 逐步位元級重現");
+console.log("\n[1] Bit-identical reproduction from the same seed");
 for (const seed of [1, 42, 20260914, 2100001]) {
   const a = run(seed, STEPS);
   const b = run(seed, STEPS);
@@ -59,36 +59,36 @@ for (const seed of [1, 42, 20260914, 2100001]) {
     `seed=${seed}`,
     firstDiff === -1,
     `steps=${a.snaps.length} t=${a.game.time.toFixed(2)}s score=${score(a.game)} dead=${a.game.dead}` +
-      (firstDiff >= 0 ? ` <<< 第 ${firstDiff} 步開始分歧` : ""),
+      (firstDiff >= 0 ? ` <<< diverges from step ${firstDiff}` : ""),
   );
 }
 
-console.log("\n[2] 不同 seed 產生不同賽道");
+console.log("\n[2] Different seeds produce different courses");
 const traces = [1, 2, 3, 4, 5].map((s) => run(s, 1800).snaps.at(-1));
-check("5 個 seed 互不相同", new Set(traces).size === 5, `unique=${new Set(traces).size}/5`);
+check("5 seeds all differ", new Set(traces).size === 5, `unique=${new Set(traces).size}/5`);
 
-console.log("\n[3] 拒絕非固定時間步");
+console.log("\n[3] A non-fixed time step is rejected");
 const g3 = createGame(1);
 let threw = false;
 try { tick(g3, RUN, 0.016); } catch { threw = true; }
-check("dt=0.016 被拒絕", threw);
+check("dt=0.016 rejected", threw);
 let ok60 = true;
 try { tick(g3, RUN, STEP); } catch { ok60 = false; }
-check("dt=1/60 被接受", ok60);
+check("dt=1/60 accepted", ok60);
 
-console.log("\n[4] visual 模式不得污染物理亂數流");
+console.log("\n[4] Visual mode must not pollute the physics random stream");
 const h = run(777, 3600, { visual: false });
 const v = run(777, 3600, { visual: true });
 let diffAt = -1;
 for (let i = 0; i < Math.min(h.snaps.length, v.snaps.length); i++)
   if (h.snaps[i] !== v.snaps[i]) { diffAt = i; break; }
 check(
-  "headless 與 visual 軌跡一致",
+  "headless and visual trajectories match",
   diffAt === -1 && h.snaps.length === v.snaps.length,
-  diffAt >= 0 ? `第 ${diffAt} 步分歧` : `particles(visual)=${v.game.particles.length} / (headless)=${h.game.particles.length}`,
+  diffAt >= 0 ? `diverges at step ${diffAt}` : `particles(visual)=${v.game.particles.length} / (headless)=${h.game.particles.length}`,
 );
 
-console.log("\n[5] 效能");
+console.log("\n[5] Performance");
 const t0 = performance.now();
 let steps = 0;
 for (let seed = 1; seed <= 20; seed++) {
@@ -97,9 +97,9 @@ for (let seed = 1; seed <= 20; seed++) {
 }
 const ms = performance.now() - t0;
 const perStep = (ms * 1000) / steps;
-console.log(`  ${steps.toLocaleString()} 步 / ${ms.toFixed(0)} ms = ${perStep.toFixed(2)} µs/步`);
+console.log(`  ${steps.toLocaleString()} steps / ${ms.toFixed(0)} ms = ${perStep.toFixed(2)} µs/step`);
 const budget = 80 * (64 * 3 + 4) * 10800;
-console.log(`  完整訓練 ${(budget / 1e6).toFixed(0)}M 步 推估單執行緒 ${((budget * perStep) / 1e6 / 60).toFixed(1)} 分鐘`);
+console.log(`  Full training ${(budget / 1e6).toFixed(0)}M steps, estimated ${((budget * perStep) / 1e6 / 60).toFixed(1)} minutes single-threaded`);
 
-console.log(failures === 0 ? "\n全部通過\n" : `\n${failures} 項失敗\n`);
+console.log(failures === 0 ? "\nAll passed\n" : `\n${failures} failed\n`);
 process.exit(failures === 0 ? 0 : 1);

@@ -1,14 +1,14 @@
 /**
- * 介面文案（繁體中文 / English）。
+ * Interface copy (English / Traditional Chinese).
  *
- * 英文文案與設計稿 dashboard 的用語一致（該稿已不在本 repo 內）。
+ * The English wording matches the dashboard design it was built from (that file is not in this repo).
  *
- * 用法：
- *   靜態文字  在 HTML 上標 data-i18n="key"（含標記的用 data-i18n-html，
- *            屬性用 data-i18n-title）
- *   動態文字  在 JS 裡呼叫 t("key", { n: 3 })，字串中的 {n} 會被代換
+ * Usage:
+ *   static text   mark up the HTML with data-i18n="key" (data-i18n-html when the copy
+ *                 contains markup, data-i18n-title for attributes)
+ *   dynamic text  call t("key", { n: 3 }) from JS; {n} in the string is substituted
  *
- * 語言切換時 applyStatic() 重跑靜態節點，onLangChange() 的回呼負責重畫動態面板。
+ * On a language change applyStatic() re-runs the static nodes, and the onLangChange() callbacks repaint the dynamic panels.
  */
 
 const STORE_KEY = "flydino-lang"; // 與 dashboard 共用同一個鍵，切一次兩邊都記得
@@ -221,14 +221,14 @@ try {
 
 export const getLang = () => lang;
 
-/** 取一則文案；字串中的 {x} 由 vars.x 代換。找不到的 key 直接回傳 key，方便發現漏翻。 */
+/** Fetch one string; {x} is substituted from vars.x. A missing key returns the key itself, which makes gaps obvious. */
 export function t(key, vars) {
   const raw = DICTS[lang][key] ?? ZH[key] ?? key;
   if (typeof raw !== "string" || !vars) return raw;
   return raw.replace(/\{(\w+)\}/g, (m, k) => (k in vars ? String(vars[k]) : m));
 }
 
-/** 取整個陣列型文案（channels / groups）。 */
+/** Fetch a whole array-valued entry (channels / groups). */
 export const tList = (key) => DICTS[lang][key] ?? ZH[key] ?? [];
 
 export function setLang(next) {
@@ -239,14 +239,14 @@ export function setLang(next) {
   for (const fn of listeners) fn(lang);
 }
 
-/** 註冊語言切換回呼，用來重畫 canvas 與表格等非 data-i18n 的內容。 */
+/** Register a language-change callback, for repainting canvases, tables and anything else not driven by data-i18n. */
 export const onLangChange = (fn) => listeners.add(fn);
 
 /**
- * 套用所有靜態標記：
+ * Apply every static marker:
  *   data-i18n       → textContent
- *   data-i18n-html  → innerHTML（僅用於本檔內建、含 <a>/<code> 的文案）
- *   data-i18n-title → title 屬性
+ *   data-i18n-html  -> innerHTML (only for this file's own copy containing <a>/<code>)
+ *   data-i18n-title -> the title attribute
  */
 export function applyStatic(root = document) {
   for (const el of root.querySelectorAll("[data-i18n]")) el.textContent = t(el.dataset.i18n);

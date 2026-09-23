@@ -1,4 +1,4 @@
-/** 瀏覽器內 CEM 候選評估 worker。 */
+/** In-browser CEM candidate-evaluation worker. */
 import { Connectome } from "./connectome.js";
 import { fitness } from "./training.js";
 

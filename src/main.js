@@ -1,5 +1,5 @@
 /**
- * 主程式：把遊戲、連接體、讀出網路與四個視覺化面板接起來。
+ * Main program: wires the game, the connectome, the readout and the four visualisation panels together.
  */
 import { createGame, tick, score, STEP, RUN, ACTIONS } from "./engine/game.js";
 import { createRenderer } from "./engine/render.js";
@@ -26,11 +26,11 @@ const [graph, channelMap, model, bench, training, reps] = await Promise.all([
 const brain = new Connectome(graph, channelMap);
 const CH = channelMap.channels;
 let curveHistory = training?.history ?? [];
-let liveModel = null; // 瀏覽器內訓練產出的模型，優先於 models/model.json
+let liveModel = null; // a model trained in-browser, which takes precedence over models/model.json
 
 $("statCh").textContent = CH.length;
 
-/** 方法章節的四個步驟：內含通道數與 <code>，所以由 JS 組出來而非 data-i18n。 */
+/** The Method section's four steps: they embed the channel count and <code>, so JS builds them rather than data-i18n. */
 function paintSteps() {
   for (let i = 1; i <= 4; i++) $(`step${i}Body`).innerHTML = t(`step${i}Body`, { n: CH.length });
 }
@@ -40,7 +40,7 @@ const untrainedWeights = Array.from(
   (() => { const r = rng(model?.trainingSeed ?? 1); return () => gaussian(r) * 0.7; })(),
 );
 
-// ---------------------------------------------------------------- 遊戲
+// ---------------------------------------------------------------- game
 const render = createRenderer($("game"));
 let game, speedMul = 1, playing = true, decision = null, frame = 0, action = RUN;
 let randomStream = rng(1);
@@ -62,7 +62,7 @@ function decideNow() {
   const mode = $("selMode").value;
   if (mode === "rule" || mode === "random") {
     decision = null;
-    brain.reset(); // 不清空的話大腦面板會停在上一次的活性，誤導成電路仍在運作
+    brain.reset(); // without this the brain panel freezes on the last activity, implying the circuit is still running
     return mode === "rule" ? ruleAction(game) : Math.floor(randomStream() * NETWORK.outputs);
   }
   const features = observe(game);
@@ -79,7 +79,7 @@ function step() {
   frame++;
 }
 
-// ---------------------------------------------------------------- 主迴圈
+// ---------------------------------------------------------------- main loop
 let acc = 0, last = performance.now();
 function loop(now) {
   requestAnimationFrame(loop);
@@ -113,16 +113,16 @@ function paintStatus() {
   $("runState").textContent = game.dead ? t("deadState") : playing ? t("running") : t("paused");
   $("btnPlay").textContent = playing ? t("pause") : t("resume");
 
-  // 冠軍代數在下方的基準說明與 replicate 表都已列出，狀態列再寫一次只是噪音
+  // The champion generation already appears in the benchmark note and the replicate table below; repeating it in the status bar is noise
   $("runMeta").textContent = $("selMode").selectedOptions[0].textContent;
 
   const cfg = ACTION_KEYS[action] ?? ACTION_KEYS[0];
   $("flyTag").textContent = `${ACTIONS[action]}   ${cfg.label}`;
-  // 動作名稱沿用 ACTIONS 常數，與 02 決策網路、03 鍵盤輸出 用同一套字，不另外翻譯
+  // Action names reuse the ACTIONS constant, the same wording as panels 02 and 03, and are not translated separately
   $("hudAction").textContent = ACTIONS[action];
 }
 
-// ---------------------------------------------------------------- 05 感官通道
+// ---------------------------------------------------------------- 05 sensory channels
 const featRows = CH.map((c) => {
   const row = document.createElement("div");
   row.className = "fx";
@@ -134,12 +134,12 @@ const featRows = CH.map((c) => {
   return { fill: row.querySelector("i"), vl: row.querySelector(".vl"), nm: row.querySelector(".nm") };
 });
 
-/** 通道名稱跟著語言走；channels.json 的 label 當作沒有翻譯時的退路。 */
+/** Channel names follow the language; channels.json's label is the fallback when there is no translation. */
 function paintFeatureLabels() {
   const names = tList("channels");
   featRows.forEach((r, i) => {
     r.nm.textContent = names[i] ?? CH[i].label;
-    r.nm.title = r.nm.textContent; // 超過兩行時滑過去仍看得到完整名稱
+    r.nm.title = r.nm.textContent; // past two lines, hovering still shows the full name
   });
 }
 
@@ -153,7 +153,7 @@ function paintFeatures() {
   }
 }
 
-// ---------------------------------------------------------------- 02 決策網路
+// ---------------------------------------------------------------- 02 decision network
 const dc = $("decide"), dctx = dc.getContext("2d");
 const DN_LABELS = graph.outputs.map((i) => graph.nodes[i].type);
 
@@ -183,13 +183,14 @@ function paintDecide() {
   const dnMax = Math.max(0.5, ...dn.map(Math.abs));
 
   /**
-   * 一條連線，強度 m = |權重| × |前一層活性|。
+   * One connection, with strength m = |weight| x |previous layer's activity|.
    *
-   * m 是兩個 ≤1 的量相乘，典型值只有 0.1 上下 —— 直接拿來當 alpha 等於沒畫。
-   * 所以先用 0.5 次方把中低段拉起來，再加一個 MIN_A 下限：只要決定要畫，
-   * 就一定看得見；強弱改由「多亮 + 多粗」一起表達，而不是靠肉眼分辨 0.04 和 0.09。
+   * m multiplies two quantities that are both <=1, so it typically sits around 0.1 -- used directly as alpha it draws nothing.
+   * So raise the low-to-mid range with a 0.5 power first, then add a MIN_A floor: once a line is
+   * worth drawing at all it is visible, and strength is carried by brightness and width together, not by telling 0.04 from 0.09.
    *
-   * 對應地把門檻調高（弱連線直接不畫），否則 16×12 + 12×5 = 252 條全部畫亮會糊成一片。
+   * The threshold rises to match (weak links are simply not drawn), or all 16x12 + 12x5 = 252
+   * lines drawn bright would blur into a smear.
    */
   const MIN_A = 0.22;
   const link = (x1, y1, x2, y2, wt, act, peak, cut) => {
@@ -197,24 +198,24 @@ function paintDecide() {
     if (m < cut) return;
     const a = MIN_A + Math.sqrt(m) * (peak - MIN_A);
     dctx.strokeStyle = wt >= 0 ? `rgba(249,115,22,${a})` : `rgba(56,189,248,${a})`;
-    dctx.lineWidth = m > 0.3 ? 1.8 : 1.1; // 1px 斜線會被反鋸齒攤成兩格，看起來更淡
+    dctx.lineWidth = m > 0.3 ? 1.8 : 1.1; // a 1px diagonal gets spread over two pixels by antialiasing and looks fainter
     dctx.beginPath(); dctx.moveTo(x1, y1); dctx.lineTo(x2, y2); dctx.stroke();
   };
 
-  // 下行神經元 → 隱藏層：16×12 條，最密的一束，門檻較高、峰值較低
-  // 權重排列見 policy.js forward()：隱藏單元 h 的第 i 個輸入在 h*(inputs+1)+i
+  // Descending neurons -> hidden layer: 16x12 lines, the densest bundle, so a higher threshold and lower peak
+  // Weight layout is in policy.js forward(): hidden unit h's i-th input is at h*(inputs+1)+i
   for (let h = 0; h < NETWORK.hidden; h++)
     for (let i = 0; i < NETWORK.inputs; i++)
       link(169, dnY(i), colH - 12, hY(h), w[h * (NETWORK.inputs + 1) + i], dn[i] / dnMax, 0.72, 0.10);
 
-  // 隱藏層 → 動作：只有 60 條，畫滿也不會亂
+  // Hidden layer -> actions: only 60 lines, so drawing them all stays readable
   const base = NETWORK.inputs * NETWORK.hidden + NETWORK.hidden;
   for (let a = 0; a < NETWORK.outputs; a++)
     for (let h = 0; h < NETWORK.hidden; h++)
       link(colH + 14, hY(h), colA - 66, aY(a), w[base + a * (NETWORK.hidden + 1) + h], hidden[h], 0.95, 0.05);
 
-  // 16 顆下行神經元。名稱最長 DNpe052（7 字元），13px 等寬約 55px，
-  // 右對齊在 x=88 → 左緣約 33，不會超出畫布。
+  // The 16 descending neurons. The longest name is DNpe052 (7 characters), about 55px at 13px monospace,
+  // right-aligned at x=88 -> a left edge around 33, which stays inside the canvas.
   dctx.font = "13px ui-monospace, monospace";
   for (let i = 0; i < dn.length; i++) {
     const y = dnY(i), m = Math.min(1, Math.abs(dn[i]) / dnMax);
@@ -225,14 +226,14 @@ function paintDecide() {
     dctx.strokeStyle = "#1c2534"; dctx.lineWidth = 1; dctx.strokeRect(96, y - 6, 69, 12);
   }
 
-  // 12 個隱藏單元
+  // The 12 hidden units
   for (let h = 0; h < hidden.length; h++) {
     const y = hY(h), m = Math.min(1, Math.abs(hidden[h]));
     dctx.fillStyle = hidden[h] >= 0 ? `rgba(249,115,22,${0.25 + m * 0.75})` : `rgba(56,189,248,${0.25 + m * 0.75})`;
     dctx.beginPath(); dctx.arc(colH, y, 4 + m * 6, 0, Math.PI * 2); dctx.fill();
   }
 
-  // 5 個動作分數
+  // The 5 action scores
   const sMin = Math.min(...scores), sMax = Math.max(...scores);
   const span = Math.max(0.6, sMax - sMin);
   for (let i = 0; i < scores.length; i++) {
@@ -243,7 +244,7 @@ function paintDecide() {
     dctx.fillStyle = hot ? "#eafff2" : "#e8ecf1";
     dctx.font = (hot ? "bold " : "") + "14px system-ui, sans-serif";
     dctx.fillText(ACTIONS[i], colA - 54, y + 5);
-    // 分數靠右對齊到畫布邊界內側，放大後才不會被 720px 的寬度切掉
+    // Scores right-align to just inside the canvas edge, so zooming does not clip them at 720px
     dctx.textAlign = "right";
     dctx.fillStyle = hot ? "#f2f5f8" : "#cfd8e3";
     dctx.font = (hot ? "bold " : "") + "16px ui-monospace, monospace";
@@ -251,10 +252,10 @@ function paintDecide() {
   }
 }
 
-// ---------------------------------------------------------------- 03/04 大型資產
+// ---------------------------------------------------------------- 03/04 large assets
 let flyView = null, brainView = null;
 
-// 兩個面板的註腳會因載入結果而不同，記成 key + 參數才能跟著語言重畫
+// Both panels' footnotes depend on what loaded, so they are stored as key + args to be repainted on a language change
 let flyNote = { key: "flyNote" }, brainNote = null;
 
 function paintNotes() {
@@ -285,7 +286,7 @@ function paintBrain() {
   $("brainTag").textContent = t("brainTagFmt", { v: (s / brain.activity.length).toFixed(3) });
 }
 
-/** 兩顆按鈕的文字是「按下去會發生什麼」，所以與當前狀態相反。 */
+/** Both buttons are labelled with what pressing them will do, so they read as the opposite of the current state. */
 function paintBrainButtons() {
   $("btnFocus").textContent = t(brainView?.state.focus ? "showAll" : "focus");
   $("btnOrbit").textContent = t(brainView?.state.orbit === false ? "startOrbit" : "stopOrbit");
@@ -301,7 +302,7 @@ $("btnOrbit").onclick = () => {
   paintBrainButtons();
 };
 
-// ---------------------------------------------------------------- 訓練曲線
+// ---------------------------------------------------------------- training curve
 function paintCurve() {
   const el = $("curve"), x = el.getContext("2d");
   const W = el.width, H = el.height;
@@ -350,7 +351,7 @@ function paintBench() {
     tb.innerHTML = `<tr><td style="color:var(--dim)">${t("benchEmpty")}</td></tr>`;
     return;
   }
-  // 對照組名稱在 benchmark.json 裡是中文，顯示時一律改用字典（順序由 benchmark.js 固定）
+  // The control names in benchmark.json are Chinese; display always goes through the dictionary (the order is fixed by benchmark.js)
   const groups = tList("groups");
   tb.innerHTML =
     `<tr><th>${t("thGroup")}</th><th>${t("thDone")}</th><th>${t("thMeanS")}</th><th>${t("thMedianS")}</th>` +
@@ -369,8 +370,8 @@ function paintBench() {
   const ru = full.meanSeconds / Math.max(0.01, untrained.meanSeconds);
   const ok = rs > 2 && ru > 2;
   $("claim").className = "claim" + (ok ? "" : " bad");
-  // 消融後的秒數本身比「掉到 1/46」好懂：46 的分母是環境地板（撞上第一個障礙物的時間），
-  // 不是一個有刻度的量 —— 講成倍率會讓人以為消融組還有程度之分。
+  // The seconds after ablation are easier to grasp than "down to 1/46": the 46's denominator is the environment's floor
+  // (time to hit the first obstacle), not a graded quantity -- a ratio implies the ablated group still has degrees
   $("claim").innerHTML = ok
     ? t("claimOkFmt", { s: silenced.meanSeconds.toFixed(1), u: untrained.meanSeconds.toFixed(1) })
     : t("claimBadFmt", { rs: rs.toFixed(1), ru: ru.toFixed(1) });
@@ -381,9 +382,9 @@ function paintBench() {
 }
 
 /**
- * Replicate：用不同訓練種子重跑整條管線的結果。
- * 要看的是消融比的離散程度 —— 絕對分數本來就會因種子而異，
- * 但若電路真有貢獻，消融後的崩潰應該每次都出現。
+ * Replicates: rerunning the whole pipeline with different training seeds.
+ * What matters is how tightly the ablation ratio clusters -- absolute scores vary by seed anyway,
+ * but if the circuit really contributes, the collapse after ablation should appear every time.
  */
 function paintReplicates() {
   if (!reps?.replicates?.length) return;
@@ -413,21 +414,21 @@ function paintReplicates() {
   $("repNote").textContent = t(stable ? "repStable" : "repUnstable");
 }
 
-// ---------------------------------------------------------------- 控制
+// ---------------------------------------------------------------- controls
 /**
- * 統一的重玩入口：newGame() 本身不會恢復播放狀態，
- * 死亡後若只呼叫 newGame() 畫面會卡住（loop 裡 `playing && !game.dead` 永遠不成立，
- * 因為死亡當下 playing 通常還是 true 但下一輪判斷會因新賽道而正常，
- * 但若原本是暫停狀態則新賽道也不會自動播放）—— 這裡確保重玩後一定是播放中。
+ * The single entry point for replaying. newGame() does not restore the playing state by itself,
+ * so calling it alone after a death leaves the screen stuck (in the loop, `playing && !game.dead`
+ * never holds: playing is usually still true at the moment of death, and the next iteration is fine
+ * on a fresh course, but from a paused state the new course would never start) -- this guarantees play resumes.
  */
 function replay(seed) {
   newGame(seed);
   playing = true;
-  last = performance.now(); // 按鈕文字由 paintStatus() 依 playing 決定
+  last = performance.now(); // the button label is decided by paintStatus() from `playing`
 }
 
 $("btnPlay").onclick = () => {
-  if (game.dead) { replay(game.seed); return; } // 死亡時「繼續」鍵改為重玩同一賽道
+  if (game.dead) { replay(game.seed); return; } // when dead, the "resume" button replays the same course
   playing = !playing;
   last = performance.now();
 };
@@ -437,14 +438,14 @@ $("selMode").onchange = () => replay(game.seed);
 $("selSpeed").onchange = (e) => (speedMul = Number(e.target.value));
 addEventListener("keydown", (e) => {
   if (e.target.tagName === "SELECT" || e.target.tagName === "INPUT") return;
-  if (e.code === "Space") { e.preventDefault(); $("btnPlay").click(); } // 死亡時等同重玩本賽道
+  if (e.code === "Space") { e.preventDefault(); $("btnPlay").click(); } // when dead, this replays the course
   if (e.key === "r" || e.key === "R") replay(game.seed);
   if (e.key === "n" || e.key === "N") replay((Math.random() * 900000) | 0);
 });
 
-if (!model) $("selMode").value = "rule"; // 缺模型時預設跑手寫規則，訊息由 paintAllText() 寫
+if (!model) $("selMode").value = "rule"; // with no model, default to the hand-written rules; the message comes from paintAllText()
 
-// ---------------------------------------------------------------- 瀏覽器內訓練
+// ---------------------------------------------------------------- in-browser training
 const POOL = Math.max(1, Math.min(navigator.hardwareConcurrency || 4, 12));
 let pool = null, busy = false;
 
@@ -463,7 +464,7 @@ const evalOn = (w, msg) =>
     w.postMessage({ type: "eval", ...msg });
   });
 
-/** 把一批工作平均切給 worker 池，回傳與輸入順序一致的結果。 */
+/** Split a batch evenly across the worker pool, returning results in the input order. */
 async function scatter(items, seeds, seconds) {
   const chunks = Array.from({ length: pool.length }, () => []);
   items.forEach((x, i) => chunks[i % pool.length].push(x));
@@ -482,7 +483,7 @@ $("btnTrain").onclick = async () => {
   const gens = Number($("selGens").value);
   btn.disabled = true;
   stat.className = "tstat run";
-  stat.removeAttribute("data-i18n"); // 之後都是動態訊息，別讓語言切換把它蓋回預設文案
+  stat.removeAttribute("data-i18n"); // everything after this is a dynamic message; a language switch must not overwrite it
   stat.textContent = t("trainStarting", { n: POOL });
 
   try {
@@ -523,8 +524,8 @@ $("btnTrain").onclick = async () => {
   }
 };
 
-// ---------------------------------------------------------------- 啟動
-// 開發用：可在 console 直接同步呼叫渲染，不必等 requestAnimationFrame
+// ---------------------------------------------------------------- startup
+// For development: render can be called synchronously from the console without waiting for requestAnimationFrame
 window.__fly = {
   get flyView() { return flyView; },
   get brainView() { return brainView; },
@@ -535,8 +536,8 @@ window.__fly = {
 };
 
 /**
- * 語言切換後要重畫的東西：動態組出來的表格、註腳與 canvas 裡的靜態文字。
- * paintStatus() / paintDecide() 每一幀都跑，會自己跟上，不必列在這裡。
+ * What has to be repainted after a language change: dynamically built tables, footnotes and static text inside canvases.
+ * paintStatus() / paintDecide() run every frame and keep up on their own, so they are not listed here.
  */
 function paintAllText() {
   paintSteps();

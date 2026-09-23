@@ -1,15 +1,15 @@
 {
   "version": "cutedino-malecns-channels-v1",
   "derivedFrom": "malecns-dino-circuit-v1",
-  "note": "僅重新指派工程化的輸入廣播表；80 節點、1296 條邊、突觸接觸數、16 顆 DN 輸出皆未更動。通道數由實測的型內投射可區分性決定，非任意指定。",
+  "note": "Only the engineered input broadcast table is reassigned; the 80 nodes, 1296 edges, synaptic contact counts and 16 DN outputs are all unmodified. The channel count is set by measured within-type projection separability, not chosen arbitrarily.",
   "splitThreshold": 0.2,
   "channelCount": 13,
   "channels": [
     {
       "index": 0,
       "key": "obstacleImpact",
-      "label": "障礙物撞擊倒數",
-      "note": "最關鍵：距離已除以接近速度，速度資訊內建",
+      "label": "obstacle time-to-impact",
+      "note": "most critical: distance already divided by closing speed, so speed is built in",
       "cellType": "LC4",
       "mode": "whole",
       "cells": [
@@ -23,8 +23,8 @@
     {
       "index": 1,
       "key": "obstacleBottom",
-      "label": "障礙物底端離地高",
-      "note": "決定該跳還是該蹲",
+      "label": "obstacle bottom height",
+      "note": "decides jump versus duck",
       "cellType": "LC11",
       "mode": "whole",
       "cells": [
@@ -38,7 +38,7 @@
     {
       "index": 2,
       "key": "playerHeight",
-      "label": "玩家離地高度",
+      "label": "player height off ground",
       "note": "",
       "cellType": "LC17",
       "mode": "whole",
@@ -53,7 +53,7 @@
     {
       "index": 3,
       "key": "obstacleTop",
-      "label": "障礙物頂端離地高",
+      "label": "obstacle top height",
       "note": "",
       "cellType": "LC9",
       "mode": "half-a",
@@ -66,8 +66,8 @@
     {
       "index": 4,
       "key": "obstacle2Impact",
-      "label": "次近障礙物撞擊倒數",
-      "note": "連續障礙預判",
+      "label": "2nd-nearest obstacle TTI",
+      "note": "anticipating back-to-back obstacles",
       "cellType": "LC9",
       "mode": "half-b",
       "cells": [
@@ -79,7 +79,7 @@
     {
       "index": 5,
       "key": "playerVy",
-      "label": "玩家垂直速度",
+      "label": "player vertical velocity",
       "note": "",
       "cellType": "LC16",
       "mode": "half-a",
@@ -92,7 +92,7 @@
     {
       "index": 6,
       "key": "grounded",
-      "label": "是否踩地",
+      "label": "on the ground",
       "note": "",
       "cellType": "LC16",
       "mode": "half-b",
@@ -105,8 +105,8 @@
     {
       "index": 7,
       "key": "bulletImpact",
-      "label": "子彈撞擊倒數",
-      "note": "噴射機子彈速度 worldV+420",
+      "label": "bullet time-to-impact",
+      "note": "jet bullet speed is worldV+420",
       "cellType": "LC21",
       "mode": "half-a",
       "cells": [
@@ -118,7 +118,7 @@
     {
       "index": 8,
       "key": "bulletDy",
-      "label": "子彈相對高度差",
+      "label": "bullet relative height",
       "note": "",
       "cellType": "LC21",
       "mode": "half-b",
@@ -131,7 +131,7 @@
     {
       "index": 9,
       "key": "powerupImpact",
-      "label": "道具接近倒數",
+      "label": "pickup time-to-reach",
       "note": "",
       "cellType": "LPLC2",
       "mode": "half-a",
@@ -144,7 +144,7 @@
     {
       "index": 10,
       "key": "powerupDy",
-      "label": "道具相對高度差",
+      "label": "pickup relative height",
       "note": "",
       "cellType": "LPLC2",
       "mode": "half-b",
@@ -157,8 +157,8 @@
     {
       "index": 11,
       "key": "playerX",
-      "label": "玩家水平位置",
-      "note": "5 動作含左右移動，需知道是否貼牆",
+      "label": "player horizontal pos",
+      "note": "the 5 actions include lateral movement, so it needs to know if it is against a wall",
       "cellType": "LC15",
       "mode": "half-a",
       "cells": [
@@ -170,8 +170,8 @@
     {
       "index": 12,
       "key": "shield",
-      "label": "護盾狀態",
-      "note": "無敵剩餘時間與備用 HP",
+      "label": "shield state",
+      "note": "invulnerability remaining and spare HP",
       "cellType": "LC15",
       "mode": "half-b",
       "cells": [

@@ -1,13 +1,13 @@
 /**
- * 截尾上限對鑑別力的影響（報告 §5.4）。
+ * How the censoring cap affects discriminative power (report §5.4).
  *
  *   node scripts/censoring.mjs [models/benchmark-600s.json]
  *
- * 180 秒基準的問題是右截尾：agent 與手寫規則都有大量賽道撞到上限，
- * 撞頂的那些互相比就變成平手，上限以上的差異量不出來。
+ * The problem with the 180s benchmark is right-censoring: both the agent and the hand-written
+ * rules hit the cap on many courses, those courses tie each other, and differences above the cap cannot be measured.
  *
- * 這支腳本拿同一批長場資料，在不同上限人工截尾，用**同一個統計量**
- * 看鑑別力怎麼隨上限變化 —— 才不會犯「拿平均值比跟拿門檻計數比混著講」的錯。
+ * This script takes one set of long-course data, censors it artificially at different caps, and uses
+ * **one single statistic** to watch discriminative power change -- avoiding the mistake of mixing a ratio of means with a ratio of threshold counts.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -18,18 +18,18 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const src = process.argv[2] ?? "models/benchmark-600s.json";
 const b = JSON.parse(fs.readFileSync(path.join(root, src), "utf8"));
 
-const group = (n) => {
-  const g = b.results.find((r) => r.name.includes(n));
-  if (!g) throw new Error(`找不到對照組：${n}`);
+const group = (i, n) => {
+  const g = b.results[i];
+  if (!g || !g.runs) throw new Error(`Control group ${i} (${n}) is missing from ${src}`);
   return g.runs.map((r) => r.seconds);
 };
-const agent = group("連接體"), rule = group("手寫規則"), silenced = group("靜默");
+const agent = group(0, "connectome"), rule = group(3, "hand-written rules"), silenced = group(1, "circuit silenced");
 
 const sd = (x) => { const m = mean(x); return Math.sqrt(mean(x.map((v) => (v - m) ** 2))); };
 const CAPS = [180, 240, 300, 360, 420, 480, 600];
 
-console.log(`來源 ${src}　賽道 ${agent.length} 條　agent 最長存活 ${Math.max(...agent).toFixed(1)}s　規則最長 ${Math.max(...rule).toFixed(1)}s\n`);
-console.log("截尾上限  agent平均  規則平均   存活比  Cohen d   逐場勝  平手   撞頂 a/r   消融比");
+console.log(`Source ${src}  courses ${agent.length}  agent longest survival ${Math.max(...agent).toFixed(1)}s  rules longest ${Math.max(...rule).toFixed(1)}s\n`);
+console.log("     cap  agent mean   rules mean     ratio  Cohen d     wins   ties   at cap a/r   ablation");
 for (const cap of CAPS) {
   const a = agent.map((v) => Math.min(v, cap)), r = rule.map((v) => Math.min(v, cap));
   const s = silenced.map((v) => Math.min(v, cap));
@@ -47,12 +47,12 @@ for (const cap of CAPS) {
   );
 }
 
-// 找出鑑別力飽和點：比值與上一個上限相差 < 1%
+// Find where discriminative power saturates: the ratio changes < 1% from the previous cap
 let sat = null;
 for (let i = 1; i < CAPS.length; i++) {
   const ratio = (c) => { const a = agent.map((v) => Math.min(v, c)), r = rule.map((v) => Math.min(v, c)); return mean(a) / mean(r); };
   if (sat === null && Math.abs(ratio(CAPS[i]) - ratio(CAPS[i - 1])) / ratio(CAPS[i - 1]) < 0.01) sat = CAPS[i - 1];
 }
 const uncensored = CAPS.find((c) => !agent.some((v) => v >= c - 1e-9) && !rule.some((v) => v >= c - 1e-9));
-console.log(`\n鑑別力飽和於約 ${sat}s（再拉長比值變化 < 1%）；完全無截尾需要 ${uncensored}s。`);
-console.log("引用時必須連上限一起講 —— 同一個模型在不同上限下的比值不可混用。");
+console.log(`\nDiscriminative power saturates around ${sat}s (a longer cap changes the ratio by < 1%); fully uncensored needs ${uncensored}s.`);
+console.log("Always quote the cap alongside the number -- ratios from one model under different caps are not interchangeable.");

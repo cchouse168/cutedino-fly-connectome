@@ -1,15 +1,15 @@
 /**
- * KEYBOARD OUTPUT — flybody 解剖模型操作鍵盤
+ * KEYBOARD OUTPUT - the flybody anatomical model operating a keyboard
  *
- * 93,879 個三角形的果蠅身體模型，兩隻前腳可獨立動作，
- * 依 agent 當下選的動作去按對應的鍵。
+ * A 93,879-triangle fruit-fly body model whose two forelegs move independently,
+ * pressing whichever key matches the action the agent just chose.
  *
- * 用原生 WebGL2 渲染，不引入 Three.js：
- * 每個部件一個 draw call（共 12 個），法線由 fragment shader 的
- * 螢幕空間導數即時算出（flat shading），所以模型不必附帶法線資料。
+ * Rendered with raw WebGL2, no Three.js:
+ * one draw call per part (12 in total), with per-face normals computed live from the fragment
+ * shader's screen-space derivatives (flat shading), so the model carries no normal data.
  *
- * 模型來自 TuragaLab/flybody，Apache-2.0，出處見 data/flybody/NOTICE.md。
- * 鍵盤姿勢與按鍵動畫是本專案加的，不是研究模擬的輸出。
+ * The model comes from TuragaLab/flybody, Apache-2.0; provenance in data/flybody/NOTICE.md.
+ * The keyboard pose and the key-press animation were added by this project, not output of the research simulation.
  */
 
 const MATERIAL_COLORS = {
@@ -23,7 +23,7 @@ const MATERIAL_COLORS = {
   membrane: [0.78, 0.84, 0.88],
 };
 
-/** 動作 → 哪隻前腳按下、按哪個鍵 */
+/** Action -> which foreleg presses, and which key */
 export const ACTION_KEYS = {
   0: { key: null, legs: "none", label: "—" },            // RUN
   1: { key: "space", legs: "both", label: "SPACE" },     // JUMP
@@ -51,7 +51,7 @@ uniform float uAlpha;
 uniform float uEmis;
 out vec4 frag;
 void main() {
-  // 模型未附法線，改用螢幕空間導數求每面法線（flat shading）
+  // The model ships no normals, so derive each face's normal from screen-space derivatives (flat shading)
   vec3 n = normalize(cross(dFdx(vWorld), dFdy(vWorld)));
   vec3 l1 = normalize(vec3(0.45, 0.9, 0.6));
   vec3 l2 = normalize(vec3(-0.6, 0.25, -0.4));
@@ -71,7 +71,7 @@ function compile(gl, type, src) {
   return s;
 }
 
-// --- 4x4 矩陣工具（column-major，符合 WebGL 慣例） ---
+// --- 4x4 matrix helpers (column-major, matching WebGL's convention) ---
 const ident = () => new Float32Array([1,0,0,0, 0,1,0,0, 0,0,1,0, 0,0,0,1]);
 function mul(a, b) {
   const o = new Float32Array(16);
@@ -117,11 +117,11 @@ export async function loadFly(base = "data/flybody") {
 }
 
 /**
- * 程序產生的鍵盤：一塊底板 + 四個鍵帽。
+ * A procedurally generated keyboard: one base plate + four keycaps.
  *
- * 高度對齊模型實際尺寸：果蠅中後腳踩到 y = -0.132（地面），
- * 前腳靜止時腳尖在 y ≈ -0.105，所以鍵帽頂面放在 -0.118，
- * 前腳自然懸在鍵上方約 0.013，按下時剛好觸到鍵帽。
+ * Heights match the model's real dimensions: the fly's mid and hind legs rest at y = -0.132 (the ground),
+ * and at rest the forelegs' tips sit at y ~ -0.105, so the keycap tops go at -0.118, leaving the
+ * forelegs hovering about 0.013 above the keys and touching the caps exactly when pressed.
  */
 const GROUND_Y = -0.132;
 const KEY_TOP = -0.118;
@@ -141,14 +141,14 @@ function box(pos, idx, x0, x1, y0, y1, z0, z1) {
 }
 
 function keyboardGeometry() {
-  // 鍵位對齊實測腳尖座標：front_left 腳尖 (+0.067, -0.105, +0.063)、
-  // front_right 腳尖 (-0.067, -0.105, +0.062)。腳只能繞 pivot 在 y-z 平面擺動，
-  // 所以每隻腳自己那一欄的鍵必須放在它的 x 上，否則永遠搆不到。
+  // Key positions follow the measured foot-tip coordinates: front_left tip (+0.067, -0.105, +0.063),
+  // front_right tip (-0.067, -0.105, +0.062). A leg can only swing about its pivot in the y-z plane,
+  // so each leg's own column of keys must sit at its x, or it can never reach them.
   const keys = [
-    { id: "space", x: 0.000, z: 0.086, w: 0.190, d: 0.026 },  // 寬鍵，兩腳共按
-    { id: "right", x: 0.067, z: 0.042, w: 0.040, d: 0.026 },  // front_left 那一欄
-    { id: "down",  x: 0.000, z: 0.042, w: 0.044, d: 0.026 },  // 兩腳內收共按
-    { id: "left",  x: -0.067, z: 0.042, w: 0.040, d: 0.026 }, // front_right 那一欄
+    { id: "space", x: 0.000, z: 0.086, w: 0.190, d: 0.026 },  // wide key, pressed by both legs
+    { id: "right", x: 0.067, z: 0.042, w: 0.040, d: 0.026 },  // front_left's column
+    { id: "down",  x: 0.000, z: 0.042, w: 0.044, d: 0.026 },  // pressed by both legs drawing inward
+    { id: "left",  x: -0.067, z: 0.042, w: 0.040, d: 0.026 }, // front_right's column
   ];
   const pos = [], idx = [], ranges = [];
 
@@ -188,7 +188,7 @@ export function createFlyView(canvas, fly) {
   };
   const aPos = gl.getAttribLocation(prog, "aPos");
 
-  // 每個部件一組 VAO
+  // One VAO per part
   const parts = fly.model.parts.map((p) => {
     const vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
@@ -231,8 +231,8 @@ export function createFlyView(canvas, fly) {
   }
 
   /**
-   * 腳的按壓：繞 pivot 沿 x 軸旋轉讓腳尖下探，另加橫向位移。
-   * 旋轉只能在 y-z 平面移動腳尖，所以要按中央的 ↓ 鍵必須額外內收。
+   * Pressing: rotate about the pivot around the x axis to lower the foot tip, plus a lateral offset.
+   * Rotation can only move the tip within the y-z plane, so reaching the central down key needs extra inward travel.
    */
   function legMatrix(group, amount, shiftX) {
     const p = pivots[group];
@@ -246,7 +246,7 @@ export function createFlyView(canvas, fly) {
     resize();
     const cfg = ACTION_KEYS[action] ?? ACTION_KEYS[0];
 
-    // 按壓量以指數逼近目標，動作看起來才不會瞬移
+    // The press amount approaches its target exponentially, so the motion does not snap
     const want = {
       left: cfg.legs === "both" || cfg.legs === "left" ? 1 : 0,
       right: cfg.legs === "both" || cfg.legs === "right" ? 1 : 0,
@@ -277,12 +277,12 @@ export function createFlyView(canvas, fly) {
       Math.sin(state.pitch) * dist - 0.010,
       Math.cos(yaw) * dist * Math.cos(state.pitch),
     ];
-    // 視線落在前腳與鍵盤之間，這個實驗要看的是「牠在按鍵」
+    // The camera looks between the forelegs and the keyboard - the point of this experiment is watching it press keys
     const view = lookAt(eye, [0, -0.058, 0.030], [0, 1, 0]);
     const proj = perspective(0.85, aspect, 0.005, 6);
     const vp = mul(proj, view);
 
-    // 身體整體因蹲下動作略微前傾
+    // The whole body leans forward slightly during the duck action
     const bodyM = rotX(state.lean * 0.10);
 
     gl.uniform1f(U.emis, 0);
@@ -306,7 +306,7 @@ export function createFlyView(canvas, fly) {
       if (part.material === "membrane") { gl.disable(gl.BLEND); gl.depthMask(true); }
     }
 
-    // 鍵盤：被按的鍵下沉並發光
+    // Keyboard: the pressed key sinks and lights up
     gl.uniform1f(U.alpha, 1);
     gl.bindVertexArray(kbVao);
     for (const r of kb.ranges) {

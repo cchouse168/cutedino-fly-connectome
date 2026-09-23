@@ -1,28 +1,28 @@
 :root {
-  /* 對齊「Fly Connectome Dashboard.dc」設計稿的配色系統 */
+  /* Colour system aligned with the "Fly Connectome Dashboard.dc" design */
   --bg: #0d1016;
-  --panel: #12161d;    /* 卡片主體 */
-  --panel-2: #141820;  /* 卡片表頭/表尾底色 */
-  --panel-3: #1b212a;  /* select/button 底色 */
-  --line: #232a33;     /* 卡片邊框、分隔線 */
-  --line-2: #2a323c;   /* HUD chip、overlay 邊框 */
-  --line-3: #2f3742;   /* select/button 邊框 */
-  --grid-line: #1a2028; /* canvas 網格紋理 */
-  --ink: #f2f5f8;       /* 標題、最亮文字 */
-  --ink-2: #e8ecf1;     /* 一般內文亮字 */
-  --muted: #a7b1bd;     /* 說明文字 */
-  --dim: #7e8a97;       /* 次要說明 */
-  --dimmer: #6f7b88;    /* 標籤、單位 */
-  --faint: #39424e;     /* 佔位符等極淡文字 */
-  --accent: oklch(0.78 0.15 62);      /* 琥珀：CTA、強調數字、eyebrow */
+  --panel: #12161d;    /* card body */
+  --panel-2: #141820;  /* card header/footer background */
+  --panel-3: #1b212a;  /* select/button background */
+  --line: #232a33;     /* card borders, dividers */
+  --line-2: #2a323c;   /* HUD chip and overlay borders */
+  --line-3: #2f3742;   /* select/button borders */
+  --grid-line: #1a2028; /* canvas grid texture */
+  --ink: #f2f5f8;       /* headings, brightest text */
+  --ink-2: #e8ecf1;     /* ordinary bright body text */
+  --muted: #a7b1bd;     /* explanatory text */
+  --dim: #7e8a97;       /* secondary notes */
+  --dimmer: #6f7b88;    /* labels, units */
+  --faint: #39424e;     /* placeholders and other very faint text */
+  --accent: oklch(0.78 0.15 62);      /* amber: CTA, emphasised numbers, eyebrow */
   --accent-hi: oklch(0.84 0.15 62);
-  --accent-ink: #1a1205;              /* accent 底色上的文字 */
-  --accent-2: oklch(0.80 0.13 212);   /* 青藍：連結、次強調 */
-  --ok: oklch(0.78 0.15 145);         /* 運行中指示燈 */
+  --accent-ink: #1a1205;              /* text on an accent background */
+  --accent-2: oklch(0.80 0.13 212);   /* cyan: links, secondary emphasis */
+  --ok: oklch(0.78 0.15 145);         /* running indicator */
   --warn: #f0b429;
   --danger: #ff5f56;
-  --exc: #f97316; /* canvas 繪圖用：興奮／橘 */
-  --inh: #38bdf8; /* canvas 繪圖用：抑制／藍 */
+  --exc: #f97316; /* for canvas drawing: excitatory / orange */
+  --inh: #38bdf8; /* for canvas drawing: inhibitory / blue */
   --mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
   --sans: "Noto Sans TC", "IBM Plex Sans", system-ui, -apple-system, "Microsoft JhengHei", sans-serif;
 }
@@ -73,7 +73,7 @@ code { font-family: var(--mono); font-size: 0.92em; color: var(--accent-2); bord
 .nav-links a.ext { color: var(--accent-2); border: 1px solid var(--line-3); margin-left: 6px; }
 .nav-links a.ext:hover { background: #1a1f27; }
 
-/* 語言切換：沿用 dashboard 的雙鍵樣式，選中者填 accent 色 */
+/* Language toggle: the dashboard's two-key style, with the active one filled in accent */
 .lang {
   display: inline-flex; margin-left: 10px;
   border: 1px solid var(--line-3); border-radius: 4px; overflow: hidden;
@@ -111,7 +111,7 @@ code { font-family: var(--mono); font-size: 0.92em; color: var(--accent-2); bord
 .lede { color: var(--muted); margin: 0; max-width: 60ch; font-size: 16px; line-height: 1.75; }
 .hero-r { padding-top: 0; }
 
-/* 1px-gap 網格分隔線技巧：格線本身就是 grid 的背景色 */
+/* The 1px-gap grid divider trick: the lines are simply the grid's own background showing through */
 .stats {
   display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px;
   background: var(--line); border: 1px solid var(--line); margin: 0 0 20px;
@@ -199,10 +199,10 @@ label.ctl.mini select { padding: 6px 9px; font-size: 12px; font-family: var(--mo
   padding: 11px 16px; border-top: 1px solid var(--line);
   font-size: 11.5px; color: var(--dim); font-family: var(--mono);
 }
-/* 只剩單一控制項時靠右，不需要放一個空 span 去撐版面 */
+/* Align right when only one control is left, rather than padding the row with an empty span */
 .pfoot-end { justify-content: flex-end; }
 
-/* 04 大腦活性面板的圖例：節點顏色/形狀、連結線顏色的意義說明 */
+/* Legend for panel 04 (brain activity): what the node colours/shapes and link colours mean */
 .legend {
   display: flex; flex-wrap: wrap; align-items: center; gap: 8px 18px;
   padding: 11px 16px; border-top: 1px solid var(--line); background: var(--panel-2);
@@ -225,7 +225,7 @@ label.ctl.mini select { padding: 6px 9px; font-size: 12px; font-family: var(--mo
   background: rgba(13, 16, 22, .82); border: 1px solid var(--line-2); color: var(--ink-2);
   padding: 4px 8px; border-radius: 3px; letter-spacing: .06em;
 }
-/* 01 面板下緣的當前動作：標籤維持說明字色，動作名稱用 accent 突出 */
+/* Current action along the bottom of panel 01: the label keeps the note colour, the action name gets accent */
 .actnow { display: inline-flex; align-items: center; gap: 8px; }
 .actnow b { color: var(--accent); font-weight: 600; font-size: 13px; letter-spacing: .08em; }
 .chip.on { border-color: var(--warn); color: var(--warn); }
@@ -252,7 +252,7 @@ label.ctl.mini select { padding: 6px 9px; font-size: 12px; font-family: var(--mo
 .fx { background: var(--panel); padding: 12px 13px; display: grid; grid-template-columns: 1fr 42px; gap: 2px 9px; align-items: center; }
 .fx .nm {
   font-size: 12px; color: var(--ink-2); line-height: 1.34;
-  min-height: 2.68em;  /* 鎖兩行高：英文名稱較長會折行，中文只有一行也不會讓各列高度參差 */
+  min-height: 2.68em;  /* Lock two lines: English names wrap, and this keeps rows level when Chinese fits on one */
   display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden;
 }
 .fx .vl { font-family: var(--mono); font-size: 11px; color: var(--dim); text-align: right; }
@@ -287,7 +287,7 @@ tr.abl td { color: var(--danger); }
   line-height: 1.75; border-left: 2px solid var(--line-3); padding-left: 16px;
 }
 
-/* Method 步驟：1px-gap 網格分隔線卡片列，取代圓角編號卡片 */
+/* Method steps: 1px-gap grid divider rows, replacing the rounded numbered cards */
 .steps {
   list-style: none; padding: 0; margin: 0; display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 1px;
@@ -299,7 +299,7 @@ tr.abl td { color: var(--danger); }
   color: var(--accent); margin-bottom: 12px;
 }
 .steps b { color: var(--ink); font-weight: 700; margin-right: 0; }
-/* 英文的步驟開頭是 "Observe." 這種完整字句，與內文之間需要間隔；中文不需要 */
+/* English steps open with a full sentence like "Observe.", which needs a gap before the body; Chinese does not */
 :root[lang="en"] .steps b { margin-right: .32em; }
 
 .trainbar { gap: 12px; }

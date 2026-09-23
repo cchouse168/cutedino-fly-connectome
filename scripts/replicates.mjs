@@ -1,13 +1,13 @@
 /**
- * Replicate 驗證：用不同的訓練種子重跑整條管線，確認結果不是單一種子的僥倖。
+ * Replicate validation: rerun the whole pipeline with different training seeds to confirm the result is not one seed's luck.
  *
  *   node scripts/replicates.mjs [generations] [seed...]
  *
- * 每個種子產出 models/replicates/<seed>/{model,training,benchmark}.json，
- * 最後彙整成 models/replicates.json。
+ * Each seed writes models/replicates/<seed>/{model,training,benchmark}.json,
+ * summarised at the end into models/replicates.json.
  *
- * 要看的是「消融比」在各 replicate 之間是否穩定 ——
- * 絕對分數本來就會因訓練種子而異，但若電路有貢獻，消融後的崩潰應該每次都出現。
+ * What matters is whether the ablation ratio stays stable across replicates --
+ * absolute scores vary by training seed anyway, but if the circuit contributes, the collapse after ablation should appear every time.
  */
 import fs from "node:fs";
 import path from "node:path";
@@ -21,7 +21,7 @@ if (!seeds.length) seeds.push(20260915, 20260916, 20260917);
 
 const run = (args) => {
   const r = spawnSync(process.execPath, args, { cwd: root, stdio: "inherit" });
-  if (r.status !== 0) throw new Error(`失敗：${args.join(" ")}`);
+  if (r.status !== 0) throw new Error(`Failed: ${args.join(" ")}`);
 };
 
 const rows = [];
@@ -65,8 +65,8 @@ const summary = {
 };
 fs.writeFileSync(path.join(root, "models/replicates.json"), JSON.stringify(summary, null, 2) + "\n");
 
-console.log(`\n${"=".repeat(64)}\nReplicate 彙整\n${"=".repeat(64)}`);
-console.log("種子".padEnd(12) + "代".padStart(5) + "跑完".padStart(8) + "平均存活".padStart(11) + "消融比".padStart(9) + "未訓練比".padStart(10) + "勝規則".padStart(9));
+console.log(`\n${"=".repeat(64)}\nReplicate summary\n${"=".repeat(64)}`);
+console.log("Seed".padEnd(12) + "Gen".padStart(5) + "Done".padStart(8) + "Mean surv".padStart(11) + "Ablation".padStart(9) + "Untrained".padStart(10) + "vs rules".padStart(9));
 for (const r of rows)
   console.log(
     String(r.seed).padEnd(12) + String(r.generation).padStart(5) +
@@ -76,13 +76,13 @@ for (const r of rows)
   );
 const a = summary.aggregate;
 console.log(
-  `\n平均存活 ${a.meanSeconds.mean.toFixed(1)} ± ${a.meanSeconds.sd.toFixed(1)}s  ` +
-  `跑完 ${a.completed.mean.toFixed(1)} ± ${a.completed.sd.toFixed(1)}/100`,
+  `\nMean survival ${a.meanSeconds.mean.toFixed(1)} ± ${a.meanSeconds.sd.toFixed(1)}s  ` +
+  `completed ${a.completed.mean.toFixed(1)} ± ${a.completed.sd.toFixed(1)}/100`,
 );
-console.log(`消融比 ${a.ablationRatio.mean.toFixed(1)} ± ${a.ablationRatio.sd.toFixed(1)}×   勝規則 ${a.ruleRatio.mean.toFixed(2)} ± ${a.ruleRatio.sd.toFixed(2)}×`);
+console.log(`Ablation ratio ${a.ablationRatio.mean.toFixed(1)} ± ${a.ablationRatio.sd.toFixed(1)}x   vs rules ${a.ruleRatio.mean.toFixed(2)} ± ${a.ruleRatio.sd.toFixed(2)}x`);
 console.log(
   a.ablationRatio.mean - a.ablationRatio.sd > 2
-    ? "\n消融效應在各 replicate 之間穩定重現。"
-    : "\n消融效應不穩定，單次結果不足採信。",
+    ? "\nThe ablation effect reproduces stably across replicates."
+    : "\nThe ablation effect is unstable; a single run is not trustworthy.",
 );
-console.log("寫入 models/replicates.json");
+console.log("Wrote models/replicates.json");

@@ -1,4 +1,4 @@
-/** CEM 候選評估 worker（Node worker_threads）。 */
+/** CEM candidate-evaluation worker (Node worker_threads). */
 import { parentPort, workerData } from "node:worker_threads";
 import { Connectome } from "../src/lib/connectome.js";
 import { fitness } from "../src/lib/training.js";

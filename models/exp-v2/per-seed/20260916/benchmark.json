@@ -16,7 +16,7 @@
   },
   "results": [
     {
-      "name": "連接體 + 訓練讀出",
+      "name": "Connectome + trained readout",
       "mode": "model",
       "courses": 100,
       "completed": 93,
@@ -629,7 +629,7 @@
       ]
     },
     {
-      "name": "電路靜默（消融）",
+      "name": "Circuit silenced (ablation)",
       "mode": "ablated",
       "courses": 100,
       "completed": 0,
@@ -1242,7 +1242,7 @@
       ]
     },
     {
-      "name": "未訓練讀出",
+      "name": "Untrained readout",
       "mode": "model",
       "courses": 100,
       "completed": 0,
@@ -1855,7 +1855,7 @@
       ]
     },
     {
-      "name": "手寫規則",
+      "name": "Hand-written rules",
       "mode": "rule",
       "courses": 100,
       "completed": 25,
@@ -2468,7 +2468,7 @@
       ]
     },
     {
-      "name": "隨機動作",
+      "name": "Random actions",
       "mode": "random",
       "courses": 100,
       "completed": 0,
@@ -3081,7 +3081,7 @@
       ]
     },
     {
-      "name": "完全不動",
+      "name": "No action at all",
       "mode": "idle",
       "courses": 100,
       "completed": 0,

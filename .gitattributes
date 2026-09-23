@@ -1,8 +1,8 @@
-# 統一以 LF 存進 repo，Windows 上簽出時再轉回 CRLF。
-# 沒有這個檔的話，不同作業系統的協作者會互相產生整檔改動的假 diff。
+# Store everything as LF in the repo, converting back to CRLF on checkout under Windows.
+# Without this file, collaborators on different operating systems generate whole-file phantom diffs.
 * text=auto eol=lf
 
-# 二進位資料：不要做任何行尾轉換，否則檔案會壞掉
+# Binary data: no line-ending conversion at all, or the files are corrupted
 *.bin  binary
 *.png  binary
 *.jpg  binary

@@ -50,7 +50,7 @@ These are the connectome itself — not a single bit changed:
 | **Game environment** | Chromium Dino (native engine, 600×150) | cute-dino (purpose-built deterministic simulator, 1280×576) | swapped in the user's own game |
 | **Environment complexity** | cactus, pterodactyl | cactus, palm, sinusoidally weaving dragon, jet (fires 1020 px/s bullets), 5 pickup types, HP system | cute-dino is simply much more complex |
 | **Sensory channels** | 8 | **13** | richer state; the channel count is set by measured within-type projection separability (see §4) |
-| **Action space** | 3 (run / jump / duck) | **5** (＋ move left / right) | cute-dino has lateral movement |
+| **Action space** | 3 (run / jump / duck) | **5** (+ move left / right) | cute-dino has lateral movement |
 | **Readout network** | 16→12→3 = **243** parameters | 16→12→5 = **269** parameters | different action count |
 | **Training generations** | 80 | **400** | validation was still climbing at generation 400 (see §5) |
 | **Courses per generation** | 3 | **12** | cute-dino's score CV is 0.74; with 3 courses the standard error is 42% of the mean |

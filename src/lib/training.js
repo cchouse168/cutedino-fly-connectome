@@ -1,9 +1,9 @@
 /**
- * 交叉熵方法（CEM）神經演化。
+ * Cross-entropy method (CEM) neuroevolution.
  *
- * 移植自 flyjump/src/lib/training.ts，演算法與更新規則完全相同；
- * 少數超參數因 cute-dino 的分數變異較大而調整，說明見 TRAINING。
- * 沒有腳本化動作、沒有標籤、沒有教師策略 —— 只有分數。
+ * Ported from flyjump/src/lib/training.ts; the algorithm and update rules are identical.
+ * A few hyperparameters were raised because cute-dino's score variance is larger -- see TRAINING.
+ * No scripted actions, no labels, no teacher policy -- only the score.
  */
 import { createGame, tick, score, STEP, RUN } from "../engine/game.js";
 import { rng, gaussian } from "../engine/rng.js";
@@ -11,30 +11,33 @@ import { Connectome } from "./connectome.js";
 import { NETWORK, decide, forward, observe, ruleAction } from "./policy.js";
 
 /**
- * 超參數。population / elites / courseSeconds / 更新規則與 flyjump 相同，
- * 但 trainingCourses 與 validationSeeds 針對 cute-dino 調高，原因：
+ * Hyperparameters. population / elites / courseSeconds / update rules match flyjump,
+ * but trainingCourses and validationSeeds were raised for cute-dino, because:
  *
- *   實測冠軍權重在 40 條賽道的分數變異係數達 0.74（Chrome Dino 遠低於此，
- *   因為它沒有道具、HP、正弦擺動障礙這些隨機來源）。用原作的 3 條賽道估計，
- *   標準誤是平均值的 42% —— CEM 會挑到運氣好的候選而非真正強的；
- *   4 個驗證種子同樣太吵，一次僥倖高分就會把冠軍門檻永久鎖死。
+ *   the champion weights measured across 40 courses have a score CV of 0.74 (Chrome Dino is far
+ *   below that, having no pickups, no HP and no weaving obstacles). Estimated from the original's
+ *   3 courses, the standard error is 42% of the mean -- CEM would pick lucky candidates rather
+ *   than strong ones; and 4 validation seeds are just as noisy, where one fluke high score locks
+ *   the champion threshold permanently.
  *
- * 曾試過把 courseSeconds 拉到 600（讓 agent 見到 1.60×–2.00× 的高難度區間），不採用。
+ * Raising courseSeconds to 600 was tried (to let the agent see the 1.60x-2.00x band); not adopted.
  *
- * 要分清楚兩條證據。三種子 replicate 的跑完率從 71.7±18.3 掉到 44.7±34.7，
- * 但配對檢定 t=-1.22 (df=2) p=0.35，**沒有達到顯著** —— n=3 的偵測下限是 70%，
- * 這個設計本來就看不見小於 50 場的差異（node scripts/power.mjs）。
+ * Two lines of evidence, of different strength. Across three seeds the completion rate fell from
+ * 71.7+/-18.3 to 44.7+/-34.7, but the paired test gives t=-1.22 (df=2) p=0.35, **not significant**
+ * -- with n=3 the detection floor is 70%, so this design could never see a difference below
+ * 50 courses (node scripts/power.mjs).
  *
- * 真正的依據是直接觀測到的失效機制：600 秒賽道的分數上限高得多（8000+ vs 2500），
- * 驗證分數的動態範圍跟著暴增，早期一個高分就把冠軍門檻永久鎖死 ——
- * 實測種子 20260917 的冠軍停在第 39 代，之後 361 代零更替。
- * 那不是估計量，是直接看到的病理，所以不採用。
+ * The real basis is a directly observed failure mechanism: a 600s course has a far higher score
+ * ceiling (8000+ vs 2500), so the validation score's dynamic range explodes and one early high
+ * score locks the champion threshold permanently -- measured, seed 20260917's champion froze at
+ * generation 39 with zero replacements over the following 361. That is an observed pathology,
+ * not an estimate, which is why it is not adopted.
  *
- * 補充：鑑別力在 360–480 秒就飽和（node scripts/censoring.mjs），
- * 600 秒多出來的那 240 秒不提供任何鑑別力，只把分數上限翻倍 —— 純粹是過頭。
- * 完整數據見 models/exp-v2/。
+ * Also: discriminative power saturates between 360 and 480 seconds (node scripts/censoring.mjs),
+ * so 600s's extra 240 seconds add no discrimination and merely double the score ceiling.
+ * Full data in models/exp-v2/.
  *
- * 原作值保留於 FLYJUMP_TRAINING 供對照。
+ * The original's values are preserved as FLYJUMP_TRAINING for comparison.
  */
 export const TRAINING = {
   population: 64,
@@ -44,12 +47,12 @@ export const TRAINING = {
   trainingCourses: 12,
   validationSeeds: Array.from({ length: 16 }, (_, i) => 1100001 + i),
   validationSeconds: 180,
-  meanBlend: 0.7, // 新平均值權重（舊值 0.3）
+  meanBlend: 0.7, // weight on the new mean (old value 0.3)
   sigmaFloor: 0.07,
   initialSigma: 0.8,
 };
 
-/** 原作 flyjump 的設定，供對照與重現其數字。 */
+/** flyjump's original settings, kept for comparison and to reproduce its numbers. */
 export const FLYJUMP_TRAINING = {
   ...TRAINING,
   generations: 80,
@@ -66,12 +69,12 @@ export function randomWeights(random) {
 export const mean = (a) => a.reduce((x, y) => x + y, 0) / a.length;
 
 /**
- * 跑一場。
+ * Run one episode.
  * @param {number[]|null} weights
  * @param {number} seed
  * @param {number} seconds
  * @param {"model"|"ablated"|"rule"|"random"|"idle"} mode
- * @param {Connectome} brain  可重複使用以省去重建成本
+ * @param {Connectome} brain  reusable, to avoid rebuild cost
  */
 export function episode(weights, seed, seconds, mode, brain) {
   const g = createGame(seed);
@@ -107,7 +110,7 @@ export function episode(weights, seed, seconds, mode, brain) {
   };
 }
 
-/** 評估一組權重在多條賽道上的平均分數。 */
+/** Evaluate one weight vector's mean score across several courses. */
 export function fitness(weights, seeds, seconds, brain) {
   let total = 0;
   for (const seed of seeds) total += episode(weights, seed, seconds, "model", brain).score;
@@ -135,20 +138,20 @@ export class Trainer {
     };
   }
 
-  /** 產生本代的候選權重與賽道種子。可交給 worker 平行評估。 */
+  /** Produce this generation's candidate weights and course seeds. Can be farmed out to workers. */
   proposal() {
     const c = this.config;
-    // 同一代所有候選跑同樣的賽道；每代換新賽道，避免過擬合特定地圖
+    // All candidates in a generation run the same courses; fresh courses each generation avoid overfitting a map
     const seeds = Array.from({ length: c.trainingCourses }, () => 1 + Math.floor(this.random() * 900000));
     const candidates = Array.from({ length: c.population }, (_, i) =>
       i === 0
-        ? this.champion.weights.slice() // 菁英保留
+        ? this.champion.weights.slice() // elitism
         : this.mean.map((m, k) => m + this.sigma[k] * gaussian(this.random)),
     );
     return { seeds, candidates };
   }
 
-  /** 用已算好的 fitness 更新分布，並驗證最佳候選。validate 可回傳 Promise。 */
+  /** Update the distribution from the computed fitness and validate the best candidate. validate may return a Promise. */
   async absorb(candidates, fitnesses, seeds, validate) {
     const c = this.config;
     const generation = ++this.generation;
@@ -170,17 +173,18 @@ export class Trainer {
     this.episodes += c.validationSeeds.length;
 
     /*
-     * 僅在驗證分數嚴格進步時才換冠軍（與原作 flyjump 相同）。
+     * Replace the champion only on a strict validation improvement (same as the original flyjump).
      *
-     * 曾經試過「每代重新驗證現任冠軍」，想解決冠軍門檻被早期僥倖高分鎖死的問題
-     * （實測 courseSeconds=600 時，種子 20260917 的冠軍停在第 39 代，
-     * 後面 361 代完全沒進步，最終只有 13/100）。
+     * Re-validating the incumbent champion every generation was tried, to fix a champion threshold
+     * locked by an early fluke high score (measured at courseSeconds=600, seed 20260917's champion
+     * froze at generation 39, made no progress over the following 361, and ended at just 13/100).
      *
-     * 但那個修法是無效的：本專案的驗證是**確定性**的 ——
-     * 同一組權重、同一批驗證種子，跑幾次都是同一個數字（實測三次皆為 2965.3750），
-     * 根本沒有雜訊可以被「修正」。真正的問題不是雜訊而是**驗證集過擬合**：
-     * 第 39 代那組權重在那 16 條驗證賽道上確實最好，只是泛化很差。
-     * 正確的方向是增加驗證種子數讓驗證集更有代表性，不是重驗同一批賽道。
+     * That fix was ineffective, because validation here is **deterministic**: the same weights on
+     * the same validation seeds give the same number every time (measured: 2965.3750, three times
+     * running). There is no noise to correct. The real problem is not noise but **overfitting to
+     * the validation set**: the generation-39 weights genuinely were best on those 16 validation
+     * courses, they just generalised badly. The right direction is more validation seeds for a
+     * more representative set, not re-running the same courses.
      */
     if (validation > this.champion.validation)
       this.champion = {
@@ -203,7 +207,7 @@ export class Trainer {
     return { ...row, model: this.champion };
   }
 
-  /** 單執行緒跑一代。 */
+  /** Run one generation single-threaded. */
   async step() {
     const { seeds, candidates } = this.proposal();
     const fits = candidates.map((w) => fitness(w, seeds, this.config.courseSeconds, this.brain));

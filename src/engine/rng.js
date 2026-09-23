@@ -1,6 +1,6 @@
 /**
- * 種子化線性同餘產生器（LCG）。
- * 參數與 flyjump/src/lib/training.ts 的 rng() 相同，確保同一 seed 可完整重現賽道。
+ * Seeded linear congruential generator (LCG).
+ * Same parameters as rng() in flyjump/src/lib/training.ts, so one seed reproduces a course exactly.
  */
 export function rng(seed) {
   let s = seed >>> 0;
@@ -10,6 +10,6 @@ export function rng(seed) {
   };
 }
 
-/** Box-Muller 常態取樣，供 CEM 產生候選權重。 */
+/** Box-Muller normal sampling, used by CEM to draw candidate weights. */
 export const gaussian = (r) =>
   Math.sqrt(-2 * Math.log(r())) * Math.cos(2 * Math.PI * r());

@@ -1,6 +1,6 @@
 {
-  "name": "果蠅大腦玩 cute-dino",
-  "short_name": "FlyDino TW",
+  "name": "A fly brain plays cute-dino",
+  "short_name": "Fly cute-dino",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#07090f",

@@ -1,19 +1,19 @@
 /**
- * cute-dino 確定性遊戲引擎（headless-capable）
+ * Deterministic cute-dino game engine (headless-capable)
  *
- * 由 cchouse168/cute-dino 的 index.html 抽出（原始行段見 docs/experiment.md），
- * 並施加四項改造使其可重現、可訓練：
- *   1. 全部影響物理的 Math.random() 改為種子化 state.random()
- *   2. 邏輯尺寸固定為 1280x576（原版跟著 canvas.clientWidth 變動）
- *   3. 時間步固定 1/60（原版為 rAF 變動 dt）
- *   4. 移除 DOM 寫入與音效副作用；headless 下跳過純裝飾實體
+ * Extracted from cchouse168/cute-dino's index.html (source line ranges in docs/experiment.md),
+ * with four modifications that make it reproducible and trainable:
+ *   1. every Math.random() that affects physics becomes the seeded state.random()
+ *   2. the logical size is fixed at 1280x576 (the original follows canvas.clientWidth)
+ *   3. the time step is fixed at 1/60 (the original uses a varying rAF dt)
+ *   4. DOM writes and sound-effect side effects removed; headless skips purely decorative entities
  *
- * 注意：裝飾性亂數（火花、雲、火焰音效計時）一律使用 Math.random()，
- *       絕不可動用 state.random()，否則視覺模式與 headless 模式的亂數流會分歧。
+ * Note: decorative randomness (sparks, clouds, flame sound-effect timing) always uses Math.random()
+ *       and must never touch state.random(), or the visual and headless random streams diverge.
  */
 import { rng } from "./rng.js";
 
-/** 固定邏輯尺寸。原版由 canvas.clientWidth 推導，此處鎖死以確保可重現。 */
+/** Fixed logical size. The original derives it from canvas.clientWidth; locked here for reproducibility. */
 export const GEOM = {
   W: 1280,
   H: 576,
@@ -24,7 +24,7 @@ export const GEOM = {
 
 export const STEP = 1 / 60;
 
-/** 動作索引。JUMP 為「持續按住」語意，連續選中即形成原版的長按更高跳。 */
+/** Action indices. JUMP means "hold": selecting it consecutively produces the original's higher held jump. */
 export const ACTIONS = ["RUN", "JUMP", "DUCK", "LEFT", "RIGHT"];
 export const RUN = 0, JUMP = 1, DUCK = 2, LEFT = 3, RIGHT = 4;
 
@@ -36,8 +36,8 @@ export const intersects = (a, b) =>
   a.x < b.x + b.w && a.x + a.w > b.x && a.y < b.y + b.h && a.y + a.h > b.y;
 
 /**
- * @param {number} seed  賽道種子
- * @param {{visual?:boolean}} opts  visual=true 才產生雲/火花等裝飾實體
+ * @param {number} seed  course seed
+ * @param {{visual?:boolean}} opts  visual=true also spawns decorative entities (clouds, sparks)
  */
 export function createGame(seed, opts = {}) {
   const visual = !!opts.visual;
@@ -74,10 +74,10 @@ export function createGame(seed, opts = {}) {
     holdingJump: false,
     jumpHold: 0,
     jumpHoldMax: 0.18,
-    // 原版這兩個計時器是模組層變數、reset() 未清除；此處納入 state 以求可重現
+    // In the original these two timers are module-level and reset() does not clear them; kept in state here for reproducibility
     spawnTimer: 0,
     powerTimer: 3.5,
-    // 按鍵邊緣偵測（原版蹲下需要 keydown 邊緣且當下踩地）
+    // Key-edge detection (the original needs a keydown edge while on the ground to duck)
     keys: { left: false, right: false, down: false },
     dino: {
       x: GEOM.LEFT_X,
@@ -91,7 +91,7 @@ export function createGame(seed, opts = {}) {
       vx: 0,
       crouch: false,
     },
-    // 統計
+    // Statistics
     jumps: 0,
     ducks: 0,
     pickups: 0,
@@ -159,7 +159,7 @@ function spawnPowerup(s) {
   else if (r < 0.7) { pType = "star"; w = 32; h = 32; y = G - (90 + s.random() * 120); }
   else if (r < 0.85) { pType = "gun"; w = 52; h = 28; y = G - (70 + s.random() * 120); }
   else { pType = "mini"; w = 30; h = 24; y = G - h; }
-  // 短路求值：score<5000 時不抽這個亂數 —— 亂數流順序必須與原版一致
+  // Short-circuit: below score 5000 this random number is never drawn -- the stream order must match the original
   if (s.score >= 5000 && s.random() < 0.25) {
     pType = "flame"; w = 40; h = 40; y = G - (70 + s.random() * 120);
   }
@@ -172,7 +172,7 @@ function spawnPowerup(s) {
 
 function spawnSparks(s, x, y, n = 20, baseV = 340, life = 0.6, size = 4,
                      colorDay = "#ffd166", colorNight = "#ffffff") {
-  if (!s.visual) return; // headless 跳過：純裝飾，且是訓練期最大的 CPU 浪費
+  if (!s.visual) return; // headless skips this: purely decorative, and the biggest CPU waste during training
   for (let i = 0; i < n; i++) {
     const ang = Math.random() * Math.PI - Math.PI / 2;
     const spd = baseV * (0.5 + Math.random());
@@ -188,7 +188,7 @@ function floatScore(s, text, x, y) {
   s.floatingScores.push({ text: "+" + text, x, y, age: 0, life: 0.8 });
 }
 
-/** 把 5 選 1 的動作轉成原版的按鍵狀態，含蹲下的 keydown 邊緣語意。 */
+/** Turn the 1-of-5 action into the original's key state, including duck's keydown-edge semantics. */
 export function applyAction(s, action) {
   const d = s.dino, k = s.keys;
   const wantJump = action === JUMP;
@@ -207,7 +207,7 @@ export function applyAction(s, action) {
     s.holdingJump = false;
   }
 
-  // 原版：keydown 邊緣且踩地才蹲；keyup 立即解除
+  // Original: duck only on a keydown edge while on the ground; keyup releases immediately
   if (wantDown && !k.down) {
     if (d.onGround) { d.crouch = true; s.ducks++; }
   } else if (!wantDown && k.down) {
@@ -221,7 +221,7 @@ export function applyAction(s, action) {
 export function tick(s, action = RUN, dt = STEP) {
   if (s.dead) return;
   if (Math.abs(dt - STEP) > 1e-12)
-    throw new Error("確定性模擬器僅接受固定 1/60 時間步");
+    throw new Error("The deterministic simulator only accepts a fixed 1/60 time step");
   applyAction(s, action);
   update(s, dt);
 }
@@ -258,13 +258,13 @@ function update(s, dt) {
   s.spawnTimer -= dt;
   s.jetCooldown = Math.max(0, s.jetCooldown - dt);
   if (s.spawnTimer <= 0) {
-    spawnObstacle(s); // 先抽障礙物，再抽間距 —— 順序不可調換
+    spawnObstacle(s); // obstacle first, then the gap -- this order cannot be swapped
     const worldVForGap = Math.max(120, s.speed * s.speedScale);
     s.spawnTimer = rand(s, 360, 720) / worldVForGap;
   }
   s.powerTimer = Math.max(-1, s.powerTimer - dt);
   if (s.powerTimer <= 0) {
-    s.powerTimer = 5.5 + s.random() * 4.5; // 先重設計時器，再抽道具
+    s.powerTimer = 5.5 + s.random() * 4.5; // reset the timer first, then draw the pickup
     spawnPowerup(s);
   }
 
